@@ -10,15 +10,16 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-    {
-        Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_crew_id')->constrained()->onDelete('cascade');
-            $table->decimal('import', 8, 2); // Cantidad con dos decimales
-            $table->string('status');
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('payments', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_crew_id')->constrained('user_crews')->onDelete('cascade');
+        $table->decimal('amount', 8, 2);
+        $table->string('status');
+        $table->timestamps();
+    });
+}
+
 
     /**
      * Reverse the migrations.

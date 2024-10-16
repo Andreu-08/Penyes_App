@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_crew', function (Blueprint $table) {
-            $table->id();
+        Schema::create('user_crews', function (Blueprint $table) {
+            $table->id(); // Clave primaria autoincremental
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('crew_id')->constrained()->onDelete('cascade');
             $table->year('year');
             $table->timestamps();
         });
     }
+    
 
     /**
      * Reverse the migrations.
