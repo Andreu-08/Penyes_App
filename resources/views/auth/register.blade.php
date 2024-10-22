@@ -14,6 +14,7 @@
             <x-text-input id="surname" class="block mt-1 w-full" type="text" name="surname" :value="old('surname')" required autofocus autocomplete="surname" />
             <x-input-error :messages="$errors->get('surname')" class="mt-2" />
         </div>
+        {{-- birthday --}}
         <div>
             <x-input-label for="birthday" :value="__('Birthday')" />
             <x-text-input id="birthday" class="block mt-1 w-full" type="date" name="birthday" :value="old('birthday')" required autofocus autocomplete="birthday" />
