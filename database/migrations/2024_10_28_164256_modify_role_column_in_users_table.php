@@ -12,7 +12,6 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            // Cambiar el tipo de columna existente
             $table->integer('role')->default(2)->change();
         });
     }
@@ -20,7 +19,6 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            // Revertir al tipo anterior (ajústalo si era 'string')
             $table->string('role')->default('Plain User')->change();
         });
     }
