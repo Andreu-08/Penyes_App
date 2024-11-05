@@ -1,31 +1,43 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Verificación de Correo</title>
+</head>
+<body>
+    <main>
+        <!-- Mensaje de verificación -->
+        <section>
+            <p>¡Gracias por registrarte! Antes de comenzar, ¿podrías verificar tu dirección de correo haciendo clic en el enlace que te enviamos? Si no recibiste el correo, con gusto te enviaremos otro.</p>
+        </section>
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
+        <!-- Mensaje de enlace de verificación reenviado -->
+        @if (session('status') == 'verification-link-sent')
+            <section>
+                <p>Un nuevo enlace de verificación ha sido enviado a la dirección de correo que proporcionaste durante el registro.</p>
+            </section>
+        @endif
 
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
-
+        <!-- Formularios de Reenvío de Verificación y Cierre de Sesión -->
+        <section>
             <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+                <!-- Botón para reenviar el enlace de verificación -->
+                <form method="POST" action="{{ route('verification.send') }}">
+                    @csrf
+                    <button type="submit">Reenviar Correo de Verificación</button>
+                </form>
             </div>
-        </form>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+            <!-- Botón para cerrar sesión -->
+            <div>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit">Cerrar Sesión</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
 
-            <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                {{ __('Log Out') }}
-            </button>
-        </form>
-    </div>
-</x-guest-layout>
