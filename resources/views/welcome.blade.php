@@ -3,9 +3,11 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <title>Penyes App</title>  
     </head>
     <body>
+        <h1 class="title">Bienvenido a Penyes App</h1>
         <header>
             @if (Route::has('login'))
                 <nav>
