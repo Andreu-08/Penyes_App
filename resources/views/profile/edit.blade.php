@@ -13,17 +13,17 @@
     <main>
         <section>
             <!-- Incluir el formulario de actualización de información de perfil -->
-            @include('profile.partials.update-profile-information-form')
+            @include('partials.update-profile-information-form')
         </section>
 
         <section>
             <!-- Incluir el formulario de actualización de contraseña -->
-            @include('profile.partials.update-password-form')
+            @include('partials.update-password-form')
         </section>
 
         <section>
             <!-- Incluir el formulario de eliminación de usuario -->
-            @include('profile.partials.delete-user-form')
+            @include('partials.delete-user-form')
         </section>
     </main>
 </body>

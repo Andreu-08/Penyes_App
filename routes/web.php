@@ -17,7 +17,7 @@ Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.
 
 
 Route::get('/log', function () {
-    return view('log');
+    return view('profile.log');
 })->middleware(['auth', 'verified'])->name('log');
 
 Route::middleware('auth')->group(function () {
