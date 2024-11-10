@@ -1,0 +1,29 @@
+/* Estilos para el logo y el navbar */
+.navbar {
+    padding: 1rem;
+}
+
+.navbar-item {
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.navbar-end .navbar-item {
+    margin-left: 1rem;
+}
+
+.navbar-item:hover {
+    background-color: transparent !important;
+}
+
+@media (max-width: 768px) {
+    /* Asegúrate de que el navbar no se colapse en pantallas pequeñas */
+    .navbar-menu {
+        display: flex !important;
+        align-items: center;
+    }
+
+    .navbar-end {
+        justify-content: flex-end;
+    }
+}

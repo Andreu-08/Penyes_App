@@ -1,9 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.home')
 
 @section('content')
-    <!-- Header -->
-    @include('partials.header')
-    
     <!-- FAQ Section -->
     <section class="section">
         <div class="container">

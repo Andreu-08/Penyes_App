@@ -1,10 +1,7 @@
 {{-- vista para configurar la home page que estiende de los layouts y partials principales --}}
-@extends('layouts.app')
+@extends('layouts.home')
 
 @section('content')
-    <!-- Header -->
-    @include('partials.header')
-    
     <!-- Slogan Section -->
     <section class="section has-background-light">
         <div class="container has-text-centered">

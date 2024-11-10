@@ -4,7 +4,7 @@
 @include('partials.head') <!-- Incluye head.blade.php con Bulma y meta tags -->
 
 <body>
-    @include('partials.header') <!-- Incluye el header con los enlaces de autenticación -->
+    @include('partials.homeHeader') <!-- Incluye el header con los enlaces de autenticación -->
 
     <section class="section">
         <div class="container">
