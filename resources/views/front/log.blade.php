@@ -15,4 +15,4 @@
         </form>
     </nav>
 </header>
-<p>Esta sera la pagina principal del front office</p>
+<p>Esta sera la pagina principal del front office para {{ auth()->user()->name }}</p>
