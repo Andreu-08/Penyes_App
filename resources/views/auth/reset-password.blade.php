@@ -1,52 +1,60 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Restablecer Contraseña</title>
-</head>
+{{-- resources/views/auth/reset-password.blade.php --}}
+@include('layouts.partials.head')
 <body>
-    <main>
-        <section>
-            <form method="POST" action="{{ route('password.store') }}">
-                @csrf
+    <main class="section">
+        <div class="container">
+            <section class="box">
+                <h1 class="title has-text-centered">Restablecer Contraseña</h1>
 
-                <!-- Token de Restablecimiento de Contraseña -->
-                <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                <!-- Formulario de restablecimiento de contraseña -->
+                <form method="POST" action="{{ route('password.store') }}" class="mt-5">
+                    @csrf
 
-                <!-- Correo Electrónico -->
-                <div>
-                    <label for="email">Correo Electrónico</label>
-                    <input id="email" type="email" name="email" value="{{ old('email', $request->email) }}" required autofocus autocomplete="username">
-                    @if ($errors->has('email'))
-                        <p>{{ $errors->first('email') }}</p>
-                    @endif
-                </div>
+                    <!-- Token de Restablecimiento de Contraseña -->
+                    <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-                <!-- Nueva Contraseña -->
-                <div>
-                    <label for="password">Nueva Contraseña</label>
-                    <input id="password" type="password" name="password" required autocomplete="new-password">
-                    @if ($errors->has('password'))
-                        <p>{{ $errors->first('password') }}</p>
-                    @endif
-                </div>
+                    <!-- Campo de correo electrónico -->
+                    <div class="field">
+                        <label for="email" class="label">Correo Electrónico</label>
+                        <div class="control">
+                            <input id="email" type="email" class="input" name="email" value="{{ old('email', $request->email) }}" required autofocus autocomplete="username">
+                        </div>
+                        @if ($errors->has('email'))
+                            <p class="help is-danger">{{ $errors->first('email') }}</p>
+                        @endif
+                    </div>
 
-                <!-- Confirmar Nueva Contraseña -->
-                <div>
-                    <label for="password_confirmation">Confirmar Nueva Contraseña</label>
-                    <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password">
-                    @if ($errors->has('password_confirmation'))
-                        <p>{{ $errors->first('password_confirmation') }}</p>
-                    @endif
-                </div>
+                    <!-- Campo de nueva contraseña -->
+                    <div class="field">
+                        <label for="password" class="label">Nueva Contraseña</label>
+                        <div class="control">
+                            <input id="password" type="password" class="input" name="password" required autocomplete="new-password">
+                        </div>
+                        @if ($errors->has('password'))
+                            <p class="help is-danger">{{ $errors->first('password') }}</p>
+                        @endif
+                    </div>
 
-                <!-- Botón de Restablecimiento -->
-                <div>
-                    <button type="submit">Restablecer Contraseña</button>
-                </div>
-            </form>
-        </section>
+                    <!-- Campo de confirmación de nueva contraseña -->
+                    <div class="field">
+                        <label for="password_confirmation" class="label">Confirmar Nueva Contraseña</label>
+                        <div class="control">
+                            <input id="password_confirmation" type="password" class="input" name="password_confirmation" required autocomplete="new-password">
+                        </div>
+                        @if ($errors->has('password_confirmation'))
+                            <p class="help is-danger">{{ $errors->first('password_confirmation') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Botón de restablecimiento -->
+                    <div class="field is-grouped is-justify-content-center">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">Restablecer Contraseña</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
     </main>
 </body>
 </html>

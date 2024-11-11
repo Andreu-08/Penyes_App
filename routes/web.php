@@ -12,6 +12,7 @@ Route::get('/', function () {
 //muestra la vista contacto en la ruta /contact
 use App\Http\Controllers\ContactController;
 
+//rutas para la vista contacto
 Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
