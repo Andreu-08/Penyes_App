@@ -1,18 +1,24 @@
-<header>
-    <nav>
-        <!-- Enlace a Peñes -->
-        <a href="{{ route('log') }}">Peñes</a>
-        
-        <!-- Enlace a Profile -->
-        <a href="{{ route('profile.edit') }}">Profile</a>
-
-        <!-- Enlace para Log Out, que usa un formulario para enviar la solicitud POST -->
+@include('layouts.partials.head')
+<!-- Navegación personalizada del Front Office -->
+<header class="navbar is-light">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{{ route('log') }}">Peñes</a>
+        <a class="navbar-item" href="{{ route('profile.edit') }}">Perfil</a>
+    </div>
+    <div class="navbar-end">
+        <!-- Formulario de logout -->
         <form method="POST" action="{{ route('logout') }}" style="display: inline;">
             @csrf
-            <a href="#" onclick="event.preventDefault(); this.closest('form').submit();">
-                Log Out
+            <a href="#" class="navbar-item" onclick="event.preventDefault(); this.closest('form').submit();">
+                Cerrar Sesión
             </a>
         </form>
-    </nav>
+    </div>
 </header>
-<p>Esta sera la pagina principal del front office para {{ auth()->user()->name }}</p>
+
+<!-- Contenido principal -->
+<main class="section">
+    <div class="container has-text-centered">
+        <p class="title is-4">Esta será la página principal del front office para {{ auth()->user()->name }}</p>
+    </div>
+</main>
