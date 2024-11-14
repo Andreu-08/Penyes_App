@@ -1,24 +1,13 @@
-<header>
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <img src="/path/to/logo.png" alt="Logo" style="max-height: 3rem;">
-            </a>
-        </div>
-
-        <!-- Navbar items: esta sección siempre estará visible en todas las resoluciones -->
+<!-- Header -->
+<header class="navbar is-dark" style="padding: 1rem;">
+    <div class="navbar-brand">
+        <span class="navbar-item">Back Office - @yield('title')</span>
         <div class="navbar-end">
-            @if (Route::has('login'))
-                @auth
-                    <a href="{{ url('/log') }}" class="navbar-item">Log</a>
-                @else
-                    <a href="{{ route('login') }}" class="navbar-item">Login</a>
-                    @if (Route::has('register'))
-                        <span class="navbar-item">|</span>
-                        <a href="{{ route('register') }}" class="navbar-item">Register</a>
-                    @endif
-                @endauth
-            @endif
+            <a href="{{ route('profile.edit') }}" class="navbar-item">{{ Auth::user()->name }}</a>
+            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                @csrf
+                <button type="submit" class="button is-light is-small">Log Out</button>
+            </form>
         </div>
-    </nav>
+    </div>
 </header>

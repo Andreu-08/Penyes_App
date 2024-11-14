@@ -1,15 +1,20 @@
-<!-- resources/views/layouts/app.blade.php -->
+<!-- resources/views/layouts/back.blade.php -->
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-@include('back.partials.head') <!-- Incluye head.blade.php con Bulma y meta tags -->
-
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Back Office - @yield('title')</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
 <body>
-    @include('back.partials.backHeader') <!-- Incluye el header con los enlaces de autenticación -->
+    <!-- Aside (Menú lateral) -->
+    @include('back.partials.backAside')
+    <!-- Header -->
+    @include('back.partials.backHeader')
+    <!-- Content -->
+    <div class="container" style="margin-left: 200px; padding: 2rem;">
+        @yield('content')
+    </div>
 
-    <section class="section">
-        <div class="container">
-            @yield('content') <!-- Aquí se inserta el contenido específico de cada vista -->
-        </div>
-    </section>
 </body>
 </html>
