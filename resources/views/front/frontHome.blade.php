@@ -1,4 +1,4 @@
-@include('layouts.partials.head')
+@include('front.partials.head')
 <!-- Navegación personalizada del Front Office -->
 <header class="navbar is-light">
     <div class="navbar-brand">

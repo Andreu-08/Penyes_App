@@ -1,5 +1,5 @@
 {{-- resources/views/auth/verify-email.blade.php --}}
-@include('layouts.partials.head')
+@include('home.partials.head')
 <body>
     <main class="section">
         <div class="container">

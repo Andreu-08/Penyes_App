@@ -1,5 +1,5 @@
 {{-- resources/views/auth/register.blade.php --}}
-@extends('layouts.home')
+@extends('home.layouts.home')
 @section('content')
 <body>
     <main class="section">

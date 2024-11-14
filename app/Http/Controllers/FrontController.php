@@ -9,6 +9,6 @@ class FrontController extends Controller
     // En FrontController.php
     public function index()
     {
-        return view('front.log'); // Vista para el front office
+        return view('front.frontHome'); // Vista para el front office
     }
 }

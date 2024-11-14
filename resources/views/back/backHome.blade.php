@@ -1,4 +1,4 @@
-@include('layouts.partials.head') <!-- Incluye el head común con Bulma y configuraciones -->
+@include('back.partials.head') <!-- Incluye el head común con Bulma y configuraciones -->
 
 <header class="navbar is-light">
     <nav class="navbar-menu">

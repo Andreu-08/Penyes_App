@@ -1,4 +1,4 @@
-    @extends('layouts.home')
+    @extends('home.layouts.home')
     
     @section('content')
     <section class="section">

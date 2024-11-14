@@ -1,5 +1,5 @@
 {{-- resources/views/auth/reset-password.blade.php --}}
-@include('layouts.partials.head')
+@include('home.partials.head')
 <body>
     <main class="section">
         <div class="container">

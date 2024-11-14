@@ -978,7 +978,7 @@ class FrontController extends Controller
     // En FrontController.php
     public function index()
     {
-        return view('front.log'); // Vista para el front office
+        return view('front.frontHome'); // Vista para el front office
     }
 }
 <?php
@@ -990,9 +990,9 @@ use Illuminate\Http\Request;
 class BackController extends Controller
 {
     // En BackController.php
-    public function dashboard()
+    public function index()
     {
-        return view('back.dashboard'); // Vista para el back office
+        return view('back.backHome'); // Vista para el back office
     }
 }
 <?php
@@ -1652,22 +1652,6 @@ class LocationController extends Controller
     public function destroy(Location $location)
     {
         //
-    }
-}
-<?php
-
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-
-class AdminController extends Controller
-{
-    /**
-     * Muestra el dashboard del administrador.
-     */
-    public function dashboard()
-    {
-        return view('back.dashboard'); // Asegúrate de tener esta vista creada en resources/views/back/dashboard.blade.php
     }
 }
 <?php
@@ -4247,9 +4231,9 @@ Route::get('/', function () {
 // Rutas para el Front Office (Usuarios con rol 2)
 Route::middleware(['auth'])->group(function () {
     // Ruta protegida para el rol de administrador
-    Route::get('/back', [BackController::class, 'dashboard'])
+    Route::get('/back', [BackController::class, 'index'])
         ->middleware(CheckRole::class . ':1')
-        ->name('back.dashboard');
+        ->name('back.backHome');
 
     // Ruta para usuarios regulares (rol 2)
     Route::get('/front', [FrontController::class, 'index'])
@@ -4262,10 +4246,10 @@ Route::get('/contact', [ContactController::class, 'show'])->name('contact.show')
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
 
-//rutas para el log
-Route::get('/log', function () {
-    return view('front.log');
-})->middleware(['auth', 'verified'])->name('log');
+// //rutas para el front
+// Route::get('/log', function () {
+//     return view('front.log');
+// })->middleware(['auth', 'verified'])->name('log');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 class BackController extends Controller
 {
     // En BackController.php
-    public function dashboard()
+    public function index()
     {
-        return view('back.dashboard'); // Vista para el back office
+        return view('back.backHome'); // Vista para el back office
     }
 }

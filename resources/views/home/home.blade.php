@@ -1,5 +1,5 @@
 {{-- vista para configurar la home page que estiende de los layouts y partials principales --}}
-@extends('layouts.home')
+@extends('home.layouts.home')
 
 @section('content')
     <!-- Slogan Section -->

@@ -6,18 +6,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\FrontController;
 use App\Http\Middleware\CheckRole;
+use Illuminate\Support\Facades\Auth;
 
 //muestra la vista home en la ruta /
 Route::get('/', function () {
     return view('home.home');
 });
 
-// Rutas para el Front Office (Usuarios con rol 2)
+
 Route::middleware(['auth'])->group(function () {
     // Ruta protegida para el rol de administrador
-    Route::get('/back', [BackController::class, 'dashboard'])
+    Route::get('/back', [BackController::class, 'index'])
         ->middleware(CheckRole::class . ':1')
-        ->name('back.dashboard');
+        ->name('back.index');
 
     // Ruta para usuarios regulares (rol 2)
     Route::get('/front', [FrontController::class, 'index'])
@@ -30,10 +31,18 @@ Route::get('/contact', [ContactController::class, 'show'])->name('contact.show')
 Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
 
-//rutas para el log
-Route::get('/log', function () {
-    return view('front.log');
-})->middleware(['auth', 'verified'])->name('log');
+    Route::get('/log', function () {
+        // Verificar el rol del usuario
+        if (Auth::check()) {
+            $role = Auth::user()->role;
+            if ($role == 1) {
+                return redirect()->route('back.index'); // Redirige al dashboard del back office
+            } else {
+                return redirect()->route('front.index'); // Redirige a la página principal del front office
+            }
+        }
+        return redirect()->route('login'); // Redirige a login si no está autenticado
+    })->name('log');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
