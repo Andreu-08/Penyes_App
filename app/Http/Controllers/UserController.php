@@ -97,6 +97,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'birthday' => 'required|date',
             'password' => 'nullable|string|min:8|confirmed',
+            'role' => 'required|in:1,2',
             
         ]);
 
@@ -105,7 +106,7 @@ class UserController extends Controller
         $user->surname = $request->surname;
         $user->email = $request->email;
         $user->birthday = $request->birthday;
-        $user->role = 2;
+        $user->role = $request->role;
 
         // Si se proporciona una nueva contraseña, actualizarla
         if ($request->filled('password')) {
