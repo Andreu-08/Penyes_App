@@ -54,6 +54,9 @@
             <div class="pagination is-centered mt-7">
                 {{ $users->links('pagination::bootstrap-4') }}
             </div>
+
+            @include('back.partials.lastUsers')
+        
         </div>
     </main>
 </body>

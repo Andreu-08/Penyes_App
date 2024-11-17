@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Crew;
 use Illuminate\Database\Seeder;
 
 class CrewSeeder extends Seeder
@@ -12,6 +12,7 @@ class CrewSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        // Generar 30 registros falsos para la tabla crews
+        Crew::factory(30)->create();
     }
 }

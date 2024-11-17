@@ -12,9 +12,10 @@ class UserController extends Controller
      * Muestra una lista de todos los usuarios.
      */
     public function index()
-    {
-        $users = User::paginate(10);
-        return view('back.users.index', compact('users'));
+    {  
+        $lastUsers = User::latest()->take(3)->get();
+        $users = User::paginate(5);
+        return view('back.users.index', compact('users', 'lastUsers'));
     }
 
     /**
