@@ -33,7 +33,8 @@ class ContactFormMail extends Mailable
     public function build()
     {
         return $this->subject('Nuevo mensaje de contacto')
-                    ->view('emails.contact') // Asegúrate de que esta vista exista
+                    ->view('emails.HomeContact') // Asegúrate de que esta vista exista
                     ->with('details', $this->details);
     }
 }
+

@@ -3,28 +3,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Profile</title>
+    <title>Perfil</title>
+    @include('home.partials.head')
 </head>
 <body>
-    <header>
-        <h2>{{ __('Profile') }}</h2>
-    </header>
 
-    <main>
-        <section>
-            <!-- Incluir el formulario de actualización de información de perfil -->
-            @include('profile.partials.update-profile-information-form')
-        </section>
+    <main class="section">
+        <div class="container">
+            <header class="has-text-centered">
+                <h2 class="title is-3">{{ __('Perfil') }}</h2>
+            </header>
 
-        <section>
-            <!-- Incluir el formulario de actualización de contraseña -->
-            @include('profile.partials.update-password-form')
-        </section>
+            <!-- Sección de actualización de información de perfil -->
+            <section class="box mt-5">
+                <h3 class="title is-4">{{ __('Actualizar Información del Perfil') }}</h3>
+                @include('profile.partials.update-profile-information-form')
+            </section>
 
-        <section>
-            <!-- Incluir el formulario de eliminación de usuario -->
-            @include('profile.partials.delete-user-form')
-        </section>
+            <!-- Sección de actualización de contraseña -->
+            <section class="box mt-5">
+                <h3 class="title is-4">{{ __('Actualizar Contraseña') }}</h3>
+                @include('profile.partials.update-password-form')
+            </section>
+
+            <!-- Sección de eliminación de usuario -->
+            <section class="box mt-5">
+                <h3 class="title is-4">{{ __('Eliminar Cuenta') }}</h3>
+                @include('profile.partials.delete-user-form')
+            </section>
+        </div>
     </main>
+
+   
 </body>
 </html>

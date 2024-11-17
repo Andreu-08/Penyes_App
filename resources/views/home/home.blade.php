@@ -1,13 +1,13 @@
 {{-- vista para configurar la home page que estiende de los layouts y partials principales --}}
-@extends('layouts.home')
+@extends('home.layouts.home')
 
 @section('content')
     <!-- Slogan Section -->
     <section class="section has-background-light">
         <div class="container has-text-centered">
             <h1 class="title-dark">Slogan</h1>
-            <div class="background-image" style="background-image: url('/path/to/background.jpg'); height: 300px;">
-                <!-- Aquí puedes añadir la imagen de fondo de la sección -->
+            <div class="background-image" style="background-image: url('1.png'); height: 300px;">
+                <img src="1.png" alt="foto">
             </div>
         </div>
     </section>

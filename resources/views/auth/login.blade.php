@@ -1,63 +1,64 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Iniciar Sesión</title>
-</head>
-<body>
-    <main>
-        <!-- Estado de la sesión (si existe un mensaje de estado) -->
-        @if (session('status'))
-            <section>
-                <p>{{ session('status') }}</p>
-            </section>
-        @endif
+    @extends('home.layouts.home')
+    
+    @section('content')
+    <section class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">Iniciar Sesión</h1>
 
-        <!-- Formulario de inicio de sesión -->
-        <section>
-            <form method="POST" action="{{ route('login') }}">
+            <!-- Estado de la sesión (si existe un mensaje de estado) -->
+            @if (session('status'))
+                <div class="notification is-success has-text-centered">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            <!-- Formulario de inicio de sesión -->
+            <form method="POST" action="{{ route('login') }}" class="box mt-5">
                 @csrf
 
                 <!-- Campo de correo electrónico -->
-                <div>
-                    <label for="email">Correo Electrónico</label>
-                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username">
+                <div class="field">
+                    <label for="email" class="label">Correo Electrónico</label>
+                    <div class="control">
+                        <input id="email" type="email" name="email" value="{{ old('email') }}" class="input" required autofocus autocomplete="username">
+                    </div>
                     @if ($errors->has('email'))
-                        <p>{{ $errors->first('email') }}</p>
+                        <p class="help is-danger">{{ $errors->first('email') }}</p>
                     @endif
                 </div>
 
                 <!-- Campo de contraseña -->
-                <div>
-                    <label for="password">Contraseña</label>
-                    <input id="password" type="password" name="password" required autocomplete="current-password">
+                <div class="field">
+                    <label for="password" class="label">Contraseña</label>
+                    <div class="control">
+                        <input id="password" type="password" name="password" class="input" required autocomplete="current-password">
+                    </div>
                     @if ($errors->has('password'))
-                        <p>{{ $errors->first('password') }}</p>
+                        <p class="help is-danger">{{ $errors->first('password') }}</p>
                     @endif
                 </div>
 
                 <!-- Opción de recordar sesión -->
-                <div>
-                    <label for="remember_me">
-                        <input id="remember_me" type="checkbox" name="remember">
-                        <span>Recordarme</span>
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox" name="remember">
+                        Recordarme
                     </label>
                 </div>
 
-                <!-- Enlaces y botón de inicio de sesión -->
-                <div>
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
-                    @endif
-
-                    <button type="submit">
-                        Iniciar Sesión
-                    </button>
+                <!-- Botón de inicio de sesión y enlace de recuperación -->
+                <div class="field is-grouped is-justify-content-space-between">
+                    <div class="control">
+                        @if (Route::has('password.request'))
+                            <a class="is-link" href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
+                        @endif
+                    </div>
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Iniciar Sesión</button>
+                    </div>
                 </div>
-            </form>
-        </section>
-    </main>
-</body>
-</html>
 
+            </form>
+        </div>
+    </section>
+@endsection

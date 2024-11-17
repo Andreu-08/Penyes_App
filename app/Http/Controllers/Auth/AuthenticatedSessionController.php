@@ -25,10 +25,27 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
-        return redirect()->intended(route('log', absolute: false));
+        // Redirige según el rol del usuario
+        if (Auth::user()->role == 1) {
+            // Usuario con rol 1 (admin), redirige al back office
+            return redirect()->route('back.backHome');
+        } else {
+            // Usuario con rol 2 (usuario regular), redirige al front office
+            return redirect()->route('front.index');
+        }
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // Verificar el rol del usuario y redirigir en consecuencia
+        if ($user->role == 1) {
+            return redirect('/admin'); // Redirige al back office
+        }
+
+        // Si el rol es 2, redirige al front office
+        return redirect('/home');
     }
 
     /**

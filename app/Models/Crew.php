@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Crew extends Model
 {
     use HasFactory;
+    
+    protected $fillable = ['name', 'color', 'slogan', 'capacity', 'foundation'];
 }
