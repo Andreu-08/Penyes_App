@@ -3,14 +3,23 @@
 @section('content')
 <body>
     <main class="section">
+       
         <div class="container is-fluid">
             <!-- Encabezado con título y botón -->
             <div class="columns is-vcentered mb-5">
+                <!-- Columna del título -->
                 <div class="column">
-                    <h1 class="title">Lista de Crews</h1>
+                    <h1 class="title">Lista de Peñas</h1>
                 </div>
+            
+                <!-- Columna para el formulario de búsqueda -->
+                <div class="column is-two-fifths">
+                    @include('back.partials.searchCrews')
+                </div>
+            
+                <!-- Columna para el botón de "Crear Usuario" -->
                 <div class="column is-narrow">
-                    <a href="{{ route('back.crews.create') }}" class="button is-success">Crear Crew</a>
+                    <a href="{{ route('back.users.create') }}" class="button is-success">Crear Usuario</a>
                 </div>
             </div>
 

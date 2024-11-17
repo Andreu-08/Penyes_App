@@ -13,15 +13,33 @@ class CrewController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $lastCrews = Crew::latest()->take(3)->get();
-        // Recuperar todos los crews
-        $crews = Crew::paginate(5);
+        // Recuperar valores del formulario de búsqueda
+        $search = $request->input('search'); // Búsqueda por nombre
+        $capacity = $request->input('capacity'); // Búsqueda por capacidad
     
-        // Pasar los crews a la vista
-        return view('back.crews.index', compact('crews', 'lastCrews'));
+        // Iniciar consulta base
+        $query = Crew::query();
+    
+        // Filtrar por nombre (si se proporciona)
+        if (!empty($search)) {
+            $query->where('name', 'like', "%{$search}%");
+        }
+    
+        // Filtrar por capacidad (si se proporciona)
+        if (!empty($capacity)) {
+            $query->where('capacity', '<=', (int)$capacity);
+        }
+    
+        // Obtener resultados paginados y últimos 3 crews
+        $crews = $query->paginate(10); // Mostrar 10 resultados por página
+        $lastCrews = Crew::latest()->take(3)->get(); // Últimos 3 añadidos
+    
+        // Pasar los datos a la vista
+        return view('back.crews.index', compact('crews', 'lastCrews', 'search', 'capacity'));
     }
+    
     
     /**
      * Show the form for creating a new resource.

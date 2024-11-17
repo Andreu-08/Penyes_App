@@ -11,12 +11,27 @@ class UserController extends Controller
     /**
      * Muestra una lista de todos los usuarios.
      */
-    public function index()
-    {  
+    public function index(Request $request)
+    {
+        // Obtener el término de búsqueda desde el formulario
+        $search = $request->input('search');
+    
+        // Si hay un término de búsqueda, aplicar el filtro
+        $query = User::query();
+    
+        if ($search) {
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+        }
+    
+        // Obtener los usuarios paginados y los últimos 3 usuarios
+        $users = $query->paginate(10);
         $lastUsers = User::latest()->take(3)->get();
-        $users = User::paginate(5);
-        return view('back.users.index', compact('users', 'lastUsers'));
+    
+        // Pasar datos a la vista
+        return view('back.users.index', compact('users', 'lastUsers', 'search'));
     }
+    
 
     /**
      * Muestra el formulario para crear un nuevo usuario.
