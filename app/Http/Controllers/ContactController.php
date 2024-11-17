@@ -4,30 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ContactFormMail; // Asegúrate de tener un Mailable para el envío
+use App\Mail\ContactFormMail; // Asegúrate de tener el Mailable para el envío
+use App\Mail\ContactFormMail2;
+use App\Models\User;
+
 
 class ContactController extends Controller
 {
-    // Muestra la vista de contacto
+    // Muestra la vista de contacto en el home
     public function show()
     {
-        return view('home.contact'); // Asegúrate de que la vista esté en resources/views/home/contact.blade.php
+        return view('home.contact'); // Asegúrate de que esta vista esté en resources/views/home/contact.blade.php
     }
-
-    // Maneja el envío del formulario
-    public function send(Request $request)
+    // Método para enviar mensaje de contacto desde el back-office
+    public function sendBackContactMessage(Request $request, $userId)
     {
         // Validación de los campos
         $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
+            'subject' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
 
-        // Enviar el mensaje de contacto
-        Mail::to('admin@example.com')->send(new ContactFormMail($request->all()));
+        // Obtener el usuario al que se enviará el mensaje
+        $user = User::findOrFail($userId);
+
+        // Preparar los detalles del mensaje
+        $details = [
+            'subject' => $request->input('subject'),
+            'message' => $request->input('message'),
+        ];
+
+        // Enviar el mensaje al correo del usuario
+        Mail::to($user->email)->send(new ContactFormMail($details, 'emails.userContact'));
 
         // Redirigir con un mensaje de éxito
-        return redirect()->route('contact.show')->with('success', 'Mensaje enviado correctamente');
+        return redirect()->back()->with('success', 'Mensaje enviado al usuario correctamente');
     }
 }

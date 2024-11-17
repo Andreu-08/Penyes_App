@@ -20,11 +20,6 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    // // Ruta protegida para el rol de administrador
-    // Route::get('/back', [BackController::class, 'index'])
-    //     ->middleware(CheckRole::class . ':1')
-    //     ->name('back.index');
-
     // Ruta para usuarios regulares (rol 2)
     Route::get('/front', [FrontController::class, 'index'])
         ->middleware(CheckRole::class . ':2')
@@ -33,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
 
 //rutas para la vista contacto
 Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
-Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
+Route::post('/contact/send', [ContactController::class, 'sendHomeContactMessage'])->name('contact.send');
 
 
     Route::get('/log', function () {
@@ -62,11 +57,23 @@ Route::middleware(['auth', CheckRole::class . ':1'])->prefix('back')->group(func
     // Ruta principal del back office
     Route::get('/', [BackController::class, 'index'])->name('back.backHome');
 
-    // Rutas resource para usuarios, crews, platforms, draws y payments
+    // Rutas de crud completas utilizando resource
+    
+    //usuarios
     Route::resource('users', UserController::class)->names('back.users');
+    // Enviar correo de contacto al usuario
+        Route::post('/back/users/{user}/contact', [ContactController::class, 'sendBackContactMessage'])->name('back.users.contact');
+
+    //crews
     Route::resource('crews', CrewController::class)->names('back.crews');
+
+    //platforms
     Route::resource('platforms', PlatformController::class)->names('back.platforms');
+
+    //draws
     Route::resource('draws', DrawController::class)->names('back.draws');
+
+    //payments
     Route::resource('payments', PaymentController::class)->names('back.payments');
 });
 

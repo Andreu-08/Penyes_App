@@ -1,20 +1,26 @@
 
 
-
+@include('home.partials.head')
 <body>
     <section class="section">
-        <div class="container box" style="border: 1px solid #dbdbdb; padding: 20px; max-width: 600px; margin: 0 auto;">
-            <h1 class="title is-4 has-text-primary">Nuevo Mensaje de Contacto</h1>
-
-            <div class="content">
-                <p><strong>Nombre:</strong> {{ $details['name'] }}</p>
-                <p><strong>Email:</strong> {{ $details['email'] }}</p>
+        <div class="container">
+            <h1 class="title has-text-primary">Nuevo mensaje de contacto</h1>
+            
+            <div class="box">
+                <p><strong>Nombre del remitente:</strong> <span class="has-text-weight-semibold">{{ $details['name'] }}</span></p>
+                <p><strong>Correo del remitente:</strong> <span class="has-text-weight-semibold">{{ $details['email'] }}</span></p>
+                <p><strong>Asunto:</strong> <span class="has-text-weight-semibold">{{ $details['subject'] }}</span></p>
+                
+                <hr>
+                
                 <p><strong>Mensaje:</strong></p>
-                <div class="box" style="background-color: #f5f5f5; padding: 10px;">
-                    {{ $details['message'] }}
+                <div class="content">
+                    <p>{{ $details['message'] }}</p>
                 </div>
             </div>
+            
+            <p class="has-text-grey is-italic">Este mensaje fue enviado desde el formulario de contacto en la página principal.</p>
         </div>
     </section>
 </body>
-</html>
+

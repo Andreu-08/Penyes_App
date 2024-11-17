@@ -110,4 +110,5 @@ class UserController extends Controller
 
         return redirect()->route('back.users.index')->with('success', 'Usuario eliminado exitosamente.');
     }
+    
 }
