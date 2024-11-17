@@ -1,6 +1,16 @@
 @extends('back.layouts.back')
 @section('content')
 
+    @section('breadcrumbs')
+        <li>
+            <a href="{{ route('back.crews.index') }}" class="has-text-light">Peñas</a>
+        </li>
+        <li>
+            <a href="{{ route('back.crews.create') }}" class="has-text-light">Crear Peña</a>
+        </li>
+    @endsection
+
+
 <body>
     <main class="section">
         <div class="container">

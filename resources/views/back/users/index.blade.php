@@ -1,5 +1,12 @@
 @extends('back.layouts.back')
 
+@section('breadcrumbs')
+    <li>
+        <a href="{{ route('back.users.index') }}" class="has-text-light">Usuarios</a>
+    </li>
+@endsection
+
+
 @section('content')
 <body>
     <main class="section">

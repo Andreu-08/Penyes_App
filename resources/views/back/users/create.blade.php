@@ -1,6 +1,16 @@
 @extends('back.layouts.back')
 @section('content')
 
+    @section('breadcrumbs')
+        <li>
+            <a href="{{ route('back.users.index') }}" class="has-text-light">Usuarios</a>
+        </li>
+        <li>
+            <a href="{{ route('back.users.create') }}" class="has-text-light">Crear Usuario</a>
+        </li>
+    @endsection
+
+
 <body>
     <main class="section">
         <div class="container">

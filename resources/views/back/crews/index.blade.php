@@ -1,5 +1,12 @@
 @extends('back.layouts.back')
 
+@section('breadcrumbs')
+    <li>
+        <a href="{{ route('back.crews.index') }}" class="has-text-light">Peñas</a>
+    </li>
+@endsection
+
+
 @section('content')
 <body>
     <main class="section">
@@ -19,7 +26,7 @@
             
                 <!-- Columna para el botón de "Crear Usuario" -->
                 <div class="column is-narrow">
-                    <a href="{{ route('back.users.create') }}" class="button is-success">Crear Usuario</a>
+                    <a href="{{ route('back.crews.create') }}" class="button is-success">Crear Peña</a>
                 </div>
             </div>
 

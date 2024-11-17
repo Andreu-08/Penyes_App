@@ -2,6 +2,19 @@
 @extends('back.layouts.back')
 @section('content')
 
+ {{-- genera el path en el header para navegar por la aplicacion --}}
+ @section('breadcrumbs')
+    <li>
+        <a href="{{ route('back.users.index') }}" class="has-text-light">Usuarios</a>
+    </li>
+    <li>
+        <a href="{{ route('back.users.show', $user->id) }}" class="has-text-light">{{ $user->name }}</a>
+    </li>
+@endsection
+
+
+
+
 <main class="section">
     <div class="container">
         <section class="box">

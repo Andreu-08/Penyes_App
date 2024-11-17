@@ -1,5 +1,16 @@
 @extends('back.layouts.back')
 
+{{-- genera el path en el header para navegar por la aplicacion --}}
+@section('breadcrumbs')
+    <li>
+        <a href="{{ route('back.crews.index') }}" class="has-text-light">Peñas</a>
+    </li>
+    <li>
+        <a href="{{ route('back.crews.show', $crew->id) }}" class="has-text-light">{{ $crew->name }}</a>
+    </li>
+@endsection
+
+
 @section('content')
 
 <body>
