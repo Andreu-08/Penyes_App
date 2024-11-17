@@ -6,25 +6,23 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ContactFormMail extends Mailable
+class AdminToUserMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Los detalles del formulario de contacto.
-     *
-     * @var array
-     */
     public $details;
+    public $viewTemplate;
 
     /**
      * Crea una nueva instancia del mensaje.
      *
      * @param array $details
+     * @param string $viewTemplate
      */
-    public function __construct(array $details)
+    public function __construct(array $details, $viewTemplate = 'emails')
     {
         $this->details = $details;
+        $this->viewTemplate = $viewTemplate;
     }
 
     /**
@@ -32,9 +30,8 @@ class ContactFormMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Nuevo mensaje de contacto')
-                    ->view('emails.HomeContact') // Asegúrate de que esta vista exista
+        return $this->subject($this->details['subject'])
+                    ->view($this->viewTemplate)
                     ->with('details', $this->details);
     }
 }
-

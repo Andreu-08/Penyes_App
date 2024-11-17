@@ -28,9 +28,9 @@ Route::middleware(['auth'])->group(function () {
 
 //rutas para la vista contacto
 Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
-Route::post('/contact/send', [ContactController::class, 'sendHomeContactMessage'])->name('contact.send');
+Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.send');
 
-
+//autenticación de usuario y rol
     Route::get('/log', function () {
         // Verificar el rol del usuario
         if (Auth::check()) {
@@ -44,6 +44,7 @@ Route::post('/contact/send', [ContactController::class, 'sendHomeContactMessage'
         return redirect()->route('login'); // Redirige a login si no está autenticado
     })->name('log');
 
+    //rutas para el perfil del usuario 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -62,7 +63,7 @@ Route::middleware(['auth', CheckRole::class . ':1'])->prefix('back')->group(func
     //usuarios
     Route::resource('users', UserController::class)->names('back.users');
     // Enviar correo de contacto al usuario
-        Route::post('/back/users/{user}/contact', [ContactController::class, 'sendBackContactMessage'])->name('back.users.contact');
+        Route::post('/back/users/{user}/contact', [BackController::class, 'sendBackContactMessage'])->name('back.users.contact');
 
     //crews
     Route::resource('crews', CrewController::class)->names('back.crews');
@@ -76,5 +77,8 @@ Route::middleware(['auth', CheckRole::class . ':1'])->prefix('back')->group(func
     //payments
     Route::resource('payments', PaymentController::class)->names('back.payments');
 });
+
+
+
 
 require __DIR__.'/auth.php';
