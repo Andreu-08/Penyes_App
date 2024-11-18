@@ -39,6 +39,7 @@
                             <th>Apellido</th>
                             <th>Email</th>
                             <th>Fecha de Nacimiento</th>
+                            <th>Peña</th>
                             <th>Rol</th>
                             <th>Acciones</th>
                         </tr>
@@ -50,6 +51,13 @@
                             <td>{{ $user->surname }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->birthday }}</td>
+                            <td>
+                                @if ($user->crew)
+                                    {{ $user->crew->name }}
+                                @else
+                                    Sin peña
+                                @endif
+                            </td>
                             <td>{{ $user->role == 1 ? 'Admin' : 'Usuario' }}</td>
                             <td>
                                 <a href="{{ route('back.users.show', $user->id) }}">

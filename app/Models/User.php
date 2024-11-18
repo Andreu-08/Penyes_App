@@ -23,10 +23,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     //Agregamos la columna role a la lista de columnas que se pueden llenar
     public function isAdmin(){
-        return $this->role === 1;
+        return $this->role === Role::ADMIN;
     }
     public function isUser(){
-        return $this->role === 2;
+        return $this->role === Role::USER;
     }
 }
 
