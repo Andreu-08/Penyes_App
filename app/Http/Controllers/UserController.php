@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,9 +16,10 @@ class UserController extends Controller
     {
         // Obtener el término de búsqueda desde el formulario
         $search = $request->input('search');
-    
+        
         // Si hay un término de búsqueda, aplicar el filtro
         $query = User::query();
+        $query = $query->where('role', '!=', Role::ADMIN);
     
         if ($search) {
             $query->where('name', 'like', "%{$search}%")
