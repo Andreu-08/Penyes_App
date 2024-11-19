@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         // Redirige según el rol del usuario
-        if (Auth::user()->role == 1) {
+        if (Auth::user()->role_id == 1) {
             // Usuario con rol 1 (admin), redirige al back office
             return redirect()->route('back.backHome');
         } else {
@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
     protected function authenticated(Request $request, $user)
     {
         // Verificar el rol del usuario y redirigir en consecuencia
-        if ($user->role == 1) {
+        if ($user->role_id == 1) {
             return redirect('/admin'); // Redirige al back office
         }
 

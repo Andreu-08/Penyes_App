@@ -17,19 +17,23 @@ class UserController extends Controller
         // Obtener el término de búsqueda desde el formulario
         $search = $request->input('search');
         
-        // Si hay un término de búsqueda, aplicar el filtro
-        $query = User::query();
-        $query = $query->where('role', '!=', Role::ADMIN);
-    
+        // Construir la consulta inicial excluyendo administradores
+        $query = User::where('role', '!=', Role::ADMIN);
+
+        // Si hay un término de búsqueda, agregar condiciones
         if ($search) {
-            $query->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+            });
         }
-    
-        // Obtener los usuarios paginados y los últimos 3 usuarios
+
+        // Obtener los usuarios paginados excluyendo administradores
         $users = $query->paginate(10);
-        $lastUsers = User::latest()->take(3)->get();
-    
+
+        // Obtener los últimos 3 usuarios excluyendo administradores
+        $lastUsers = User::where('role', '!=', Role::ADMIN)->latest()->take(3)->get();
+
         // Pasar datos a la vista
         return view('back.users.index', compact('users', 'lastUsers', 'search'));
     }

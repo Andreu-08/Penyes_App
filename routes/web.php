@@ -34,7 +34,7 @@ Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.
     Route::get('/log', function () {
         // Verificar el rol del usuario
         if (Auth::check()) {
-            $role = Auth::user()->role;
+            $role = Auth::user()->role_id;
             if ($role == 1) {
                 return redirect()->route('back.backHome'); // Redirige al dashboard del back office
             } else {
