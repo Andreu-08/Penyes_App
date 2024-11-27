@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Crew extends Model
 {
     use HasFactory;
-    
-    protected $fillable = ['name', 'color', 'slogan', 'capacity', 'foundation'];
+
+    protected $fillable = ['name', 'capacity', 'color', 'slogan', 'foundation'];
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_crews')->withPivot('year', 'confirmed')->withTimestamps();
+    }
 }

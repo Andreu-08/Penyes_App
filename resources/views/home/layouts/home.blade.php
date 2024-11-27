@@ -11,6 +11,7 @@
             @yield('content') <!-- Aquí se inserta el contenido específico de cada vista -->
         </div>
     </section>
+    @include('home.partials.footer') <!-- Incluye el footer con los derechos de autor y créditos -->
 </body>
 </html>
 

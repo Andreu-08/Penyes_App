@@ -18,7 +18,7 @@ class UserController extends Controller
         $search = $request->input('search');
         
         // Construir la consulta inicial excluyendo administradores
-        $query = User::where('role', '!=', Role::ADMIN);
+        $query = User::where('role_id', '!=', Role::ADMIN);
 
         // Si hay un término de búsqueda, agregar condiciones
         if ($search) {
@@ -32,7 +32,7 @@ class UserController extends Controller
         $users = $query->paginate(10);
 
         // Obtener los últimos 3 usuarios excluyendo administradores
-        $lastUsers = User::where('role', '!=', Role::ADMIN)->latest()->take(3)->get();
+        $lastUsers = User::where('role_id', '!=', Role::ADMIN)->latest()->take(3)->get();
 
         // Pasar datos a la vista
         return view('back.users.index', compact('users', 'lastUsers', 'search'));
@@ -69,7 +69,7 @@ class UserController extends Controller
             'email' => $request->email,
             'birthday' => $request->birthday,
             'password' => bcrypt($request->input('password')),//contraseña encriptada
-            'role' => 2,
+            'role_id' => 2,
         ]);
 
         return redirect()->route('back.users.index')->with('success', 'Usuario creado exitosamente.');
@@ -80,7 +80,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('back.users.show', compact('user'));
+        // Obtener las solicitudes de membresía del usuario
+        $membershipRequests = $user->crews()->wherePivot('confirmed', false)->get();
+
+        return view('back.users.show', compact('user', 'membershipRequests'));
     }
 
     /**
@@ -97,22 +100,24 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         // Validación de los datos
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'birthday' => 'required|date',
             'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|in:1,2',
+            'role_id' => 'required|in:1,2',
             
         ]);
 
         // Actualizar la información del usuario
-        $user->name = $request->name;
-        $user->surname = $request->surname;
-        $user->email = $request->email;
-        $user->birthday = $request->birthday;
-        $user->role = $request->role;
+        $user->update([
+            'name' => $validated['name'],
+            'surname' => $validated['surname'],
+            'birthday' => $validated['birthday'],
+            'email' => $validated['email'],
+            'role_id' => $validated['role_id'],
+        ]);
 
         // Si se proporciona una nueva contraseña, actualizarla
         if ($request->filled('password')) {

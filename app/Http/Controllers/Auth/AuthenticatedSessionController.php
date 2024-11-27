@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('back.backHome');
         } else {
             // Usuario con rol 2 (usuario regular), redirige al front office
-            return redirect()->route('front.index');
+            return redirect()->route('front.frontHome');
         }
     }
 

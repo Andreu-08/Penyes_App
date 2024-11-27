@@ -1,26 +1,38 @@
 <header>
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="/">
-                <img src="/path/to/logo.png" alt="Logo" style="max-height: 3rem;">
-            </a>
-        </div>
+    <nav class="navbar has-background-primary" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <!-- Navbar Brand -->
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <img src={{ asset('img/back/logoPenyes.png') }} alt="Logo" style="max-height: 5rem;">
+                </a>
 
-        <!-- Navbar items: esta sección siempre estará visible en todas las resoluciones -->
-        <div class="navbar-end">
-            @if (Route::has('login'))
-                @auth
-                    <a href="{{ url('/log') }}" class="navbar-item">Log</a>
-                @else
-                    <a href="{{ route('login') }}" class="navbar-item">Login</a>
-                    @if (Route::has('register'))
-                        <span class="navbar-item">|</span>
-                        <a href="{{ route('register') }}" class="navbar-item">Register</a>
+                <!-- Toggle para pantallas pequeñas -->
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <!-- Navbar Items -->
+            <div id="navbarBasic" class="navbar-menu">
+                <div class="navbar-end">
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/log') }}" class="navbar-item has-text-white">Log</a>
+                        @else
+                            <a href="{{ route('login') }}" class="navbar-item has-text-white">Login</a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="navbar-item has-text-white">Register</a>
+                            @endif
+                        @endauth
                     @endif
-                @endauth
-            @endif
+                </div>
+            </div>
         </div>
     </nav>
 </header>
+
 
 

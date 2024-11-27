@@ -1,24 +1,26 @@
-@include('front.partials.head')
-<!-- Navegación personalizada del Front Office -->
-<header class="navbar is-light">
-    <div class="navbar-brand">
-        <a class="navbar-item" href="{{ route('log') }}">Peñes</a>
-        <a class="navbar-item" href="{{ route('profile.edit') }}">Perfil</a>
-    </div>
-    <div class="navbar-end">
-        <!-- Formulario de logout -->
-        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-            @csrf
-            <a href="#" class="navbar-item" onclick="event.preventDefault(); this.closest('form').submit();">
-                Cerrar Sesión
-            </a>
-        </form>
-    </div>
-</header>
+@extends('front.layouts.front') <!-- Extiende de un layout base -->
 
-<!-- Contenido principal -->
-<main class="section">
-    <div class="container has-text-centered">
-        <p class="title is-4">Esta será la página principal del front office para {{ auth()->user()->name }}</p>
+@section('content')
+<div class="container">
+    <h1 class="title">Bienvenido a Les Penyes</h1>
+    <p class="subtitle">Gestiona tu experiencia en las fiestas</p>
+
+    <div class="columns">
+        <!-- Enlace a "Peñas" -->
+        <div class="column">
+            <a href="{{ route('front.crews.index') }}" class="box has-text-centered">
+                <h2 class="title is-4">Peñas</h2>
+                <p>Ver y gestionar tus peñas</p>
+            </a>
+        </div>
+
+        <!-- Enlace a "Sorteos" -->
+        <div class="column">
+            <a href="{{ route('front.draws.index') }}" class="box has-text-centered">
+                <h2 class="title is-4">Sorteos</h2>
+                <p>Participa en los sorteos</p>
+            </a>
+        </div>
     </div>
-</main>
+</div>
+@endsection

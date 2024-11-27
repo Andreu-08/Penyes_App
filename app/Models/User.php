@@ -36,5 +36,15 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->role_id === Role::USER;
     }
+    
+    public function crews()
+    {
+        return $this->belongsToMany(Crew::class, 'user_crews')->withPivot('year', 'confirmed')->withTimestamps();
+    }
 }
+
+
+    
+
+   
 

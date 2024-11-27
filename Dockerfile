@@ -6,6 +6,7 @@ FROM php:8.3-fpm
 # Arguments defined in docker-compose.yml
 ARG user
 ARG uid
+RUN useradd -m -u ${uid} -s /bin/bash ${user}
 # Instalar dependencias necesarias para pdo_mysql
 RUN apt-get update && apt-get install -y \
     libpng-dev \
@@ -44,4 +45,4 @@ EXPOSE 9000
 # Iniciar PHP-FPM
 CMD ["php-fpm"]
 
-# USER $user
+USER ${user}

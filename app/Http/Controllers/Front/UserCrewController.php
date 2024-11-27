@@ -1,13 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
-use App\Http\Requests\StoreUserCrewRequest;
-use App\Http\Requests\UpdateUserCrewRequest;
-use App\Models\UserCrew;
+use App\Models\Crew;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class UserCrewController extends Controller
 {
+    public function requestMembership(Crew $crew)
+    {
+        $user = Auth::user();
+
+        // Verificar si ya existe una solicitud pendiente o confirmada
+        if ($crew->users()->where('user_id', $user->id)->exists()) {
+            return redirect()->back()->with('error', 'Ya has solicitado unirte a esta peña.');
+        }
+
+        // Crear la solicitud de membresía
+        $crew->users()->attach($user->id, ['year' => now()->year, 'confirmed' => false]);
+
+        return redirect()->back()->with('success', 'Solicitud de membresía enviada.');
+    }
+
     /**
      * Display a listing of the resource.
      */
