@@ -17,16 +17,35 @@ class User extends Authenticatable implements MustVerifyEmail
         'birthday',
         'email',
         'password',
-        'role'
+        'role_id', // Relación con roles
     ];
 
-
-    //Agregamos la columna role a la lista de columnas que se pueden llenar
-    public function isAdmin(){
-        return $this->role === Role::ADMIN;
+    // Relación con el modelo Role
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
-    public function isUser(){
-        return $this->role === Role::USER;
+
+    // Métodos para verificar roles
+    public function isAdmin()
+    {
+        return $this->role_id === Role::ADMIN;
+    }
+
+    public function isUser()
+    {
+        return $this->role_id === Role::USER;
+    }
+    
+    public function crews()
+    {
+        return $this->belongsToMany(Crew::class, 'user_crews')->withPivot('year', 'confirmed')->withTimestamps();
+    }
+
+    // Obtener la peña confirmada del usuario
+    public function confirmedCrew()
+    {
+        return $this->crews()->wherePivot('confirmed', true)->first();
     }
 }
 

@@ -3,10 +3,10 @@
 
     @section('breadcrumbs')
         <li>
-            <a href="{{ route('back.crews.index') }}" class="has-text-light">Peñas</a>
+            <a href="{{ route('back.crews.index') }}" class="has-text-grey">Peñas</a>
         </li>
         <li>
-            <a href="{{ route('back.crews.create') }}" class="has-text-light">Crear Peña</a>
+            <a href="{{ route('back.crews.create') }}" class="has-text-grey">Crear Peña</a>
         </li>
     @endsection
 

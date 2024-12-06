@@ -3,10 +3,10 @@
  {{-- seccion para que aparezca el poth de la pagina en el header  --}}
     @section('breadcrumbs')
         <li>
-            <a href="{{ route('back.crews.index') }}" class="has-text-light">Peñas</a>
+            <a href="{{ route('back.crews.index') }}" class="has-text-grey">Peñas</a>
         </li>
         <li>
-            <a href="{{ route('back.crews.edit', $crew->id) }}" class="has-text-light">
+            <a href="{{ route('back.crews.edit', $crew->id) }}" class="has-text-grey">
                 Editar: {{ $crew->name }}
             </a>
         </li>

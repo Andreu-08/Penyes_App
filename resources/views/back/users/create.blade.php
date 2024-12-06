@@ -3,10 +3,10 @@
 
     @section('breadcrumbs')
         <li>
-            <a href="{{ route('back.users.index') }}" class="has-text-light">Usuarios</a>
+            <a href="{{ route('back.users.index') }}" class="has-text-grey">Usuarios</a>
         </li>
         <li>
-            <a href="{{ route('back.users.create') }}" class="has-text-light">Crear Usuario</a>
+            <a href="{{ route('back.users.create') }}" class="has-text-grey">Crear Usuario</a>
         </li>
     @endsection
 

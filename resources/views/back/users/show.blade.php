@@ -1,20 +1,16 @@
 {{-- resources/views/back/users/show.blade.php --}}
 @extends('back.layouts.back')
-@section('content')
 
- {{-- genera el path en el header para navegar por la aplicacion --}}
- @section('breadcrumbs')
+@section('breadcrumbs')
     <li>
-        <a href="{{ route('back.users.index') }}" class="has-text-light">Usuarios</a>
+        <a href="{{ route('back.users.index') }}" class="has-text-grey">Usuarios</a>
     </li>
     <li>
-        <a href="{{ route('back.users.show', $user->id) }}" class="has-text-light">{{ $user->name }}</a>
+        <a href="{{ route('back.users.show', $user->id) }}" class="has-text-grey">{{ $user->name }}</a>
     </li>
 @endsection
 
-
-
-
+@section('content')
 <main class="section">
     <div class="container">
         <section class="box">
@@ -32,53 +28,66 @@
                             <th class="has-text-weight-semibold">Apellido:</th>
                             <td>{{ $user->surname }}</td>
                         </tr>
-                        <tr>
-                            <th class="has-text-weight-semibold">Fecha de Nacimiento:</th>
-                            <td>{{ \Carbon\Carbon::parse($user->birthday)->format('d/m/Y') }}</td>
-                        </tr>
-                        <tr>
-                            <th class="has-text-weight-semibold">Correo Electrónico:</th>
-                            <td>{{ $user->email }}</td>
-                        </tr>
-                        <tr>
-                            <th class="has-text-weight-semibold">Rol:</th>
-                            <td>{{ $user->role == 1 ? 'Admin' : 'Usuario' }}</td>
-                        </tr>
+                        <!-- Otros campos del usuario -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- Formulario de contacto -->
-            <section class="box mt-5">
-                <h2 class="title is-4 has-text-centered">Enviar Mensaje a {{ $user->name }}</h2>
-                <form method="POST" action="{{ route('back.users.contact', ['user' => $user->id]) }}">
+            <!-- Solicitudes de membresía -->
+            <div class="content is-medium mt-5">
+                <h2 class="title is-4">Solicitudes de Membresía</h2>
+                @if($membershipRequests->isEmpty())
+                    <p>No hay solicitudes de membresía pendientes.</p>
+                @else
+                    <table class="table is-fullwidth is-striped">
+                        <thead>
+                            <tr>
+                                <th>Peña</th>
+                                <th>Año</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($membershipRequests as $crew)
+                                <tr>
+                                    <td>{{ $crew->name }}</td>
+                                    <td>{{ $crew->pivot->year }}</td>
+                                    <td>
+                                        <form method="POST" action="{{ route('back.memberships.confirm', [$crew, $user]) }}">
+                                            @csrf
+                                            <button type="submit" class="button is-primary">Confirmar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
+            </div>
+            <!-- Formulario para enviar correo -->
+            <div class="content is-medium mt-5">
+                <h2 class="title is-4">Enviar Correo</h2>
+                <form method="POST" action="{{ route('back.users.contact', $user->id) }}">
                     @csrf
-                    <!-- Campo de asunto -->
                     <div class="field">
-                        <label for="subject" class="label">Asunto</label>
-                        <input id="subject" type="text" class="input" name="subject" placeholder="Asunto del mensaje" required>
-                        @if ($errors->has('subject'))
-                            <p class="help is-danger">{{ $errors->first('subject') }}</p>
-                        @endif
+                        <label class="label">Asunto</label>
+                        <div class="control">
+                            <input class="input" type="text" name="subject" required>
+                        </div>
                     </div>
-                    <!-- Campo de mensaje -->
                     <div class="field">
-                        <label for="message" class="label">Mensaje</label>
-                        <textarea id="message" class="textarea" name="message" rows="4" placeholder="Escribe tu mensaje aquí" required></textarea>
-                        @if ($errors->has('message'))
-                            <p class="help is-danger">{{ $errors->first('message') }}</p>
-                        @endif
+                        <label class="label">Mensaje</label>
+                        <div class="control">
+                            <textarea class="textarea" name="message" required></textarea>
+                        </div>
                     </div>
-
-                    <!-- Botón para enviar -->
-                    <div class="field has-text-centered mt-4">
-                        <button type="submit" class="button is-primary">Enviar Mensaje</button>
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Enviar</button>
                     </div>
                 </form>
-            </section>
+            </div>
+
         </section>
     </div>
 </main>
-
-
 @endsection

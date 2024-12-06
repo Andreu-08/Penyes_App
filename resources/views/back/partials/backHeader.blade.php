@@ -1,13 +1,12 @@
 <!-- Header -->
-<header class="navbar is-dark" style="padding: 1rem;">
+<header class="navbar has-background-light" style="padding: 1rem;">
     <div class="container is-fluid">
         <div class="navbar-brand" style="align-items: center;">
             <!-- Breadcrumbs para la ruta actual -->
-            <nav class="breadcrumb is-small has-succeeds-separator mb-0" aria-label="breadcrumbs" style="color: #ffffff;">
+            <nav class="breadcrumb is-small has-succeeds-separator mb-0" aria-label="breadcrumbs" style="color: #333;">
                 <ul>
                     <li>
-                        <a href="{{ route('back.backHome') }}" class="has-text-light">
-
+                        <a href="{{ route('back.backHome') }}" class="has-text-dark">
                             <span>Back Office</span>
                         </a>
                     </li>
@@ -21,7 +20,7 @@
         <!-- Menú desplegable del usuario -->
         <div class="navbar-end">
             <div class="navbar-item has-dropdown is-hoverable">
-                <a class="navbar-link has-text-light">
+                <a class="navbar-link has-text-dark">
                     {{ Auth::user()->name }} <!-- Mostrar el nombre del usuario -->
                 </a>
                 <div class="navbar-dropdown is-right">

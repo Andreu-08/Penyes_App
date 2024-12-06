@@ -2,7 +2,7 @@
 
 @section('breadcrumbs')
     <li>
-        <a href="{{ route('back.crews.index') }}" class="has-text-light">Peñas</a>
+        <a href="{{ route('back.crews.index') }}" class="has-text-grey">Peñas</a>
     </li>
 @endsection
 

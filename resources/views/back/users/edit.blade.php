@@ -4,10 +4,10 @@
 {{-- seccion para que aparezca el poth de la pagina en el header --}}
     @section('breadcrumbs')
         <li>
-            <a href="{{ route('back.users.index') }}" class="has-text-light">Usuarios</a>
+            <a href="{{ route('back.users.index') }}" class="has-text-grey">Usuarios</a>
         </li>
         <li>
-            <a href="{{ route('back.users.edit', $user->id) }}" class="has-text-light">
+            <a href="{{ route('back.users.edit', $user->id) }}" class="has-text-grey">
                 Editar: {{ $user->name }}
             </a>
         </li>
@@ -84,14 +84,14 @@
                                 <label for="role" class="label">Rol</label>
                                 <div class="control">
                                     <div class="select is-fullwidth">
-                                        <select id="role" name="role">
-                                            <option value="1" {{ old('role', $user->role) == 1 ? 'selected' : '' }}>Admin</option>
-                                            <option value="2" {{ old('role', $user->role) == 2 ? 'selected' : '' }}>Usuario</option>
+                                        <select id="role" name="role_id">
+                                            <option value="1" {{ old('role_id', $user->role_id) == 1 ? 'selected' : '' }}>Admin</option>
+                                            <option value="2" {{ old('role_id', $user->role_id) == 2 ? 'selected' : '' }}>Usuario</option>
                                         </select>
                                     </div>
                                 </div>
-                                @if ($errors->has('role'))
-                                    <p class="help is-danger">{{ $errors->first('role') }}</p>
+                                @if ($errors->has('role_id'))
+                                    <p class="help is-danger">{{ $errors->first('role_id') }}</p>
                                 @endif
                             </div>
                         </div>

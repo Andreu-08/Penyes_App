@@ -3,10 +3,10 @@
 {{-- genera el path en el header para navegar por la aplicacion --}}
 @section('breadcrumbs')
     <li>
-        <a href="{{ route('back.crews.index') }}" class="has-text-light">Peñas</a>
+        <a href="{{ route('back.crews.index') }}" class="has-text-grey">Peñas</a>
     </li>
     <li>
-        <a href="{{ route('back.crews.show', $crew->id) }}" class="has-text-light">{{ $crew->name }}</a>
+        <a href="{{ route('back.crews.show', $crew->id) }}" class="has-text-grey">{{ $crew->name }}</a>
     </li>
 @endsection
 
