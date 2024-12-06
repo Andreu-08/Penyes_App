@@ -28,18 +28,7 @@
                             <th class="has-text-weight-semibold">Apellido:</th>
                             <td>{{ $user->surname }}</td>
                         </tr>
-                        <tr>
-                            <th class="has-text-weight-semibold">Fecha de Nacimiento:</th>
-                            <td>{{ \Carbon\Carbon::parse($user->birthday)->format('d/m/Y') }}</td>
-                        </tr>
-                        <tr>
-                            <th class="has-text-weight-semibold">Correo Electrónico:</th>
-                            <td>{{ $user->email }}</td>
-                        </tr>
-                        <tr>
-                            <th class="has-text-weight-semibold">Rol:</th>
-                            <td>{{ $user->role_id == 1 ? 'Admin' : 'Usuario' }}</td>
-                        </tr>
+                        <!-- Otros campos del usuario -->
                     </tbody>
                 </table>
             </div>
@@ -75,6 +64,29 @@
                     </table>
                 @endif
             </div>
+            <!-- Formulario para enviar correo -->
+            <div class="content is-medium mt-5">
+                <h2 class="title is-4">Enviar Correo</h2>
+                <form method="POST" action="{{ route('back.users.contact', $user->id) }}">
+                    @csrf
+                    <div class="field">
+                        <label class="label">Asunto</label>
+                        <div class="control">
+                            <input class="input" type="text" name="subject" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Mensaje</label>
+                        <div class="control">
+                            <textarea class="textarea" name="message" required></textarea>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Enviar</button>
+                    </div>
+                </form>
+            </div>
+
         </section>
     </div>
 </main>

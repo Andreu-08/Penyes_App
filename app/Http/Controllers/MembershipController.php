@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Back;
+namespace App\Http\Controllers;
 
 use App\Models\Crew;
 use App\Models\User;

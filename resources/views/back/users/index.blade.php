@@ -52,8 +52,8 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->birthday }}</td>
                             <td>
-                                @if ($user->crew)
-                                    {{ $user->crew->name }}
+                                @if ($user->confirmedCrew())
+                                    {{ $user->confirmedCrew()->name }}
                                 @else
                                     Sin peña
                                 @endif

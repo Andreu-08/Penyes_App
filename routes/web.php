@@ -14,7 +14,7 @@ use App\Http\Controllers\Front\FrontCrewController;
 use App\Http\Controllers\Front\UserCrewController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Back\MembershipController;
+use App\Http\Controllers\MembershipController;
 
 //muestra la vista home en la ruta /
 Route::get('/', function () {

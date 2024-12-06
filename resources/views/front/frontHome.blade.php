@@ -13,14 +13,6 @@
                 <p>Ver y gestionar tus peñas</p>
             </a>
         </div>
-
-        <!-- Enlace a "Sorteos" -->
-        <div class="column">
-            <a href="{{ route('front.draws.index') }}" class="box has-text-centered">
-                <h2 class="title is-4">Sorteos</h2>
-                <p>Participa en los sorteos</p>
-            </a>
-        </div>
     </div>
 </div>
 @endsection
