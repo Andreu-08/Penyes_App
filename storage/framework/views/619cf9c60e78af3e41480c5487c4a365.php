@@ -48,12 +48,5 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer has-background-dark has-text-light">
-        <div class="content has-text-centered">
-            <p>&copy; 2024 Penyes App. Todos los derechos reservados.</p>
-        </div>
-    </footer>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('home.layouts.home', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/resources/views/home/contact.blade.php ENDPATH**/ ?>

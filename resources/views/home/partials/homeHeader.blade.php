@@ -1,10 +1,10 @@
 <header>
-    <nav class="navbar has-background-primary" role="navigation" aria-label="main navigation">
+    <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #2d2d2d; padding: 1rem;">
         <div class="container">
             <!-- Navbar Brand -->
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
-                    <img src={{ asset('img/back/logoPenyes.png') }} alt="Logo" style="max-height: 5rem;">
+                    <img src="{{ asset('img/back/logoPenyes.png') }}" alt="Logo" style="max-height: 6rem;">
                 </a>
 
                 <!-- Toggle para pantallas pequeñas -->

@@ -15,19 +15,19 @@ class CrewController extends Controller
      */
     public function index(Request $request)
     {
-        // Recuperar valores del formulario de búsqueda
+        // Obtener los datos 
         $search = $request->input('search'); // Búsqueda por nombre
         $capacity = $request->input('capacity'); // Búsqueda por capacidad
     
         // Iniciar consulta base
         $query = Crew::query();
     
-        // Filtrar por nombre (si se proporciona)
+        // Filtrar por nombre 
         if (!empty($search)) {
             $query->where('name', 'like', "%{$search}%");
         }
     
-        // Filtrar por capacidad (si se proporciona)
+        // Filtrar por capacidad 
         if (!empty($capacity)) {
             $query->where('capacity', '<=', (int)$capacity);
         }

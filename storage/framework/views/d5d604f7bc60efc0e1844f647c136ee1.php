@@ -2,7 +2,7 @@
     <!-- Slogan Section -->
     <section class="section has-background-light">
         <div class="container has-text-centered">
-            <h1 class="title-dark">Slogan</h1>
+            <h1 class="title-dark">Les Peñes En Festes</h1>
             <div class="background-image" style="background-image: url('1.png'); height: 300px;">
                 <img src="1.png" alt="foto">
             </div>

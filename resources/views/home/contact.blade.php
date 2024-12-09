@@ -50,11 +50,4 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer has-background-dark has-text-light">
-        <div class="content has-text-centered">
-            <p>&copy; 2024 Penyes App. Todos los derechos reservados.</p>
-        </div>
-    </footer>
 @endsection
