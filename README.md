@@ -7,21 +7,49 @@ Bienvenido a **Penyes App**, un proyecto para gestionar las festividades de un p
 ## 🚀 Configuración Inicial
 
 ### Tecnologías y Configuración
+
 Este proyecto está basado en **Laravel 11** y utiliza **Docker** para su entorno de desarrollo, junto con una arquitectura de contenedores que incluye Nginx, MariaDB, y Mailhog para gestionar los correos de verificación en un entorno seguro y aislado.
 
 1. **Clona el repositorio**:
-   ```bash
-   git clone https://github.com/tu-usuario/penyes-app.git
-   cd penyes-app
-1. **Inicia Docker**:
     
     ```bash
-    docker-compose up    
+    git clone https://github.com/Andreu-08/Penyes_App.git
+    cd penyes-app
     ```
     
-2. **Accede a la aplicación** en [http://localhost:8080](http://localhost:8080/).
+2. **Configura Docker**:
+    - Actualiza tu usuario en el archivo `docker.compose.override`.
+3. **Inicia Docker**:
+    
+    ```bash
+    docker-compose up -d --build
+    ```
+    
+4. **Ejecuta migraciones y seeders**:
+    - Accede al contenedor:
 
-**Docker** gestiona todos los contenedores, así que no necesitas configuraciones adicionales de bases de datos o servidores web. Simplemente levanta el contenedor y ¡listo!
+        ```bash
+        docker exec -it penyes-app /bin/bash
+        ```
+        
+    - Ejecuta los comandos:
+        
+        ```bash
+        php artisan migrate --seed
+        ```
+        
+    
+    Esto configurará las tablas necesarias, creará roles (`Admin` y `User`), y generará datos iniciales, como:
+    
+    - **5 peñas ficticias** para pruebas.
+    - **Usuarios preconfigurados**:
+        - **Admin**:
+            - Email: `admin@admin.com`
+            - Contraseña: `administrador`
+        - **User**:
+            - Email: `user@user.com`
+            - Contraseña: `usuario`
+5. **Accede a la aplicación** en [http://localhost:8080](http://localhost:8080/).
 
 ---
 
@@ -34,6 +62,7 @@ La Home Page es la cara visible de Penyes App para los visitantes que aún no es
 - **Slogan y Foto Principal**: Una imagen que representa el espíritu de las peñas y un eslogan atractivo.
 - **Carrusel de Actividades**: Aquí se muestran imágenes de eventos y actividades pasadas.
 - **Secciones de Actividades y Horarios**: Los visitantes pueden ver un horario general de las actividades.
+- **Contacto y FAQ**: Incluye un formulario para enviar correos directamente desde la aplicación.
 - **Footer con Ubicaciones**: Información adicional sobre dónde se celebran las actividades.
 
 <img src="readme_img/homepage.png" alt="Home Page" width="600">
@@ -42,13 +71,13 @@ La Home Page es la cara visible de Penyes App para los visitantes que aún no es
 
 ## 🧭 Front Office - Vista de Usuario
 
-Esta es la vista para usuarios registrados. Después de hacer login, los usuarios pueden explorar las peñas, solicitar unirse a una, y ver detalles como su posición en el sorteo anual de ubicaciones.
+Esta es la vista para usuarios registrados. Después de hacer login, los usuarios pueden explorar las peñas, solicitar unirse a una, y gestionar su perfil.
 
-### Vista del Front Office
+### Funcionalidades del Front Office
 
-- **Lista de Peñas**: Los usuarios pueden ver las peñas disponibles y enviar solicitudes para unirse a una.
-- **Sorteos y Ubicaciones**: Cada peña se asigna aleatoriamente a una posición en un "carrusel" de ubicaciones anuales.
-- **Perfil de Usuario**: Aquí pueden ver sus datos, solicitudes de membresía y estado de pagos.
+- **Explorar Peñas**: Visualizar una lista de peñas disponibles y detalles específicos presionando "Ver".
+- **Solicitar Membresía**: Permite a los usuarios solicitar unirse a una peña específica, con confirmación pendiente del administrador.
+- **Perfil de Usuario**: Gestionar y modificar datos personales, ver estado de membresías y pagos.
 
 <img src="readme_img/fronoffice.png" alt="Front Office" width="600">
 
@@ -60,9 +89,12 @@ La vista de Back Office está diseñada exclusivamente para el administrador. Es
 
 ### Funcionalidades del Back Office
 
-- **Gestión de Usuarios y Peñas**: El administrador puede agregar, editar y eliminar usuarios y peñas.
-- **Sorteos Anuales**: Asigna ubicaciones a las peñas de forma aleatoria para cada año y mantiene un historial.
-- **Pagos de Membresía**: Aunque sea un simulacro, esta funcionalidad permite al administrador registrar y gestionar pagos.
+- **CRUD de Usuarios y Peñas**:
+    - Ver, crear, editar y eliminar usuarios y peñas.
+    - Confirmar solicitudes de membresía desde el perfil del usuario.
+    - Enviar correos desde la vista individual de usuarios.
+- **Sorteos y Pagos**:
+    - Aunque las rutas están configuradas, estas funcionalidades están pendientes de implementación.
 
 <img src="readme_img/backoffice.png" alt="Back Office" width="600">
 
@@ -72,10 +104,20 @@ La vista de Back Office está diseñada exclusivamente para el administrador. Es
 
 - **Laravel 11**: El framework backend.
 - **Docker**: Para el entorno de contenedores.
-- **MariaDB**: Base de datos para almacenar usuarios, peñas, y sorteos.
+- **MariaDB**: Base de datos para almacenar usuarios, peñas y sorteos.
 - **Mailhog**: Herramienta de testing para el envío de correos de verificación.
 - **Bulma CSS (CDN)**: Estiliza la interfaz de usuario de una forma sencilla y elegante.
 
 ---
+
+## 📝 Estado Actual del Proyecto
+
+1. **Funcionalidades activas**:
+    - Visualización y gestión de peñas.
+    - Solicitudes de membresía.
+    - Gestión de usuarios y control administrativo.
+2. **Aspectos por implementar**:
+    - Funcionalidades completas para sorteos y pagos.
+    - Mejora del diseño temporal para reflejar un estilo más pulido.
 
 ¡Gracias por explorar Penyes App! 🎉 Este proyecto está diseñado para ser una herramienta amigable y flexible para gestionar eventos locales.
