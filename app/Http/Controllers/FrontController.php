@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 class FrontController extends Controller
 {
-    // En FrontController.php
+    /**
+     * Display the front office home page.
+     */
     public function index()
     {
         return view('front.frontHome'); // Vista para el front office

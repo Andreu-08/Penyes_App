@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 class MembershipController extends Controller
 {
+    //funcion para controlar la confirmacion de la membresia
     public function confirm(Request $request, Crew $crew, User $user)
     {
         $crew->users()->updateExistingPivot($user->id, ['confirmed' => true]);

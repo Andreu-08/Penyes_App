@@ -3,7 +3,7 @@
 <?php $__env->startSection('content'); ?>
 <div class="container">
     <h1 class="title">Bienvenido a Les Penyes</h1>
-    <p class="subtitle">Gestiona tu experiencia en las fiestas</p>
+    
 
     <div class="columns">
         <!-- Enlace a "Peñas" -->
