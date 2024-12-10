@@ -38,7 +38,6 @@ Este proyecto está basado en **Laravel 11** y utiliza **Docker** para su entorn
         php artisan migrate --seed
         ```
         
-    
     Esto configurará las tablas necesarias, creará roles (`Admin` y `User`), y generará datos iniciales, como:
     
     - **5 peñas ficticias** para pruebas.
@@ -49,6 +48,16 @@ Este proyecto está basado en **Laravel 11** y utiliza **Docker** para su entorn
         - **User**:
             - Email: `user@user.com`
             - Contraseña: `usuario`
+
+5. **Compila los assets de frontend**:
+    
+    ```bash
+    npm install
+    npm run dev
+    ```
+
+    Esto compilará los archivos CSS y JavaScript necesarios para el frontend del proyecto.
+
 5. **Accede a la aplicación** en [http://localhost:8080](http://localhost:8080/).
 
 ---
