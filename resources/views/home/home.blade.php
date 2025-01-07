@@ -1,13 +1,14 @@
-{{-- vista para configurar la home page que estiende de los layouts y partials principales --}}
+{{-- vista para configurar la home page que extiende de los layouts y partials principales --}}
 @extends('home.layouts.home')
 
 @section('content')
+
     <!-- Slogan Section -->
-    <section class="section has-background-light">
-        <div class="container has-text-centered">
-            <h1 class="title-dark">Les Peñes En Festes</h1>
-            <div class="background-image" style="background-image: url('1.png'); height: 300px;">
-                <img src="1.png" alt="foto">
+    <section class="hero is-medium is-primary" style="background-image: url('{{ asset('img/home/unnamed.jpg') }}'); background-size: cover; background-position: center;">
+        <div class="hero-body has-text-centered">
+            <div class="container">
+                <h1 class="title is-1 has-text-white has-text-weight-bold">Les Peñes En Festes</h1>
+                <p class="subtitle has-text-white">Celebrando juntos con alegría y tradición</p>
             </div>
         </div>
     </section>
@@ -16,21 +17,25 @@
     <section class="section">
         <div class="container">
             <div class="carousel">
-                <!-- Placeholder de imágenes del carousel -->
-                <div class="carousel-item"><img src="/path/to/image1.jpg" alt="Image 1"></div>
-                <div class="carousel-item"><img src="/path/to/image2.jpg" alt="Image 2"></div>
-                <div class="carousel-item"><img src="/path/to/image3.jpg" alt="Image 3"></div>
+                <div class="carousel-item">
+                    <img src="{{ asset('img/carousel/image1.jpg') }}" alt="Fiesta 1" class="responsive-img">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('img/carousel/image2.jpg') }}" alt="Fiesta 2" class="responsive-img">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{ asset('img/carousel/image3.jpg') }}" alt="Fiesta 3" class="responsive-img">
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Activitats i Horaris Section -->
-    <section class="section">
+    <section class="section has-background-light">
         <div class="container">
             <div class="box">
-                <h2 class="title">Activitats i Horaris</h2>
-                <!-- Añadir actividades y horarios aquí -->
-                <p>Contenido de actividades y horarios...</p>
+                <h2 class="title is-4 has-text-centered">Activitats i Horaris</h2>
+                <p class="has-text-centered">Consulta el calendario de eventos y actividades programadas para no perderte nada.</p>
             </div>
         </div>
     </section>
@@ -38,21 +43,24 @@
     <!-- About Section -->
     <section class="section">
         <div class="container">
-            <div class="box">
-                <h2 class="title">About</h2>
-                <p>Descripción de la plataforma y las peñas...</p>
-                <a href="{{ url('/contact') }}" class="button is-link">Contáctanos</a> <!-- Enlace a la página de contacto -->
+            <div class="box has-background-white">
+                <h2 class="title is-4 has-text-centered">Sobre Nosotros</h2>
+                <p class="has-text-centered">
+                    Descubre el espíritu de nuestras peñas y cómo trabajamos para ofrecer las mejores fiestas del año.
+                </p>
+                <div class="has-text-centered">
+                    <a href="{{ url('/contact') }}" class="button is-link is-rounded mt-4">Contáctanos</a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Ubicaciones Section -->
-    <section class="section">
+    <section class="section has-background-light">
         <div class="container">
             <div class="box">
-                <h2 class="title">Ubicaciones</h2>
-                <!-- Añadir mapa o información de ubicaciones aquí -->
-                <p>Mapa o información sobre las ubicaciones...</p>
+                <h2 class="title is-4 has-text-centered">Ubicaciones</h2>
+                <p class="has-text-centered">Consulta las ubicaciones de las principales actividades y eventos en nuestro mapa interactivo.</p>
             </div>
         </div>
     </section>

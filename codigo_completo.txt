@@ -1,0 +1,2073 @@
+{{-- resources/views/auth/verify-email.blade.php --}}
+@include('home.partials.head')
+<body>
+    <main class="section">
+        <div class="container">
+            <!-- Mensaje de verificación -->
+            <section class="box">
+                <p class="has-text-centered is-size-5">
+                    ¡Gracias por registrarte! Antes de comenzar, ¿podrías verificar tu dirección de correo haciendo clic en el enlace que te enviamos? Si no recibiste el correo, con gusto te enviaremos otro.
+                </p>
+            </section>
+
+            <!-- Mensaje de enlace de verificación reenviado -->
+            @if (session('status') == 'verification-link-sent')
+                <section class="notification is-success mt-4">
+                    <p>Un nuevo enlace de verificación ha sido enviado a la dirección de correo que proporcionaste durante el registro.</p>
+                </section>
+            @endif
+
+            <!-- Formularios de Reenvío de Verificación y Cierre de Sesión -->
+            <section class="box mt-5">
+                <div class="field is-grouped is-justify-content-center">
+                    <!-- Botón para reenviar el enlace de verificación -->
+                    <form method="POST" action="{{ route('verification.send') }}" class="mr-3">
+                        @csrf
+                        <button type="submit" class="button is-link">Reenviar Correo de Verificación</button>
+                    </form>
+
+                    <!-- Botón para cerrar sesión -->
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="button is-danger">Cerrar Sesión</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
+@include('home.partials.head')
+<body>
+    <main class="section">
+        <div class="container">
+            <!-- Estado de la sesión (si existe un mensaje de estado) -->
+            @if (session('status'))
+                <section class="notification is-success has-text-centered">
+                    <p>{{ session('status') }}</p>
+                </section>
+            @endif
+
+            <!-- Formulario para solicitar el enlace de recuperación de contraseña -->
+            <section class="box mt-5">
+                <h2 class="title has-text-centered">Recuperar Contraseña</h2>
+                <form method="POST" action="{{ route('password.email') }}">
+                    @csrf
+
+                    <!-- Campo de correo electrónico -->
+                    <div class="field">
+                        <label for="email" class="label">Correo Electrónico</label>
+                        <div class="control">
+                            <input id="email" class="input" type="email" name="email" value="{{ old('email') }}" required autofocus>
+                        </div>
+
+                        @if ($errors->has('email'))
+                            <p class="help is-danger">{{ $errors->first('email') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Botón para enviar el enlace de recuperación -->
+                    <div class="field is-grouped is-justify-content-center">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">
+                                Enviar Enlace de Recuperación de Contraseña
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+</html>@include('home.partials.head')
+<body>
+    <main class="section">
+        <div class="container">
+            <!-- Sección de mensaje de confirmación -->
+            <section class="box">
+                <header class="content has-text-centered">
+                    <p class="is-size-5 has-text-weight-semibold">
+                        Esta es una área segura de la aplicación. Por favor, confirma tu contraseña antes de continuar.
+                    </p>
+                </header>
+            </section>
+
+            <!-- Sección del formulario de confirmación de contraseña -->
+            <section class="box mt-5">
+                <form method="POST" action="{{ route('password.confirm') }}">
+                    @csrf
+
+                    <!-- Campo de contraseña -->
+                    <div class="field">
+                        <label for="password" class="label">Contraseña</label>
+                        <div class="control">
+                            <input id="password" class="input" type="password" name="password" required autocomplete="current-password">
+                        </div>
+                        
+                        @if ($errors->has('password'))
+                            <p class="help is-danger">{{ $errors->first('password') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Botón de confirmación -->
+                    <div class="field is-grouped is-justify-content-center">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">
+                                Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
+
+{{-- resources/views/auth/reset-password.blade.php --}}
+@include('home.partials.head')
+<body>
+    <main class="section">
+        <div class="container">
+            <section class="box">
+                <h1 class="title has-text-centered">Restablecer Contraseña</h1>
+
+                <!-- Formulario de restablecimiento de contraseña -->
+                <form method="POST" action="{{ route('password.store') }}" class="mt-5">
+                    @csrf
+
+                    <!-- Token de Restablecimiento de Contraseña -->
+                    <input type="hidden" name="token" value="{{ $request->route('token') }}">
+
+                    <!-- Campo de correo electrónico -->
+                    <div class="field">
+                        <label for="email" class="label">Correo Electrónico</label>
+                        <div class="control">
+                            <input id="email" type="email" class="input" name="email" value="{{ old('email', $request->email) }}" required autofocus autocomplete="username">
+                        </div>
+                        @if ($errors->has('email'))
+                            <p class="help is-danger">{{ $errors->first('email') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Campo de nueva contraseña -->
+                    <div class="field">
+                        <label for="password" class="label">Nueva Contraseña</label>
+                        <div class="control">
+                            <input id="password" type="password" class="input" name="password" required autocomplete="new-password">
+                        </div>
+                        @if ($errors->has('password'))
+                            <p class="help is-danger">{{ $errors->first('password') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Campo de confirmación de nueva contraseña -->
+                    <div class="field">
+                        <label for="password_confirmation" class="label">Confirmar Nueva Contraseña</label>
+                        <div class="control">
+                            <input id="password_confirmation" type="password" class="input" name="password_confirmation" required autocomplete="new-password">
+                        </div>
+                        @if ($errors->has('password_confirmation'))
+                            <p class="help is-danger">{{ $errors->first('password_confirmation') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Botón de restablecimiento -->
+                    <div class="field is-grouped is-justify-content-center">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">Restablecer Contraseña</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
+    @extends('home.layouts.home')
+    
+    @section('content')
+    <section class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">Iniciar Sesión</h1>
+
+            <!-- Estado de la sesión (si existe un mensaje de estado) -->
+            @if (session('status'))
+                <div class="notification is-success has-text-centered">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            <!-- Formulario de inicio de sesión -->
+            <form method="POST" action="{{ route('login') }}" class="box mt-5">
+                @csrf
+
+                <!-- Campo de correo electrónico -->
+                <div class="field">
+                    <label for="email" class="label">Correo Electrónico</label>
+                    <div class="control">
+                        <input id="email" type="email" name="email" value="{{ old('email') }}" class="input" required autofocus autocomplete="username">
+                    </div>
+                    @if ($errors->has('email'))
+                        <p class="help is-danger">{{ $errors->first('email') }}</p>
+                    @endif
+                </div>
+
+                <!-- Campo de contraseña -->
+                <div class="field">
+                    <label for="password" class="label">Contraseña</label>
+                    <div class="control">
+                        <input id="password" type="password" name="password" class="input" required autocomplete="current-password">
+                    </div>
+                    @if ($errors->has('password'))
+                        <p class="help is-danger">{{ $errors->first('password') }}</p>
+                    @endif
+                </div>
+
+                <!-- Opción de recordar sesión -->
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox" name="remember">
+                        Recordarme
+                    </label>
+                </div>
+
+                <!-- Botón de inicio de sesión y enlace de recuperación -->
+                <div class="field is-grouped is-justify-content-space-between">
+                    <div class="control">
+                        @if (Route::has('password.request'))
+                            <a class="is-link" href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
+                        @endif
+                    </div>
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Iniciar Sesión</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </section>
+@endsection
+{{-- resources/views/auth/register.blade.php --}}
+@extends('home.layouts.home')
+@section('content')
+<body>
+    <main class="section">
+        <div class="container">
+            <section class="box">
+                <h1 class="title has-text-centered">Registro</h1>
+
+                <!-- Formulario de registro -->
+                <form method="POST" action="{{ route('register') }}" class="mt-5">
+                    @csrf
+
+                    <!-- Campo de nombre -->
+                    <div class="field">
+                        <label for="name" class="label">Nombre</label>
+                        <div class="control">
+                            <input id="name" type="text" class="input" name="name" value="{{ old('name') }}" required autofocus autocomplete="name">
+                        </div>
+                        @if ($errors->has('name'))
+                            <p class="help is-danger">{{ $errors->first('name') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Campo de apellido -->
+                    <div class="field">
+                        <label for="surname" class="label">Apellido</label>
+                        <div class="control">
+                            <input id="surname" type="text" class="input" name="surname" value="{{ old('surname') }}" required autocomplete="surname">
+                        </div>
+                        @if ($errors->has('surname'))
+                            <p class="help is-danger">{{ $errors->first('surname') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Campo de fecha de nacimiento -->
+                    <div class="field">
+                        <label for="birthday" class="label">Fecha de Nacimiento</label>
+                        <div class="control">
+                            <input id="birthday" type="date" class="input" name="birthday" value="{{ old('birthday') }}" required autocomplete="birthday">
+                        </div>
+                        @if ($errors->has('birthday'))
+                            <p class="help is-danger">{{ $errors->first('birthday') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Campo de correo electrónico -->
+                    <div class="field">
+                        <label for="email" class="label">Correo Electrónico</label>
+                        <div class="control">
+                            <input id="email" type="email" class="input" name="email" value="{{ old('email') }}" required autocomplete="username">
+                        </div>
+                        @if ($errors->has('email'))
+                            <p class="help is-danger">{{ $errors->first('email') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Campo de contraseña -->
+                    <div class="field">
+                        <label for="password" class="label">Contraseña</label>
+                        <div class="control">
+                            <input id="password" type="password" class="input" name="password" required autocomplete="new-password">
+                        </div>
+                        @if ($errors->has('password'))
+                            <p class="help is-danger">{{ $errors->first('password') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Campo de confirmar contraseña -->
+                    <div class="field">
+                        <label for="password_confirmation" class="label">Confirmar Contraseña</label>
+                        <div class="control">
+                            <input id="password_confirmation" type="password" class="input" name="password_confirmation" required autocomplete="new-password">
+                        </div>
+                        @if ($errors->has('password_confirmation'))
+                            <p class="help is-danger">{{ $errors->first('password_confirmation') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- Enlace para iniciar sesión y botón de registro -->
+                    <div class="field is-grouped is-justify-content-space-between">
+                        <div class="control">
+                            <a href="{{ route('login') }}" class="is-link">¿Ya estás registrado?</a>
+                        </div>
+                        <div class="control">
+                            <button type="submit" class="button is-primary">Registrar</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
+@endsection<form method="GET" action="{{ route('back.users.index') }}">
+    <div class="field has-addons">
+        <div class="control is-expanded">
+            <input 
+                type="text" 
+                name="search" 
+                class="input is-small" 
+                placeholder="Buscar por nombre o email" 
+                value="{{ request('search') }}">
+        </div>
+        <div class="control">
+            <button type="submit" class="button is-small is-primary">Buscar</button>
+        </div>
+    </div>
+</form>
+
+<aside class="menu has-background-light has-text-dark" style="width: 150px; padding: 1rem;">
+    <!-- Logo -->
+    <p class="menu-label has-text-centered">
+        <a href="{{ route('back.backHome') }}">
+            <img src="{{ asset('img/back/logoPenyes.png') }}" alt="Penyes App Logo" style="width: 100%; max-width: 100px; height: auto; margin: 0 auto;">
+        </a>
+    </p>
+
+    <!-- Espacio entre el logo y los enlaces -->
+    <hr class="has-background-dark" style="opacity: 0.2;">
+
+    <!-- Enlaces del menú -->
+    <ul class="menu-list">
+        <li>
+            <a href="{{ route('back.users.index') }}" class="has-text-dark" style="text-decoration: none;">Usuarios</a>
+        </li>
+        <li>
+            <a href="{{ route('back.crews.index') }}" class="has-text-dark" style="text-decoration: none;">Peñas</a>
+        </li>
+        <li>
+            <a href="{{ route('back.platforms.index') }}" class="has-text-dark" style="text-decoration: none;">Carafales</a>
+        </li>
+        <li>
+            <a href="{{ route('back.draws.index') }}" class="has-text-dark" style="text-decoration: none;">Sorteos</a>
+        </li>
+        <li>
+            <a href="{{ route('back.payments.index') }}" class="has-text-dark" style="text-decoration: none;">Pagos</a>
+        </li>
+    </ul>
+</aside>
+
+<footer style="background-color: #ffffff; border-top: 1px solid #eaeaea; padding: 1rem 0; text-align: center;">
+    <p style="font-size: 0.9rem; color: #7a7a7a;">
+        © 2024 Back Office Penyes App.
+    </p>
+</footer>
+<div class="box mt-5">
+    <h2 class="title is-5">Últimos 3 Crews Añadidos</h2>
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha de Creación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($lastCrews as $crew)
+                <tr>
+                    <td>{{ $crew->name }}</td>
+                    <td>{{ $crew->created_at->format('d/m/Y H:i') }}</td>
+                    <td>
+                        <a href="{{ route('back.crews.show', $crew->id) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#3498db" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.05" d="M2.5 12c0-4.478 0-6.718 1.391-8.109S7.521 2.5 12 2.5c4.478 0 6.718 0 8.109 1.391S21.5 7.521 21.5 12c0 4.478 0 6.718-1.391 8.109S16.479 21.5 12 21.5c-4.478 0-6.718 0-8.109-1.391S2.5 16.479 2.5 12M11 7h6M7 7h1m-1 5h1m-1 5h1m3-5h6m-6 5h6" color="#3498db"/></svg>                                
+                        </a>
+                        </a>
+                        <a href="{{ route('back.crews.edit', $crew->id) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#f39c12" stroke-linecap="round" stroke-linejoin="round" d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0zM15 6l3 3m-5 11h8"/></svg>
+                        </a>
+                        <form action="{{ route('back.crews.destroy', $crew->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button 
+                                type="submit" 
+                                onclick="return confirm('¿Estás seguro de que quieres eliminar este crew?')"
+                                style="border: none; background: none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><path fill="#e74c3c" d="M20 10.5v.5h8v-.5a4 4 0 0 0-8 0m-2.5.5v-.5a6.5 6.5 0 1 1 13 0v.5h11.25a1.25 1.25 0 1 1 0 2.5h-2.917l-2 23.856A7.25 7.25 0 0 1 29.608 44H18.392a7.25 7.25 0 0 1-7.224-6.644l-2-23.856H6.25a1.25 1.25 0 1 1 0-2.5zm-3.841 26.147a4.75 4.75 0 0 0 4.733 4.353h11.216a4.75 4.75 0 0 0 4.734-4.353L36.324 13.5H11.676zM21.5 20.25a1.25 1.25 0 1 0-2.5 0v14.5a1.25 1.25 0 1 0 2.5 0zM27.75 19c.69 0 1.25.56 1.25 1.25v14.5a1.25 1.25 0 1 1-2.5 0v-14.5c0-.69.56-1.25 1.25-1.25"/></svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="3" class="has-text-centered">No se han añadido crews recientemente.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Back Office</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Enlace a app.css -->
+    @vite('resources/css/app.css')
+</head>
+<!-- Header -->
+<header class="navbar has-background-light" style="padding: 1rem;">
+    <div class="container is-fluid">
+        <div class="navbar-brand" style="align-items: center;">
+            <!-- Breadcrumbs para la ruta actual -->
+            <nav class="breadcrumb is-small has-succeeds-separator mb-0" aria-label="breadcrumbs" style="color: #333;">
+                <ul>
+                    <li>
+                        <a href="{{ route('back.backHome') }}" class="has-text-dark">
+                            <span>Back Office</span>
+                        </a>
+                    </li>
+                    @if(View::hasSection('breadcrumbs'))
+                        @yield('breadcrumbs')
+                    @endif
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Menú desplegable del usuario -->
+        <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link has-text-dark">
+                    {{ Auth::user()->name }} <!-- Mostrar el nombre del usuario -->
+                </a>
+                <div class="navbar-dropdown is-right">
+                    <a href="{{ route('profile.edit') }}" class="navbar-item">
+                        <span>Profile</span>
+                    </a>
+                    <hr class="navbar-divider">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="button is-light is-fullwidth">
+                            <span>Log Out</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<form method="GET" action="{{ route('back.crews.index') }}">
+    <div class="field has-addons">
+        <!-- Campo de búsqueda por nombre -->
+        <div class="control is-expanded">
+            <input 
+                type="text" 
+                name="search" 
+                class="input is-small" 
+                placeholder="Buscar por nombre" 
+                value="{{ request('search') }}">
+        </div>
+
+        <!-- Campo de búsqueda por capacidad -->
+        <div class="control">
+            <input 
+                type="number" 
+                name="capacity" 
+                class="input is-small" 
+                placeholder="Capacidad máxima" 
+                value="{{ request('capacity') }}">
+        </div>
+
+        <!-- Botón de búsqueda -->
+        <div class="control">
+            <button type="submit" class="button is-small is-primary">Buscar</button>
+        </div>
+    </div>
+</form>
+
+
+<div class="box mt-5">
+    <h2 class="title is-5">Últimos 3 Usuarios Añadidos</h2>
+    <table class="table is-fullwidth is-hoverable is-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha de Creación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($lastUsers as $user)
+                <tr>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
+                    <td>
+                        <a href="{{ route('back.users.show', $user->id) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><path fill="#3498db" d="M12 4a5 5 0 1 1-5 5a5 5 0 0 1 5-5m0-2a7 7 0 1 0 7 7a7 7 0 0 0-7-7m10 28h-2v-5a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v5H2v-5a7 7 0 0 1 7-7h6a7 7 0 0 1 7 7zm0-26h10v2H22zm0 5h10v2H22zm0 5h7v2h-7z"/></svg>
+                        </a>
+                        <a href="{{ route('back.users.edit', $user->id) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#f39c12" stroke-linecap="round" stroke-linejoin="round" d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0zM15 6l3 3m-5 11h8"/></svg>
+                        </a>
+                        <form action="{{ route('back.users.destroy', $user->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" 
+                            onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')"
+                            style="border: none; background: none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><path fill="#e74c3c" d="M20 10.5v.5h8v-.5a4 4 0 0 0-8 0m-2.5.5v-.5a6.5 6.5 0 1 1 13 0v.5h11.25a1.25 1.25 0 1 1 0 2.5h-2.917l-2 23.856A7.25 7.25 0 0 1 29.608 44H18.392a7.25 7.25 0 0 1-7.224-6.644l-2-23.856H6.25a1.25 1.25 0 1 1 0-2.5zm-3.841 26.147a4.75 4.75 0 0 0 4.733 4.353h11.216a4.75 4.75 0 0 0 4.734-4.353L36.324 13.5H11.676zM21.5 20.25a1.25 1.25 0 1 0-2.5 0v14.5a1.25 1.25 0 1 0 2.5 0zM27.75 19c.69 0 1.25.56 1.25 1.25v14.5a1.25 1.25 0 1 1-2.5 0v-14.5c0-.69.56-1.25 1.25-1.25"/></svg>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="3" class="has-text-centered">No se han añadido usuarios recientemente.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+@extends('back.layouts.back')
+
+ {{-- seccion para que aparezca el poth de la pagina en el header  --}}
+    @section('breadcrumbs')
+        <li>
+            <a href="{{ route('back.crews.index') }}" class="has-text-grey">Peñas</a>
+        </li>
+        <li>
+            <a href="{{ route('back.crews.edit', $crew->id) }}" class="has-text-grey">
+                Editar: {{ $crew->name }}
+            </a>
+        </li>
+    @endsection
+
+
+
+@section('content')
+<body>
+    <main class="section">
+        <div class="container">
+            <section class="box">
+                <h1 class="title has-text-centered">Editar Peña</h1>
+
+                <!-- Formulario de edición -->
+                <form method="POST" action="{{ route('back.crews.update', $crew->id) }}" class="mt-5">
+                    @csrf
+                    @method('PUT') <!-- Indica que estamos realizando una actualización -->
+
+                    <div class="columns is-multiline">
+                        <!-- Campo de nombre -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="name" class="label">Nombre</label>
+                                <div class="control">
+                                    <input id="name" type="text" class="input" name="name" value="{{ old('name', $crew->name) }}" required autocomplete="name">
+                                </div>
+                                @if ($errors->has('name'))
+                                    <p class="help is-danger">{{ $errors->first('name') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Campo de color -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="color" class="label">Color</label>
+                                <div class="control">
+                                    <input id="color" type="text" class="input" name="color" value="{{ old('color', $crew->color) }}" required autocomplete="color">
+                                </div>
+                                @if ($errors->has('color'))
+                                    <p class="help is-danger">{{ $errors->first('color') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Campo de slogan -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="slogan" class="label">Slogan</label>
+                                <div class="control">
+                                    <input id="slogan" type="text" class="input" name="slogan" value="{{ old('slogan', $crew->slogan) }}" required autocomplete="slogan">
+                                </div>
+                                @if ($errors->has('slogan'))
+                                    <p class="help is-danger">{{ $errors->first('slogan') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Campo de capacidad -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="capacity" class="label">Capacidad</label>
+                                <div class="control">
+                                    <input id="capacity" type="number" class="input" name="capacity" value="{{ old('capacity', $crew->capacity) }}" required autocomplete="capacity">
+                                </div>
+                                @if ($errors->has('capacity'))
+                                    <p class="help is-danger">{{ $errors->first('capacity') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Campo de fecha de fundación -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="foundation" class="label">Fecha de Fundación</label>
+                                <div class="control">
+                                    <input id="foundation" type="date" class="input" name="foundation" value="{{ old('foundation', $crew->foundation) }}" required autocomplete="foundation">
+                                </div>
+                                @if ($errors->has('foundation'))
+                                    <p class="help is-danger">{{ $errors->first('foundation') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="columns is-centered mt-4">
+                        <div class="column is-narrow">
+                            <a href="{{ route('back.crews.index') }}" class="button is-link is-light">Cancelar</a>
+                        </div>
+                        <div class="column is-narrow">
+                            <button type="submit" class="button is-primary">Actualizar Peña</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+@endsection
+@extends('back.layouts.back')
+
+{{-- genera el path en el header para navegar por la aplicacion --}}
+@section('breadcrumbs')
+    <li>
+        <a href="{{ route('back.crews.index') }}" class="has-text-grey">Peñas</a>
+    </li>
+    <li>
+        <a href="{{ route('back.crews.show', $crew->id) }}" class="has-text-grey">{{ $crew->name }}</a>
+    </li>
+@endsection
+
+
+@section('content')
+
+<body>
+    <main class="section">
+        <div class="container">
+            <!-- Título -->
+            <h1 class="title has-text-centered">Detalles de la Peña</h1>
+
+            <!-- Tarjeta con información de la peña -->
+            <div class="card mt-5">
+                <div class="card-content">
+                    <!-- Imagen e Información lado a lado -->
+                    <div class="columns is-vcentered">
+                        <!-- Columna de la imagen -->
+                        <div class="column is-one-third">
+                            <figure class="image is-square" style="max-width: 250px; margin: 0 auto;">
+                                <img src="{{ asset('images/placeholder-crew.jpg') }}" alt="Imagen de la Peña">
+                            </figure>
+                        </div>
+
+                        <!-- Columna de la información -->
+                        <div class="column">
+                            <h2 class="title is-4">{{ $crew->name }}</h2>
+                            <p><strong>Color:</strong> {{ $crew->color }}</p>
+                            <p><strong>Slogan:</strong> {{ $crew->slogan }}</p>
+                            <p><strong>Capacidad:</strong> {{ $crew->capacity }} miembros</p>
+                            <p><strong>Fecha de Fundación:</strong> {{ $crew->foundation }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón para volver atrás -->
+                <div class="card-footer">
+                    <div class="card-footer-item">
+                        <a href="{{ route('back.crews.index') }}" class="button is-primary">Volver a la Lista</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+@endsection
+@extends('back.layouts.back')
+
+@section('breadcrumbs')
+    <li>
+        <a href="{{ route('back.crews.index') }}" class="has-text-grey">Peñas</a>
+    </li>
+@endsection
+
+
+@section('content')
+<body>
+    <main class="section">
+       
+        <div class="container is-fluid">
+            <!-- Encabezado con título y botón -->
+            <div class="columns is-vcentered mb-5">
+                <!-- Columna del título -->
+                <div class="column">
+                    <h1 class="title">Lista de Peñas</h1>
+                </div>
+            
+                <!-- Columna para el formulario de búsqueda -->
+                <div class="column is-two-fifths">
+                    @include('back.partials.searchCrews')
+                </div>
+            
+                <!-- Columna para el botón de "Crear Usuario" -->
+                <div class="column is-narrow">
+                    <a href="{{ route('back.crews.create') }}" class="button is-success">Crear Peña</a>
+                </div>
+            </div>
+
+            <!-- Tabla de crews -->
+            <div class="box">
+                <table class="table is-fullwidth is-hoverable is-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Color</th>
+                            <th>Slogan</th>
+                            <th>Capacidad</th>
+                            <th>Fundación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($crews as $crew)
+                        <tr>
+                            <td>{{ $crew->name }}</td>
+                            <td>{{ $crew->color }}</td>
+                            <td>{{ $crew->slogan }}</td>
+                            <td>{{ $crew->capacity }}</td>
+                            <td>{{ $crew->foundation }}</td>
+                            <td>
+                                <a href="{{ route('back.crews.show', $crew->id) }}" >
+                                    {{-- show --}}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#3498db" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.05" d="M2.5 12c0-4.478 0-6.718 1.391-8.109S7.521 2.5 12 2.5c4.478 0 6.718 0 8.109 1.391S21.5 7.521 21.5 12c0 4.478 0 6.718-1.391 8.109S16.479 21.5 12 21.5c-4.478 0-6.718 0-8.109-1.391S2.5 16.479 2.5 12M11 7h6M7 7h1m-1 5h1m-1 5h1m3-5h6m-6 5h6" color="#3498db"/></svg>                                </a>
+                                <a href="{{ route('back.crews.edit', $crew->id) }}" >
+                                    {{-- edit --}}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#f39c12" stroke-linecap="round" stroke-linejoin="round" d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0zM15 6l3 3m-5 11h8"/></svg>
+                                </a>
+                                <form action="{{ route('back.crews.destroy', $crew->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    {{-- delete --}}
+                                    <button 
+                                        type="submit" 
+                                        onclick="return confirm('¿Estás seguro de que quieres eliminar este crew?')"
+                                        style="border: none; background: none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><path fill="#e74c3c" d="M20 10.5v.5h8v-.5a4 4 0 0 0-8 0m-2.5.5v-.5a6.5 6.5 0 1 1 13 0v.5h11.25a1.25 1.25 0 1 1 0 2.5h-2.917l-2 23.856A7.25 7.25 0 0 1 29.608 44H18.392a7.25 7.25 0 0 1-7.224-6.644l-2-23.856H6.25a1.25 1.25 0 1 1 0-2.5zm-3.841 26.147a4.75 4.75 0 0 0 4.733 4.353h11.216a4.75 4.75 0 0 0 4.734-4.353L36.324 13.5H11.676zM21.5 20.25a1.25 1.25 0 1 0-2.5 0v14.5a1.25 1.25 0 1 0 2.5 0zM27.75 19c.69 0 1.25.56 1.25 1.25v14.5a1.25 1.25 0 1 1-2.5 0v-14.5c0-.69.56-1.25 1.25-1.25"/></svg>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="has-text-centered has-text-grey-light">No hay crews disponibles.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            <div class="pagination is-centered mt-7">
+                {{ $crews->links('pagination::bootstrap-4') }}
+            </div>
+            @include('back.partials.lastCrews')
+        </div>
+    </main>
+</body>
+@endsection
+@extends('back.layouts.back')
+@section('content')
+
+    @section('breadcrumbs')
+        <li>
+            <a href="{{ route('back.crews.index') }}" class="has-text-grey">Peñas</a>
+        </li>
+        <li>
+            <a href="{{ route('back.crews.create') }}" class="has-text-grey">Crear Peña</a>
+        </li>
+    @endsection
+
+
+<body>
+    <main class="section">
+        <div class="container">
+            <!-- Sección del formulario de creación de crew -->
+            <section class="box">
+                <header>
+                    <h1 class="title has-text-centered">Crear Crew</h1>
+                </header>
+
+                <!-- Formulario de registro de crew -->
+                <form method="POST" action="{{ route('back.crews.store') }}" class="mt-5">
+                    @csrf
+
+                    <article class="columns is-multiline">
+                        <!-- Campo de nombre -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="name" class="label">Nombre</label>
+                                <div class="control">
+                                    <input id="name" type="text" class="input" name="name" value="{{ old('name') }}" required autofocus>
+                                </div>
+                                @error('name')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Campo de color -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="color" class="label">Color</label>
+                                <div class="control">
+                                    <input id="color" type="text" class="input" name="color" value="{{ old('color') }}" required>
+                                </div>
+                                @error('color')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Campo de slogan -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="slogan" class="label">Slogan</label>
+                                <div class="control">
+                                    <input id="slogan" type="text" class="input" name="slogan" value="{{ old('slogan') }}" required>
+                                </div>
+                                @error('slogan')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Campo de capacidad -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="capacity" class="label">Capacidad</label>
+                                <div class="control">
+                                    <input id="capacity" type="number" class="input" name="capacity" value="{{ old('capacity') }}" required>
+                                </div>
+                                @error('capacity')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Campo de fecha de fundación -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="foundation" class="label">Fecha de Fundación</label>
+                                <div class="control">
+                                    <input id="foundation" type="date" class="input" name="foundation" value="{{ old('foundation') }}" required>
+                                </div>
+                                @error('foundation')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Botón de envío -->
+                        <div class="column is-full has-text-centered">
+                            <button type="submit" class="button is-primary is-large">Crear Crew</button>
+                        </div>
+                    </article>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- Notificaciones -->
+    @if (session('success'))
+        <div class="notification is-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="notification is-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+</body>
+@endsection
+{{-- resources/views/back/users/edit.blade.php --}}
+@extends('back.layouts.back')
+
+{{-- seccion para que aparezca el poth de la pagina en el header --}}
+    @section('breadcrumbs')
+        <li>
+            <a href="{{ route('back.users.index') }}" class="has-text-grey">Usuarios</a>
+        </li>
+        <li>
+            <a href="{{ route('back.users.edit', $user->id) }}" class="has-text-grey">
+                Editar: {{ $user->name }}
+            </a>
+        </li>
+    @endsection
+
+@section('content')
+<body>
+    <main class="section">
+        <div class="container">
+            <section class="box">
+                <h1 class="title has-text-centered">Editar Usuario</h1>
+
+                <!-- Formulario de edición -->
+                <form method="POST" action="{{ route('back.users.update', $user->id) }}" class="mt-5">
+                    @csrf
+                    @method('PUT') <!-- Indica que estamos realizando una actualización -->
+
+                    <div class="columns is-multiline">
+                        <!-- Campo de nombre -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="name" class="label">Nombre</label>
+                                <div class="control">
+                                    <input id="name" type="text" class="input" name="name" value="{{ old('name', $user->name) }}" required autocomplete="name">
+                                </div>
+                                @if ($errors->has('name'))
+                                    <p class="help is-danger">{{ $errors->first('name') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Campo de apellido -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="surname" class="label">Apellido</label>
+                                <div class="control">
+                                    <input id="surname" type="text" class="input" name="surname" value="{{ old('surname', $user->surname) }}" required autocomplete="surname">
+                                </div>
+                                @if ($errors->has('surname'))
+                                    <p class="help is-danger">{{ $errors->first('surname') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Campo de fecha de nacimiento -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="birthday" class="label">Fecha de Nacimiento</label>
+                                <div class="control">
+                                    <input id="birthday" type="date" class="input" name="birthday" value="{{ old('birthday', $user->birthday) }}" required autocomplete="birthday">
+                                </div>
+                                @if ($errors->has('birthday'))
+                                    <p class="help is-danger">{{ $errors->first('birthday') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Campo de correo electrónico -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="email" class="label">Correo Electrónico</label>
+                                <div class="control">
+                                    <input id="email" type="email" class="input" name="email" value="{{ old('email', $user->email) }}" required autocomplete="username">
+                                </div>
+                                @if ($errors->has('email'))
+                                    <p class="help is-danger">{{ $errors->first('email') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Campo de rol -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="role" class="label">Rol</label>
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="role" name="role_id">
+                                            <option value="1" {{ old('role_id', $user->role_id) == 1 ? 'selected' : '' }}>Admin</option>
+                                            <option value="2" {{ old('role_id', $user->role_id) == 2 ? 'selected' : '' }}>Usuario</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                @if ($errors->has('role_id'))
+                                    <p class="help is-danger">{{ $errors->first('role_id') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="columns is-centered mt-4">
+                        <div class="column is-narrow">
+                            <a href="{{ route('back.users.index') }}" class="button is-link is-light">Cancelar</a>
+                        </div>
+                        <div class="column is-narrow">
+                            <button type="submit" class="button is-primary">Actualizar Usuario</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</body>
+@endsection
+{{-- resources/views/back/users/show.blade.php --}}
+@extends('back.layouts.back')
+
+@section('breadcrumbs')
+    <li>
+        <a href="{{ route('back.users.index') }}" class="has-text-grey">Usuarios</a>
+    </li>
+    <li>
+        <a href="{{ route('back.users.show', $user->id) }}" class="has-text-grey">{{ $user->name }}</a>
+    </li>
+@endsection
+
+@section('content')
+<main class="section">
+    <div class="container">
+        <section class="box">
+            <h1 class="title has-text-centered">Detalles del Usuario</h1>
+            
+            <!-- Información del usuario en formato de tabla -->
+            <div class="content is-medium mt-5">
+                <table class="table is-fullwidth is-striped">
+                    <tbody>
+                        <tr>
+                            <th class="has-text-weight-semibold">Nombre:</th>
+                            <td>{{ $user->name }}</td>
+                        </tr>
+                        <tr>
+                            <th class="has-text-weight-semibold">Apellido:</th>
+                            <td>{{ $user->surname }}</td>
+                        </tr>
+                        <!-- Otros campos del usuario -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Solicitudes de membresía -->
+            <div class="content is-medium mt-5">
+                <h2 class="title is-4">Solicitudes de Membresía</h2>
+                @if($membershipRequests->isEmpty())
+                    <p>No hay solicitudes de membresía pendientes.</p>
+                @else
+                    <table class="table is-fullwidth is-striped">
+                        <thead>
+                            <tr>
+                                <th>Peña</th>
+                                <th>Año</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($membershipRequests as $crew)
+                                <tr>
+                                    <td>{{ $crew->name }}</td>
+                                    <td>{{ $crew->pivot->year }}</td>
+                                    <td>
+                                        <form method="POST" action="{{ route('back.memberships.confirm', [$crew, $user]) }}">
+                                            @csrf
+                                            <button type="submit" class="button is-primary">Confirmar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
+            </div>
+            <!-- Formulario para enviar correo -->
+            <div class="content is-medium mt-5">
+                <h2 class="title is-4">Enviar Correo</h2>
+                <form method="POST" action="{{ route('back.users.contact', $user->id) }}">
+                    @csrf
+                    <div class="field">
+                        <label class="label">Asunto</label>
+                        <div class="control">
+                            <input class="input" type="text" name="subject" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Mensaje</label>
+                        <div class="control">
+                            <textarea class="textarea" name="message" required></textarea>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button type="submit" class="button is-primary">Enviar</button>
+                    </div>
+                </form>
+            </div>
+
+        </section>
+    </div>
+</main>
+@endsection
+@extends('back.layouts.back')
+
+@section('breadcrumbs')
+    <li>
+        <a href="{{ route('back.users.index') }}" class="has-text-grey">Usuarios</a>
+    </li>
+@endsection
+
+
+@section('content')
+<body>
+    <main class="section">
+
+        <div class="container is-fluid">
+            <!-- Encabezado con título y botón -->
+            <div class="columns is-vcentered mb-5">
+                <!-- Columna del título -->
+                <div class="column">
+                    <h1 class="title">Lista de Usuarios</h1>
+                </div>
+            
+                <!-- Columna para el formulario de búsqueda -->
+                <div class="column is-two-fifths">
+                    @include('back.partials.searchUsers')
+                </div>
+            
+                <!-- Columna para el botón de "Crear Usuario" -->
+                <div class="column is-narrow">
+                    <a href="{{ route('back.users.create') }}" class="button is-success">Crear Usuario</a>
+                </div>
+            </div>
+
+            <!-- Tabla de usuarios -->
+            <div class="box">
+                <table class="table is-fullwidth is-hoverable is-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                            <th>Fecha de Nacimiento</th>
+                            <th>Peña</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $user)
+                        <tr>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->surname }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->birthday }}</td>
+                            <td>
+                                @if ($user->confirmedCrew())
+                                    {{ $user->confirmedCrew()->name }}
+                                @else
+                                    Sin peña
+                                @endif
+                            </td>
+                            <td>{{ $user->role_id == 1 ? 'Admin' : 'Usuario' }}</td>
+                            <td>
+                                <a href="{{ route('back.users.show', $user->id) }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32"><path fill="#3498db" d="M12 4a5 5 0 1 1-5 5a5 5 0 0 1 5-5m0-2a7 7 0 1 0 7 7a7 7 0 0 0-7-7m10 28h-2v-5a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v5H2v-5a7 7 0 0 1 7-7h6a7 7 0 0 1 7 7zm0-26h10v2H22zm0 5h10v2H22zm0 5h7v2h-7z"/></svg>
+                                </a>
+                                <a href="{{ route('back.users.edit', $user->id) }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#f39c12" stroke-linecap="round" stroke-linejoin="round" d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0zM15 6l3 3m-5 11h8"/></svg>
+                                </a>
+                                <form action="{{ route('back.users.destroy', $user->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                    onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')"
+                                    style="border: none; background: none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><path fill="#e74c3c" d="M20 10.5v.5h8v-.5a4 4 0 0 0-8 0m-2.5.5v-.5a6.5 6.5 0 1 1 13 0v.5h11.25a1.25 1.25 0 1 1 0 2.5h-2.917l-2 23.856A7.25 7.25 0 0 1 29.608 44H18.392a7.25 7.25 0 0 1-7.224-6.644l-2-23.856H6.25a1.25 1.25 0 1 1 0-2.5zm-3.841 26.147a4.75 4.75 0 0 0 4.733 4.353h11.216a4.75 4.75 0 0 0 4.734-4.353L36.324 13.5H11.676zM21.5 20.25a1.25 1.25 0 1 0-2.5 0v14.5a1.25 1.25 0 1 0 2.5 0zM27.75 19c.69 0 1.25.56 1.25 1.25v14.5a1.25 1.25 0 1 1-2.5 0v-14.5c0-.69.56-1.25 1.25-1.25"/></svg>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            <div class="pagination is-centered mt-7">
+                {{ $users->links('pagination::bootstrap-4') }}
+            </div>
+
+            @include('back.partials.lastUsers')
+        
+        </div>
+    </main>
+</body>
+@endsection@extends('back.layouts.back')
+@section('content')
+
+    @section('breadcrumbs')
+        <li>
+            <a href="{{ route('back.users.index') }}" class="has-text-grey">Usuarios</a>
+        </li>
+        <li>
+            <a href="{{ route('back.users.create') }}" class="has-text-grey">Crear Usuario</a>
+        </li>
+    @endsection
+
+
+<body>
+    <main class="section">
+        <div class="container">
+            <!-- Sección del formulario de creación de usuario -->
+            <section class="box">
+                <header>
+                    <h1 class="title has-text-centered">Crear Usuario</h1>
+                </header>
+
+                <!-- Formulario de registro de usuario -->
+                <form method="POST" action="{{ route('back.users.store') }}" class="mt-5">
+                    @csrf
+
+                    <article class="columns is-multiline">
+                        <!-- Campo de nombre -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="name" class="label">Nombre</label>
+                                <div class="control">
+                                    <input id="name" type="text" class="input" name="name" value="{{ old('name') }}" required autofocus autocomplete="name">
+                                </div>
+                                @error('name')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Campo de apellido -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="surname" class="label">Apellido</label>
+                                <div class="control">
+                                    <input id="surname" type="text" class="input" name="surname" value="{{ old('surname') }}" required autocomplete="surname">
+                                </div>
+                                @error('surname')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Campo de fecha de nacimiento -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="birthday" class="label">Fecha de Nacimiento</label>
+                                <div class="control">
+                                    <input id="birthday" type="date" class="input" name="birthday" value="{{ old('birthday') }}" required autocomplete="birthday">
+                                </div>
+                                @error('birthday')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Campo de correo electrónico -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="email" class="label">Correo Electrónico</label>
+                                <div class="control">
+                                    <input id="email" type="email" class="input" name="email" value="{{ old('email') }}" required autocomplete="username">
+                                </div>
+                                @error('email')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Campo de contraseña -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="password" class="label">Contraseña</label>
+                                <div class="control">
+                                    <input id="password" type="password" class="input" name="password" required autocomplete="new-password">
+                                </div>
+                                @error('password')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Campo de confirmación de contraseña -->
+                        <div class="column is-half">
+                            <div class="field">
+                                <label for="password_confirmation" class="label">Confirmar Contraseña</label>
+                                <div class="control">
+                                    <input id="password_confirmation" type="password" class="input" name="password_confirmation" required autocomplete="new-password">
+                                </div>
+                                @error('password_confirmation')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Botón de envío -->
+                        <div class="column is-full has-text-centered">
+                            <button type="submit" class="button is-primary is-large">Crear Usuario</button>
+                        </div>
+                    </article>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    @if (session('success'))
+        <div class="notification is-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="notification is-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+</body>
+@endsection
+@extends('back.layouts.back')
+
+@section('content')
+<div class="container">
+    <!-- Título principal -->
+    <div class="content">
+        <h1 class="title is-3 has-text-left mt-5">Bienvenido al BackOffice {{ Auth::user()->name }}</h1>
+        <p class="subtitle has-text-left">Esta es la página principal del panel de administración.</p>
+    </div>
+    <hr>
+    <!-- Tabla de accesos rápidos -->
+    <div class="box">
+        <table class="table is-fullwidth is-hoverable">
+            <tbody>
+                <tr>
+                    <td>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="black" stroke-width="1.05"><circle cx="12" cy="6" r="4"/><path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z" opacity="0.5"/></g></svg>
+                        <strong>Usuarios</strong>
+                    </td>
+                    <td>Gestiona todos los usuarios registrados en el sistema.</td>
+                    <td>
+                        <a href="{{ route('back.users.index') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="none" stroke="#3498db" stroke-linecap="round" stroke-linejoin="round" d="M9 4h10v14a2 2 0 0 1-2 2H9m3-5l3-3m0 0l-3-3m3 3H5"/></svg>                        </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 36 36"><path fill="black" d="M17.9 17.3c2.7 0 4.8-2.2 4.8-4.9s-2.2-4.8-4.9-4.8S13 9.8 13 12.4c0 2.7 2.2 4.9 4.9 4.9m-.1-7.7q.15 0 0 0c1.6 0 2.9 1.3 2.9 2.9s-1.3 2.8-2.9 2.8S15 14 15 12.5c0-1.6 1.3-2.9 2.8-2.9" class="clr-i-outline clr-i-outline-path-1"/><path fill="black" d="M32.7 16.7c-1.9-1.7-4.4-2.6-7-2.5h-.8q-.3 1.2-.9 2.1c.6-.1 1.1-.1 1.7-.1c1.9-.1 3.8.5 5.3 1.6V25h2v-8z" class="clr-i-outline clr-i-outline-path-2"/><path fill="black" d="M23.4 7.8c.5-1.2 1.9-1.8 3.2-1.3c1.2.5 1.8 1.9 1.3 3.2c-.4.9-1.3 1.5-2.2 1.5c-.2 0-.5 0-.7-.1c.1.5.1 1 .1 1.4v.6c.2 0 .4.1.6.1c2.5 0 4.5-2 4.5-4.4c0-2.5-2-4.5-4.4-4.5c-1.6 0-3 .8-3.8 2.2c.5.3 1 .7 1.4 1.3" class="clr-i-outline clr-i-outline-path-3"/><path fill="black" d="M12 16.4q-.6-.9-.9-2.1h-.8c-2.6-.1-5.1.8-7 2.4L3 17v8h2v-7.2c1.6-1.1 3.4-1.7 5.3-1.6c.6 0 1.2.1 1.7.2" class="clr-i-outline clr-i-outline-path-4"/><path fill="black" d="M10.3 13.1c.2 0 .4 0 .6-.1v-.6c0-.5 0-1 .1-1.4c-.2.1-.5.1-.7.1c-1.3 0-2.4-1.1-2.4-2.4S9 6.3 10.3 6.3c1 0 1.9.6 2.3 1.5c.4-.5 1-1 1.5-1.4c-1.3-2.1-4-2.8-6.1-1.5s-2.8 4-1.5 6.1c.8 1.3 2.2 2.1 3.8 2.1" class="clr-i-outline clr-i-outline-path-5"/><path fill="black" d="m26.1 22.7l-.2-.3c-2-2.2-4.8-3.5-7.8-3.4c-3-.1-5.9 1.2-7.9 3.4l-.2.3v7.6c0 .9.7 1.7 1.7 1.7h12.8c.9 0 1.7-.8 1.7-1.7v-7.6zm-2 7.3H12v-6.6c1.6-1.6 3.8-2.4 6.1-2.4c2.2-.1 4.4.8 6 2.4z" class="clr-i-outline clr-i-outline-path-6"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                            <strong>Peñas</strong>
+                        </td>
+                    <td>Administra los diferentes peñas y sus detalles.</td>
+                    <td>
+                        <a href="{{ route('back.crews.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="none" stroke="#3498db" stroke-linecap="round" stroke-linejoin="round" d="M9 4h10v14a2 2 0 0 1-2 2H9m3-5l3-3m0 0l-3-3m3 3H5"/></svg></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="black" d="m12 .856l10 5.556v11.176l-10 5.556l-10-5.556V6.412zm-8 8.04v7.515l7 3.89v-7.699zM13 20.3l7-3.889V8.897l-7 3.706zm-1-9.432L19.12 7.1L12 3.144L4.88 7.099z"/></svg>
+                        <strong>Carafales</strong>
+                    </td>
+                    <td>Gestiona los carafales de cada peña.</td>
+                    <td>
+                        <a href="{{ route('back.platforms.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="none" stroke="#3498db" stroke-linecap="round" stroke-linejoin="round" d="M9 4h10v14a2 2 0 0 1-2 2H9m3-5l3-3m0 0l-3-3m3 3H5"/></svg></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path fill="black" d="M495.24 267.592L445.066 41.083A32.04 32.04 0 0 0 406.9 16.76L180.393 66.934a32 32 0 0 0-24.322 38.166l21.021 94.9H48a32.036 32.036 0 0 0-32 32v232a32.036 32.036 0 0 0 32 32h232a32.036 32.036 0 0 0 32-32V340.957l158.917-35.2a32.04 32.04 0 0 0 24.323-38.165M280 464H48V232h136.181l22.063 99.606a32.03 32.03 0 0 0 31.18 25.092a32.3 32.3 0 0 0 6.984-.769l35.6-7.886L280.02 464Zm184-189.487l-226.513 50.173l-50.173-226.51L413.824 48l50.193 226.505Z"/><path fill="black" d="M80 264h40v40H80zm0 128h40v40H80zm128 0h40v40h-40zm-64-64h40v40h-40zm81.456-205.433l39.054-8.644l8.644 39.055l-39.054 8.644zm152.672 97.223l39.054-8.65l8.65 39.054l-39.054 8.65zm-76.324-48.649l39.053-8.65l8.65 39.053l-39.052 8.65z"/></svg>
+                        <strong>Sorteos</strong>
+                    </td>
+                    <td>Controla los sorteos</td>
+                    <td>
+                        <a href="{{ route('back.draws.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="none" stroke="#3498db" stroke-linecap="round" stroke-linejoin="round" d="M9 4h10v14a2 2 0 0 1-2 2H9m3-5l3-3m0 0l-3-3m3 3H5"/></svg></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16"><path fill="black" d="M7.5 1a7.5 7.5 0 1 0 0 15a7.5 7.5 0 0 0 0-15m0 13.5a6 6 0 1 1 0-12a6 6 0 0 1 0 12"/><path fill="black" d="M10.482 10.068a.5.5 0 0 0-.684.181A1.51 1.51 0 0 1 8.5 11h-2a1.5 1.5 0 0 1-1.414-1H7.5a.5.5 0 0 0 0-1H5V8h2.5a.5.5 0 0 0 0-1H5.086c.206-.582.762-1 1.414-1h2a1.51 1.51 0 0 1 1.298.751a.5.5 0 1 0 .865-.503a2.51 2.51 0 0 0-2.162-1.249h-2c-1.207 0-2.217.86-2.45 2h-.55a.5.5 0 0 0 0 1h.5v1h-.5a.5.5 0 0 0 0 1h.55c.232 1.14 1.242 2 2.45 2h2a2.51 2.51 0 0 0 2.162-1.249a.5.5 0 0 0-.181-.684z"/></svg>
+                        <strong>Pagos</strong>
+                    </td>
+                    <td>Gestiona los pagos realizados en la plataforma.</td>
+                    <td>
+                        <a href="{{ route('back.payments.index') }}"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="none" stroke="#3498db" stroke-linecap="round" stroke-linejoin="round" d="M9 4h10v14a2 2 0 0 1-2 2H9m3-5l3-3m0 0l-3-3m3 3H5"/></svg></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+</div>
+@endsection
+<!DOCTYPE html>
+<html lang="es">
+    @include('back.partials.head')
+<body style="margin: 0; display: flex; flex-direction: column; min-height: 100vh;">
+
+    <!-- Contenedor Principal -->
+    <div style="display: flex; flex: 1;">
+
+        <!-- Aside (Menú lateral) -->
+        @include('back.partials.backAside')
+
+        <!-- Contenido Principal -->
+        <div style="flex: 1; display: flex; flex-direction: column;">
+
+            <!-- Header -->
+            @include('back.partials.backHeader')
+
+            <!-- Main Content -->
+            <div style="flex: 1; padding: 2rem;">
+                @yield('content')
+            </div>
+
+            <!-- Footer -->
+            @include('back.partials.footer')
+        </div>
+
+    </div>
+
+</body>
+</html>
+@extends('front.layouts.front') <!-- Extiende de un layout base -->
+
+@section('content')
+<div class="container">
+    <h1 class="title">Bienvenido a Les Penyes</h1>
+    
+
+    <div class="columns">
+        <!-- Enlace a "Peñas" -->
+        <div class="column">
+            <a href="{{ route('front.crews.index') }}" class="box has-text-centered">
+                <h2 class="title is-4">Peñas</h2>
+                <p>Ver y gestionar tus peñas</p>
+            </a>
+        </div>
+    </div>
+</div>
+@endsection
+<!-- resources/views/front/partials/header.blade.php -->
+<header>
+    <nav class="navbar has-background-info" role="navigation" aria-label="main navigation" style="padding: 1rem;">
+        <div class="container is-fluid">
+            <div class="navbar-brand" style="align-items: center;">
+                <a href="{{ route('front.frontHome') }}" class="navbar-item has-text-white">
+                    <img src="{{ asset('img/back/logoPenyes.png') }}" alt="Logo" style="max-height: 3rem;">
+                </a>
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarFrontMenu">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <!-- Título centrado -->
+            <div class="navbar-item is-expanded has-text-centered">
+                <span class="has-text-grey" style="font-size: 1.5rem;">Front Office</span>
+            </div>
+
+            <!-- Menú desplegable del usuario -->
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link has-text-grey">
+                        {{ Auth::user()->name }} <!-- Mostrar el nombre del usuario -->
+                    </a>
+                    <div class="navbar-dropdown is-right">
+                        <a href="{{ route('profile.edit') }}" class="navbar-item">
+                            <span>Profile</span>
+                        </a>
+                        <hr class="navbar-divider">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="button is-light is-fullwidth">
+                                <span>Log Out</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penyes App</title>
+    <link rel="icon" href="/path/to/favicon.ico"> <!-- Cambia este path según tu favicon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"> 
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @vite('public/css/app.css')
+</head>
+@extends('front.layouts.front')
+
+@section('content')
+<div class="container is-fluid">
+    <div class="box">
+        <h1 class="title">{{ $crew->name }}</h1>
+        <p><strong>Capacidad:</strong> {{ $crew->capacity }}</p>
+        <p><strong>Color:</strong> {{ $crew->color }}</p>
+        <p><strong>Eslogan:</strong> {{ $crew->slogan }}</p>
+        <p><strong>Fundación:</strong> {{ $crew->foundation }}</p>
+
+        @auth
+            @if (session('success'))
+                <div class="notification is-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="notification is-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('front.crews.requestMembership', $crew) }}">
+                @csrf
+                <button type="submit" class="button is-info">Solicitar Membresía</button>
+            </form>
+        @endauth
+    </div>
+</div>
+@endsection
+
+@extends('front.layouts.front')
+
+@section('content')
+<div class="container is-fluid">
+    <!-- Encabezado con título y formulario de búsqueda -->
+    <div class="columns is-vcentered mb-5">
+        <!-- Columna del título -->
+        <div class="column">
+            <h1 class="title">Listado de Peñas</h1>
+        </div>
+
+        <!-- Columna para el formulario de búsqueda -->
+        <div class="column is-two-fifths">
+            <form method="GET" action="{{ route('front.crews.index') }}">
+                <div class="field has-addons">
+                    <div class="control is-expanded">
+                        <input class="input" type="text" name="search" placeholder="Buscar por nombre" value="{{ request('search') }}">
+                    </div>
+                    <div class="control is-expanded">
+                        <input class="input" type="number" name="capacity" placeholder="Capacidad máxima" value="{{ request('capacity') }}">
+                    </div>
+                    <div class="control">
+                        <button class="button is-info" type="submit">Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de peñas -->
+    <div class="box">
+        <table class="table is-fullwidth is-hoverable is-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Capacidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($crews as $crew)
+                    <tr>
+                        <td>{{ $crew->name }}</td>
+                        <td>{{ $crew->capacity }}</td>
+                        <td>
+                            <a href="{{ route('front.crews.show', $crew) }}" class="button is-small is-info">Ver</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="pagination is-centered mt-7">
+        {{ $crews->links('pagination::bootstrap-4') }}
+    </div>
+</div>
+@endsection<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@include('front.partials.head')
+
+<body>
+    @include('front.partials.frontHeader')
+
+    <section class="section">
+        <div class="container">
+            @yield('content')
+        </div>
+    </section>
+
+    @include('front.partials.footer')
+</body>
+</html>
+{{-- vista para configurar la home page que estiende de los layouts y partials principales --}}
+@extends('home.layouts.home')
+
+@section('content')
+    <!-- Slogan Section -->
+    <section class="section has-background-light">
+        <div class="container has-text-centered">
+            <h1 class="title-dark">Les Peñes En Festes</h1>
+            <div class="background-image" style="background-image: url('1.png'); height: 300px;">
+                <img src="1.png" alt="foto">
+            </div>
+        </div>
+    </section>
+
+    <!-- Carousel Section -->
+    <section class="section">
+        <div class="container">
+            <div class="carousel">
+                <!-- Placeholder de imágenes del carousel -->
+                <div class="carousel-item"><img src="/path/to/image1.jpg" alt="Image 1"></div>
+                <div class="carousel-item"><img src="/path/to/image2.jpg" alt="Image 2"></div>
+                <div class="carousel-item"><img src="/path/to/image3.jpg" alt="Image 3"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Activitats i Horaris Section -->
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <h2 class="title">Activitats i Horaris</h2>
+                <!-- Añadir actividades y horarios aquí -->
+                <p>Contenido de actividades y horarios...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <h2 class="title">About</h2>
+                <p>Descripción de la plataforma y las peñas...</p>
+                <a href="{{ url('/contact') }}" class="button is-link">Contáctanos</a> <!-- Enlace a la página de contacto -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Ubicaciones Section -->
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <h2 class="title">Ubicaciones</h2>
+                <!-- Añadir mapa o información de ubicaciones aquí -->
+                <p>Mapa o información sobre las ubicaciones...</p>
+            </div>
+        </div>
+    </section>
+
+@endsection
+<footer style="background-color: #2d2d2d; color: #ffffff; padding: 1rem 0;">
+    <div class="container has-text-centered">
+        <p class="is-size-6">
+            &copy; {{ date('Y') }} <span class="has-text-weight-bold">Les Penyes en Festes</span>. 
+            Todos los derechos reservados.
+        </p>
+        <p class="is-size-7">
+            Diseñado con ❤️ por tu equipo de desarrollo.
+        </p>
+    </div>
+</footer>
+<header>
+    <nav class="navbar" role="navigation" aria-label="main navigation" style="background-color: #2d2d2d; padding: 1rem;">
+        <div class="container">
+            <!-- Navbar Brand -->
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <img src="{{ asset('img/back/logoPenyes.png') }}" alt="Logo" style="max-height: 6rem;">
+                </a>
+
+                <!-- Toggle para pantallas pequeñas -->
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasic">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <!-- Navbar Items -->
+            <div id="navbarBasic" class="navbar-menu">
+                <div class="navbar-end">
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/log') }}" class="navbar-item has-text-white">Log</a>
+                        @else
+                            <a href="{{ route('login') }}" class="navbar-item has-text-white">Login</a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="navbar-item has-text-white">Register</a>
+                            @endif
+                        @endauth
+                    @endif
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+
+{{-- head para las vistas con la configuracion de blade y el icono de la aplicacion --}}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penyes App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"> <!-- Enlace al CDN de Bulma -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @vite('public/css/app.css')
+</head>
+@extends('home.layouts.home')
+
+@section('content')
+    <!-- FAQ Section -->
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Preguntas Frecuentes (FAQ)</h1>
+            <div class="box">
+                <p><strong>¿Cuál es el costo de la membresía?</strong> La membresía tiene un costo anual de $50.</p>
+                <p><strong>¿Dónde puedo ver las actividades de las peñas?</strong> En la sección de actividades de la página principal.</p>
+                <p><strong>¿Cómo puedo unirme a una peña?</strong> Debes registrarte y enviar una solicitud desde tu perfil.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="title">Formulario de Contacto</h2>
+            <div class="box">
+                <form action="{{ route('contact.send') }}" method="POST">
+                    @csrf
+                    <div class="field">
+                        <label class="label">Nombre</label>
+                        <div class="control">
+                            <input class="input" type="text" name="name" required>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Correo Electrónico</label>
+                        <div class="control">
+                            <input class="input" type="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Mensaje</label>
+                        <div class="control">
+                            <textarea class="textarea" name="message" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button class="button is-link" type="submit">Enviar Mensaje</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+@endsection<!-- resources/views/layouts/app.blade.php -->
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@include('home.partials.head') <!-- Incluye head.blade.php con Bulma y meta tags -->
+
+<body>
+    @include('home.partials.homeHeader') <!-- Incluye el header con los enlaces de autenticación -->
+
+    <section class="section">
+        <div class="container">
+            @yield('content') <!-- Aquí se inserta el contenido específico de cada vista -->
+        </div>
+    </section>
+    @include('home.partials.footer') <!-- Incluye el footer con los derechos de autor y créditos -->
+</body>
+</html>
+
+@include('back.partials.head')
+<body>
+    <section class="section">
+        <div class="container">
+            <!-- Título -->
+            <h1 class="title has-text-primary">Mensaje del Administrador</h1>
+
+            <!-- Asunto -->
+            <div class="box">
+                <p><strong>Asunto:</strong> {{ $details['subject'] }}</p>
+            </div>
+
+            <!-- Mensaje -->
+            <div class="content">
+                <p><strong>Mensaje:</strong></p>
+                <p class="box">{{ $details['message'] }}</p>
+            </div>
+
+            <!-- Pie de mensaje -->
+            <div class="notification is-info is-light">
+                <p>Este mensaje fue enviado por el administrador desde el sistema de back-office.</p>
+            </div>
+        </div>
+    </section>
+</body>
+
+
+
+@include('home.partials.head')
+<body>
+    <section class="section">
+        <div class="container box" style="border: 1px solid #dbdbdb; padding: 20px; max-width: 600px; margin: 0 auto;">
+            <h1 class="title is-4 has-text-primary">Nuevo Mensaje de Contacto</h1>
+
+            <div class="content">
+                <p><strong>Nombre:</strong> {{ $details['name'] }}</p>
+                <p><strong>Email:</strong> {{ $details['email'] }}</p>
+                <p><strong>Mensaje:</strong></p>
+                <div class="box" style="background-color: #f5f5f5; padding: 10px;">
+                    {{ $details['message'] }}
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Perfil</title>
+    @include('home.partials.head')
+</head>
+<body>
+
+    <main class="section">
+        <div class="container">
+            <header class="has-text-centered">
+                <h2 class="title is-3">{{ __('Perfil') }}</h2>
+            </header>
+
+            <!-- Sección de actualización de información de perfil -->
+            <section class="box mt-5">
+                <h3 class="title is-4">{{ __('Actualizar Información del Perfil') }}</h3>
+                @include('profile.partials.update-profile-information-form')
+            </section>
+
+            <!-- Sección de actualización de contraseña -->
+            <section class="box mt-5">
+                <h3 class="title is-4">{{ __('Actualizar Contraseña') }}</h3>
+                @include('profile.partials.update-password-form')
+            </section>
+
+            <!-- Sección de eliminación de usuario -->
+            <section class="box mt-5">
+                <h3 class="title is-4">{{ __('Eliminar Cuenta') }}</h3>
+                @include('profile.partials.delete-user-form')
+            </section>
+        </div>
+    </main>
+
+   
+</body>
+</html>
+<section>
+    <header>
+        <h2>{{ __('Profile Information') }}</h2>
+    </header>
+
+    <!-- Formulario para enviar verificación de email -->
+    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+        @csrf
+    </form>
+
+    <!-- Formulario para actualizar el perfil -->
+    <form method="post" action="{{ route('profile.update') }}">
+        @csrf
+        @method('patch')
+
+        <section>
+            <label for="name">{{ __('Name') }}</label>
+            <input id="name" name="name" type="text" value="{{ old('name', $user->name) }}" required autofocus>
+            @if ($errors->has('name'))
+                <p>{{ $errors->first('name') }}</p>
+            @endif
+        </section>
+
+        <section>
+            <label for="surname">{{ __('Surname') }}</label>
+            <input id="surname" name="surname" type="text" value="{{ old('surname', $user->surname) }}" required>
+            @if ($errors->has('surname'))
+                <p>{{ $errors->first('surname') }}</p>
+            @endif
+        </section>
+
+        <section>
+            <label for="email">{{ __('Email') }}</label>
+            <input id="email" name="email" type="email" value="{{ old('email', $user->email) }}" required>
+            @if ($errors->has('email'))
+                <p>{{ $errors->first('email') }}</p>
+            @endif
+
+            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                <div>
+                    <p>{{ __('Your email address is unverified.') }}</p>
+                    <button form="send-verification">{{ __('Click here to re-send the verification email.') }}</button>
+                    @if (session('status') === 'verification-link-sent')
+                        <p>{{ __('A new verification link has been sent to your email address.') }}</p>
+                    @endif
+                </div>
+            @endif
+        </section>
+
+        <section>
+            <button type="submit">{{ __('Save') }}</button>
+
+            @if (session('status') === 'profile-updated')
+                <p>{{ __('Saved.') }}</p>
+            @endif
+        </section>
+    </form>
+</section>
+
+<section>
+    <header>
+        <h2>Actualizar Contraseña</h2>
+    </header>
+
+    <form method="post" action="{{ route('password.update') }}">
+        @csrf
+        @method('put')
+
+        <section>
+            <label for="update_password_current_password">Contraseña Actual</label>
+            <input id="update_password_current_password" name="current_password" type="password" autocomplete="current-password">
+        </section>
+
+        <section>
+            <label for="update_password_password">Nueva Contraseña</label>
+            <input id="update_password_password" name="password" type="password" autocomplete="new-password">
+        </section>
+
+        <section>
+            <label for="update_password_password_confirmation">Confirmar Contraseña</label>
+            <input id="update_password_password_confirmation" name="password_confirmation" type="password" autocomplete="new-password">
+        </section>
+
+        <section>
+            <button type="submit">{{ __('Save') }}</button>
+
+            @if (session('status') === 'password-updated')
+                <p>{{ __('Saved.') }}</p>
+            @endif
+        </section>
+    </form>
+</section>
+
+<main>
+    <header>
+        <h2>{{ __('Delete Account') }}</h2>
+    </header>
+    <!-- Botón para abrir el modal de confirmación -->
+    <button onclick="document.getElementById('confirm-user-deletion').style.display='block'">
+        {{ __('Delete Account') }}
+    </button>
+
+    <!-- Modal de confirmación de eliminación -->
+    <section id="confirm-user-deletion" style="display: none;">
+        <form method="post" action="{{ route('profile.destroy') }}">
+            @csrf
+            @method('delete')
+
+            <h2>{{ __('Are you sure you want to delete your account?') }}</h2>
+            <section>
+                <label for="password">{{ __('Password') }}</label>
+                <input id="password" name="password" type="password" placeholder="{{ __('Password') }}">
+                @if ($errors->userDeletion->has('password'))
+                    <p>{{ $errors->userDeletion->first('password') }}</p>
+                @endif
+            </section>
+
+            <section>
+                <!-- Botón para cancelar el modal -->
+                <button type="button" onclick="document.getElementById('confirm-user-deletion').style.display='none'">
+                    {{ __('Cancel') }}
+                </button>
+
+                <!-- Botón para confirmar la eliminación -->
+                <button type="submit">
+                    {{ __('Delete Account') }}
+                </button>
+            </section>
+        </form>
+    </section>
+</main>
+<?php
+
+use Illuminate\Http\Request;
+
+define('LARAVEL_START', microtime(true));
+
+// Determine if the application is in maintenance mode...
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
+}
+
+// Register the Composer autoloader...
+require __DIR__.'/../vendor/autoload.php';
+
+// Bootstrap Laravel and handle the request...
+(require_once __DIR__.'/../bootstrap/app.php')
+    ->handleRequest(Request::capture());

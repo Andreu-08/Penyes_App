@@ -2,8 +2,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penyes App</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"> <!-- Enlace al CDN de Bulma -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <title>Home Page</title>
+    <!-- Bulma CDN -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+    </style>
     @vite('public/css/app.css')
 </head>
