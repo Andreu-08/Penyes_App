@@ -53,3 +53,5 @@ bootstrap/cache/*.json
 *.log
 *.swp
 *.swo
+
+/.package-lock.json
