@@ -1,4 +1,55 @@
-./storage/logs/laravel.log
+# Dependencias de Composer
+/vendor/
 
-./node_modules
-node_modules
+# Dependencias de Node.js
+/node_modules/
+
+# Cachés de Laravel
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*.log
+
+# Archivos de configuración
+/.env
+/.env.*.backup
+
+# Configuración de IDEs (Visual Studio Code, PHPStorm, etc.)
+.vscode/
+/.idea/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de compilación y de despliegue
+/public/hot
+/public/storage
+/public/mix-manifest.json
+/public/css/*.map
+/public/js/*.map
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
+
+# Docker y Vagrant
+.docker/
+/Homestead.json
+/Homestead.yaml
+
+# Caché del Composer
+/composer.phar
+
+# Archivos y carpetas generados por herramientas
+/.phpunit.result.cache
+.php_cs.cache
+.env.testing
+
+# Caché de rutas, configuraciones y vistas
+bootstrap/cache/*.php
+bootstrap/cache/*.json
+
+# Otros archivos temporales
+*.log
+*.swp
+*.swo
