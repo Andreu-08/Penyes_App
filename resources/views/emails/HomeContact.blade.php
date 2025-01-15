@@ -1,6 +1,4 @@
 
-
-@include('home.partials.head')
 <body>
     <section class="section">
         <div class="container box" style="border: 1px solid #dbdbdb; padding: 20px; max-width: 600px; margin: 0 auto;">

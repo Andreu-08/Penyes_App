@@ -1,94 +1,154 @@
-<?php $__env->startSection('content'); ?>
-<body>
-    <main class="section">
-        <div class="container">
-            <section class="box">
-                <h1 class="title has-text-centered">Registro</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <?php echo app('Illuminate\Foundation\Vite')('public/css/app.css'); ?>
+</head>
+<body class="min-h-screen bg-gray-100">
+    <!-- Header -->
+    <header class="border-b bg-white/90 backdrop-blur-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4">
+            <div class="flex h-16 items-center justify-between">
+                <!-- Navbar Brand -->
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <img src="<?php echo e(asset('img/back/logoPenyes.png')); ?>" alt="Logo" class="h-16 w-auto">
+                    </a>
+                </div>
 
-                <!-- Formulario de registro -->
-                <form method="POST" action="<?php echo e(route('register')); ?>" class="mt-5">
-                    <?php echo csrf_field(); ?>
-
-                    <!-- Campo de nombre -->
-                    <div class="field">
-                        <label for="name" class="label">Nombre</label>
-                        <div class="control">
-                            <input id="name" type="text" class="input" name="name" value="<?php echo e(old('name')); ?>" required autofocus autocomplete="name">
-                        </div>
-                        <?php if($errors->has('name')): ?>
-                            <p class="help is-danger"><?php echo e($errors->first('name')); ?></p>
+                <!-- Navbar Items -->
+                <div class="flex items-center space-x-4">
+                    <?php if(Route::has('login')): ?>
+                        <?php if(auth()->guard()->check()): ?>
+                            <a href="<?php echo e(url('/log')); ?>" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                                Log
+                            </a>
+                        <?php else: ?>
+                            <a href="<?php echo e(route('login')); ?>" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
+                                Login
+                            </a>
                         <?php endif; ?>
-                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-                    <!-- Campo de apellido -->
-                    <div class="field">
-                        <label for="surname" class="label">Apellido</label>
-                        <div class="control">
-                            <input id="surname" type="text" class="input" name="surname" value="<?php echo e(old('surname')); ?>" required autocomplete="surname">
-                        </div>
-                        <?php if($errors->has('surname')): ?>
-                            <p class="help is-danger"><?php echo e($errors->first('surname')); ?></p>
-                        <?php endif; ?>
-                    </div>
+    <main class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <div>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-800">
+                    Registro
+                </h2>
+            </div>
+            <form class="mt-8 space-y-6" method="POST" action="<?php echo e(route('register')); ?>">
+                <?php echo csrf_field(); ?>
 
-                    <!-- Campo de fecha de nacimiento -->
-                    <div class="field">
-                        <label for="birthday" class="label">Fecha de Nacimiento</label>
-                        <div class="control">
-                            <input id="birthday" type="date" class="input" name="birthday" value="<?php echo e(old('birthday')); ?>" required autocomplete="birthday">
-                        </div>
-                        <?php if($errors->has('birthday')): ?>
-                            <p class="help is-danger"><?php echo e($errors->first('birthday')); ?></p>
-                        <?php endif; ?>
+                <div class="space-y-4">
+                    <div>
+                        <label for="name" class="sr-only">Nombre</label>
+                        <input id="name" name="name" type="text" required class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:border-slate-800" placeholder="Nombre" value="<?php echo e(old('name')); ?>" autofocus autocomplete="name">
+                        <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
+                    <div>
+                        <label for="surname" class="sr-only">Apellido</label>
+                        <input id="surname" name="surname" type="text" required class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:border-slate-800" placeholder="Apellido" value="<?php echo e(old('surname')); ?>" autocomplete="surname">
+                        <?php $__errorArgs = ['surname'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+                    <div>
+                        <label for="birthday" class="sr-only">Fecha de Nacimiento</label>
+                        <input id="birthday" name="birthday" type="date" required class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:border-slate-800" value="<?php echo e(old('birthday')); ?>" autocomplete="birthday">
+                        <?php $__errorArgs = ['birthday'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+                    <div>
+                        <label for="email" class="sr-only">Correo Electrónico</label>
+                        <input id="email" name="email" type="email" required class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:border-slate-800" placeholder="Correo electrónico" value="<?php echo e(old('email')); ?>" autocomplete="username">
+                        <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+                    <div>
+                        <label for="password" class="sr-only">Contraseña</label>
+                        <input id="password" name="password" type="password" required class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:border-slate-800" placeholder="Contraseña" autocomplete="new-password">
+                        <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+                    <div>
+                        <label for="password_confirmation" class="sr-only">Confirmar Contraseña</label>
+                        <input id="password_confirmation" name="password_confirmation" type="password" required class="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:border-slate-800" placeholder="Confirmar contraseña" autocomplete="new-password">
+                        <?php $__errorArgs = ['password_confirmation'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                            <p class="mt-2 text-sm text-red-600"><?php echo e($message); ?></p>
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+                </div>
 
-                    <!-- Campo de correo electrónico -->
-                    <div class="field">
-                        <label for="email" class="label">Correo Electrónico</label>
-                        <div class="control">
-                            <input id="email" type="email" class="input" name="email" value="<?php echo e(old('email')); ?>" required autocomplete="username">
-                        </div>
-                        <?php if($errors->has('email')): ?>
-                            <p class="help is-danger"><?php echo e($errors->first('email')); ?></p>
-                        <?php endif; ?>
+                <div class="flex items-center justify-between">
+                    <div class="text-sm">
+                        <a href="<?php echo e(route('login')); ?>" class="font-medium text-slate-600 hover:text-slate-900">
+                            ¿Ya estás registrado?
+                        </a>
                     </div>
+                </div>
 
-                    <!-- Campo de contraseña -->
-                    <div class="field">
-                        <label for="password" class="label">Contraseña</label>
-                        <div class="control">
-                            <input id="password" type="password" class="input" name="password" required autocomplete="new-password">
-                        </div>
-                        <?php if($errors->has('password')): ?>
-                            <p class="help is-danger"><?php echo e($errors->first('password')); ?></p>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Campo de confirmar contraseña -->
-                    <div class="field">
-                        <label for="password_confirmation" class="label">Confirmar Contraseña</label>
-                        <div class="control">
-                            <input id="password_confirmation" type="password" class="input" name="password_confirmation" required autocomplete="new-password">
-                        </div>
-                        <?php if($errors->has('password_confirmation')): ?>
-                            <p class="help is-danger"><?php echo e($errors->first('password_confirmation')); ?></p>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Enlace para iniciar sesión y botón de registro -->
-                    <div class="field is-grouped is-justify-content-space-between">
-                        <div class="control">
-                            <a href="<?php echo e(route('login')); ?>" class="is-link">¿Ya estás registrado?</a>
-                        </div>
-                        <div class="control">
-                            <button type="submit" class="button is-primary">Registrar</button>
-                        </div>
-                    </div>
-                </form>
-            </section>
+                <div>
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-800 hover:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-800">
+                        Registrar
+                    </button>
+                </div>
+            </form>
         </div>
     </main>
 </body>
 </html>
-<?php $__env->stopSection(); ?>
-<?php echo $__env->make('home.layouts.home', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/resources/views/auth/register.blade.php ENDPATH**/ ?>
+<?php /**PATH /var/www/html/resources/views/auth/register.blade.php ENDPATH**/ ?>

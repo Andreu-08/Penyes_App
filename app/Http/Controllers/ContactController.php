@@ -11,7 +11,7 @@ class ContactController extends Controller
     // Muestra la vista de contacto
     public function show()
     {
-        return view('home.contact'); // Asegúrate de que la vista esté en resources/views/home/contact.blade.php
+        return view('home.home'); // Asegúrate de que la vista esté en resources/views/home/contact.blade.php
     }
 
     // Maneja el envío del formulario

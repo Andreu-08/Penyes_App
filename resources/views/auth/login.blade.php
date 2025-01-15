@@ -1,64 +1,117 @@
-    @extends('home.layouts.home')
-    
-    @section('content')
-    <section class="section">
-        <div class="container">
-            <h1 class="title has-text-centered">Iniciar Sesión</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    @vite('public/css/app.css')
+</head>
+<body class="bg-gray-100">
+    <!-- Header -->
+    <header class="border-b bg-white/90 backdrop-blur-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4">
+            <div class="flex h-16 items-center justify-between">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <img src="{{ asset('img/back/logoPenyes.png') }}" alt="Logo" class="h-12">
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/log') }}" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">
+                                Log
+                            </a>
+                        @endauth
+                    @endif
+                </div>
+            </div>
+        </nav>
+    </header>
 
-            <!-- Estado de la sesión (si existe un mensaje de estado) -->
+    <main class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="w-full max-w-md space-y-8">
+            <div>
+                <h2 class="text-center text-3xl font-extrabold text-slate-800">
+                    Iniciar Sesión
+                </h2>
+            </div>
+
             @if (session('status'))
-                <div class="notification is-success has-text-centered">
-                    {{ session('status') }}
+                <div class="rounded-md bg-green-100 p-4">
+                    <p class="text-sm text-green-700">
+                        {{ session('status') }}
+                    </p>
                 </div>
             @endif
 
-            <!-- Formulario de inicio de sesión -->
-            <form method="POST" action="{{ route('login') }}" class="box mt-5">
+            <form class="mt-8 space-y-6" method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <!-- Campo de correo electrónico -->
-                <div class="field">
-                    <label for="email" class="label">Correo Electrónico</label>
-                    <div class="control">
-                        <input id="email" type="email" name="email" value="{{ old('email') }}" class="input" required autofocus autocomplete="username">
+                <div class="space-y-4">
+                    <div>
+                        <input 
+                            id="email" 
+                            name="email" 
+                            type="email" 
+                            autocomplete="email" 
+                            required 
+                            class="block w-full rounded-lg border border-gray-300 px-4 py-2 placeholder-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+                            placeholder="Correo electrónico"
+                            value="{{ old('email') }}"
+                        >
+                        @error('email')
+                            <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
-                    @if ($errors->has('email'))
-                        <p class="help is-danger">{{ $errors->first('email') }}</p>
-                    @endif
-                </div>
 
-                <!-- Campo de contraseña -->
-                <div class="field">
-                    <label for="password" class="label">Contraseña</label>
-                    <div class="control">
-                        <input id="password" type="password" name="password" class="input" required autocomplete="current-password">
+                    <div>
+                        <input 
+                            id="password" 
+                            name="password" 
+                            type="password" 
+                            autocomplete="current-password" 
+                            required 
+                            class="block w-full rounded-lg border border-gray-300 px-4 py-2 placeholder-gray-400 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" 
+                            placeholder="Contraseña"
+                        >
+                        @error('password')
+                            <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
-                    @if ($errors->has('password'))
-                        <p class="help is-danger">{{ $errors->first('password') }}</p>
-                    @endif
                 </div>
 
-                <!-- Opción de recordar sesión -->
-                <div class="field">
-                    <label class="checkbox">
-                        <input type="checkbox" name="remember">
-                        Recordarme
-                    </label>
-                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input 
+                            id="remember" 
+                            name="remember" 
+                            type="checkbox" 
+                            class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        >
+                        <label for="remember" class="ml-2 block text-sm text-gray-900">
+                            Recordarme
+                        </label>
+                    </div>
 
-                <!-- Botón de inicio de sesión y enlace de recuperación -->
-                <div class="field is-grouped is-justify-content-space-between">
-                    <div class="control">
+                    <div class="text-sm">
                         @if (Route::has('password.request'))
-                            <a class="is-link" href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
+                            <a href="{{ route('password.request') }}" class="font-medium text-slate-600 hover:text-slate-900">
+                                ¿Olvidaste tu contraseña?
+                            </a>
                         @endif
                     </div>
-                    <div class="control">
-                        <button type="submit" class="button is-primary">Iniciar Sesión</button>
-                    </div>
                 </div>
 
+                <div>
+                    <button 
+                        type="submit" 
+                        class="mt-4 w-full rounded-lg bg-slate-800 py-2 text-white font-medium hover:bg-slate-950 focus:ring-2 focus:ring-slate-900      focus:ring-offset-2">
+                        Iniciar Sesión
+                    </button>
+                </div>
             </form>
         </div>
-    </section>
-@endsection
+    </main>
+</body>
+</html>
