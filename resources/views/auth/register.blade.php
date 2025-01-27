@@ -1,42 +1,15 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro</title>
-    @vite('public/css/app.css')
-</head>
-<body class="min-h-screen bg-gray-100">
-    <!-- Header -->
-    <header class="border-b bg-white/90 backdrop-blur-md sticky top-0 z-50">
-        <nav class="container mx-auto px-4">
-            <div class="flex h-16 items-center justify-between">
-                <!-- Navbar Brand -->
-                <div class="flex items-center">
-                    <a href="/" class="flex items-center space-x-2">
-                        <img src="{{ asset('img/back/logoPenyes.png') }}" alt="Logo" class="h-16 w-auto">
-                    </a>
-                </div>
+<!-- Modal Overlay -->
+<div id="modal-register-overlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-40"></div>
 
-                <!-- Navbar Items -->
-                <div class="flex items-center space-x-4">
-                    @if (Route::has('login'))
-                        @auth
-                            <a href="{{ url('/log') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                                Log
-                            </a>
-                        @else
-                            <a href="{{ route('login') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                                Login
-                            </a>
-                        @endauth
-                    @endif
-                </div>
-            </div>
-        </nav>
-    </header>
+<!-- Modal -->
+<div id="modal-register" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+        <!-- Close Button -->
+        <button id="close-register-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">
+            &times;
+        </button>
 
-    <main class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <!-- Register Form -->
         <div class="max-w-md w-full space-y-8">
             <div>
                 <h2 class="mt-6 text-center text-3xl font-extrabold text-slate-800">
@@ -93,7 +66,7 @@
 
                 <div class="flex items-center justify-between">
                     <div class="text-sm">
-                        <a href="{{ route('login') }}" class="font-medium text-slate-600 hover:text-slate-900">
+                        <a href="#" id="open-login-modal" class="font-medium text-slate-600 hover:text-slate-900">
                             ¿Ya estás registrado?
                         </a>
                     </div>
@@ -106,6 +79,5 @@
                 </div>
             </form>
         </div>
-    </main>
-</body>
-</html>
+    </div>
+</div>

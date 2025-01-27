@@ -6,7 +6,7 @@
     <?php echo $__env->make('front.partials.frontHeader', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
     <section class="section">
-        <div class="container">
+        <div class="pt-16">
             <?php echo $__env->yieldContent('content'); ?>
         </div>
     </section>

@@ -1,4 +1,3 @@
-@include('home.partials.head')
 <body>
     <main class="section">
         <div class="container">

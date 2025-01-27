@@ -6,7 +6,7 @@
     @include('front.partials.frontHeader')
 
     <section class="section">
-        <div class="container">
+        <div class="pt-16">
             @yield('content')
         </div>
     </section>

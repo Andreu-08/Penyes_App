@@ -1,5 +1,4 @@
 
-<?php echo $__env->make('home.partials.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <body>
     <main class="section">
         <div class="container">

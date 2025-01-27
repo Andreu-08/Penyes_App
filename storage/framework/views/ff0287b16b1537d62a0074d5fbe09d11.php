@@ -1,36 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-    <?php echo app('Illuminate\Foundation\Vite')('public/css/app.css'); ?>
-</head>
-<body class="bg-gray-100">
-    <!-- Header -->
-    <header class="border-b bg-white/90 backdrop-blur-md sticky top-0 z-50">
-        <nav class="container mx-auto px-4">
-            <div class="flex h-16 items-center justify-between">
-                <div class="flex items-center">
-                    <a href="/" class="flex items-center space-x-2">
-                        <img src="<?php echo e(asset('img/back/logoPenyes.png')); ?>" alt="Logo" class="h-12">
-                    </a>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <?php if(Route::has('login')): ?>
-                        <?php if(auth()->guard()->check()): ?>
-                            <a href="<?php echo e(url('/log')); ?>" class="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors">
-                                Log
-                            </a>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </nav>
-    </header>
+<!-- Modal Overlay -->
+<div id="modal-overlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-40"></div>
 
-    <main class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div class="w-full max-w-md space-y-8">
+<!-- Modal -->
+<div id="modal-login" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+        <!-- Close Button -->
+        <button id="close-login-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">
+            &times;
+        </button>
+
+        <!-- Login Form -->
+        <div class="w-full space-y-8">
             <div>
                 <h2 class="text-center text-3xl font-extrabold text-slate-800">
                     Iniciar Sesión
@@ -119,15 +99,24 @@ unset($__errorArgs, $__bag); ?>
                 </div>
 
                 <div>
-                    <button 
+                    <button  
                         type="submit" 
-                        class="mt-4 w-full rounded-lg bg-slate-800 py-2 text-white font-medium hover:bg-slate-950 focus:ring-2 focus:ring-slate-900      focus:ring-offset-2">
+                        class="mt-4 w-full rounded-lg bg-slate-800 py-2 text-white font-medium hover:bg-slate-950 focus:ring-2 focus:ring-slate-900 focus:ring-offset-2">
                         Iniciar Sesión
-                    </button>
+                    </>
                 </div>
             </form>
+
+            <!-- Nueva sección para registro -->
+            <div class="mt-6 text-center border-t border-gray-200 pt-6">
+                <p class="text-sm text-gray-600">
+                    ¿No tienes una cuenta?
+                    <a href="#" id="open-register-from-login" class="font-medium text-slate-800 hover:text-slate-900 ml-1">
+                        Regístrate aquí
+                    </a>
+                </p>
+            </div>
         </div>
-    </main>
-</body>
-</html>
+    </div>
+</div>
 <?php /**PATH /var/www/html/resources/views/auth/login.blade.php ENDPATH**/ ?>
