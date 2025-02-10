@@ -18,9 +18,6 @@
             <a href="{{ route('back.crews.index') }}" class="has-text-dark" style="text-decoration: none;">Peñas</a>
         </li>
         <li>
-            <a href="{{ route('back.platforms.index') }}" class="has-text-dark" style="text-decoration: none;">Carafales</a>
-        </li>
-        <li>
             <a href="{{ route('back.draws.index') }}" class="has-text-dark" style="text-decoration: none;">Sorteos</a>
         </li>
         <li>

@@ -50,10 +50,6 @@
     </div>
 
     <!-- Paginación -->
-    <div class="pagination is-centered mt-7">
-        <?php echo e($crews->links('pagination::bootstrap-4')); ?>
-
-    </div>
 </div>
-<?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('front.layouts.front', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/resources/views/front/crews/index.blade.php ENDPATH**/ ?>

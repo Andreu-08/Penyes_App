@@ -40,13 +40,16 @@ Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.
         return redirect()->route('login'); // Redirige a login si no está autenticado
     })->name('log');
 
-    //rutas para el perfil del usuario 
+    //rutas para el perfil del usuario
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/sorteo', [DrawController::class, 'show'])->name('draw.show');
+Route::get('/draws/{year?}', [DrawController::class, 'show'])->name('draw.show');
+Route::post('/draws/draw', [DrawController::class, 'draw'])->name('draw.regenerate');
 
 
 //Rutas de enlaces para el back office
@@ -55,7 +58,7 @@ Route::middleware(['auth', CheckRole::class . ':1'])->prefix('back')->group(func
     Route::get('/', [BackController::class, 'index'])->name('back.backHome');
 
     // Rutas de crud completas utilizando resource
-    
+
     //usuarios
     Route::resource('users', UserController::class)->names('back.users');
     // Enviar correo de contacto al usuario
@@ -81,7 +84,7 @@ Route::middleware(['auth', CheckRole::class . ':1'])->prefix('back')->group(func
 // Rutas de enlaces para el Front Office
 Route::middleware(['auth', CheckRole::class . ':2'])->prefix('front')->group(function () {
     // Ruta principal del Front Office
-    Route::get('/', [FrontController::class, 'index'])->name('front.frontHome');
+    Route::get('/', [FrontCrewController::class, 'index'])->name('front.frontHome');
 
     // Rutas de CRUD completas utilizando resource
 

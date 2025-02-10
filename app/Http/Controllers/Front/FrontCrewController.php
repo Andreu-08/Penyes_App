@@ -33,8 +33,8 @@ class FrontCrewController extends Controller
         // Obtener resultados paginados
         $crews = $query->paginate(10); // Mostrar 10 resultados por página
 
-        // Pasar los datos a la vista
-        return view('front.crews.index', compact('crews', 'search', 'capacity'));
+        // Retornar la vista frontHome en lugar de la vista front.crews.index
+        return view('front.frontHome', compact('crews'));
     }
 
     /**

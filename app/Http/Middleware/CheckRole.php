@@ -1,6 +1,5 @@
 <?php
 
-// app/Http/Middleware/CheckRole.php
 namespace App\Http\Middleware;
 
 use Closure;
@@ -19,4 +18,3 @@ class CheckRole
         return redirect('/'); // o a una ruta de acceso denegado
     }
 }
-

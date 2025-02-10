@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.andreu{
+    width: calc(100% / 5);
+    height:125px !important;
+    vertical-align: middle !important;
+}

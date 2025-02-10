@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Draw extends Model
 {
     use HasFactory;
+    public function crew()
+{
+    return $this->belongsTo(Crew::class);
+}
+
 }
