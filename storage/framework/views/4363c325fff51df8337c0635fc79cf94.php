@@ -8,6 +8,8 @@
     <title>Penyes App</title>
     <link rel="icon" href="/path/to/favicon.ico">
     <?php echo app('Illuminate\Foundation\Vite')('public/css/app.css'); ?>
+    <?php echo app('Illuminate\Foundation\Vite')->reactRefresh(); ?>
+    <?php echo app('Illuminate\Foundation\Vite')('public/js/components/index.jsx'); ?>
     <!-- Opcional: incluir fuentes o iconos externos -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 </head>
@@ -44,43 +46,66 @@
     <section class="relative h-[70vh] bg-cover bg-center" style="background-image: url('<?php echo e(asset('img/home/unnamed.webp')); ?>');">
         <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent backdrop-blur-sm"></div>
         <div class="relative container mx-auto px-4 py-40 text-white max-w-6xl flex flex-col items-center justify-center text-center">
-            <h1 class="text-6xl md:text-7xl font-bold mb-4">Bienvenido, <?php echo e(Auth::user()->name); ?>!</h1>
+            <h1 class="text-6xl md:text-7xl font-bold mb-4">
+                <?php if(!Auth::user()->confirmedCrew()): ?>
+                    Bienvenido, <?php echo e(Auth::user()->name); ?>!
+                <?php else: ?>
+                    Bienvenido a la peña <span class="text-4xl md:text-5xl font-extrabold text-yellow-300"><?php echo e(Auth::user()->confirmedCrew()->name); ?></span>!
+                <?php endif; ?>
+            </h1>
             <p class="mb-6 text-xl">
-                Descubre nuestras peñas, explora detalles y apúntate fácilmente. ¡Vive la experiencia única!
+                <?php if(!Auth::user()->confirmedCrew()): ?>
+                    Descubre nuestras peñas, explora detalles y apúntate fácilmente. ¡Vive la experiencia única!
+                <?php else: ?>
+                    Descubre el sorteo y mantente al día.
+                <?php endif; ?>
             </p>
-            <a href="#peñas" class="inline-block bg-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-md hover:bg-slate-300 transition">
-                Explorar Peñas
-            </a>
+            <?php if(!Auth::user()->confirmedCrew()): ?>
+                <a href="#peñas" class="inline-block bg-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-md hover:bg-slate-300 transition">
+                    Explorar Peñas
+                </a>
+            <?php else: ?>
+                <a href="#draw" class="inline-block bg-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-md hover:bg-slate-300 transition">
+                    Ver Sorteo
+                </a>
+            <?php endif; ?>
         </div>
     </section>
 
     <!-- Main Content -->
-    <main id="peñas" class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            <?php $__currentLoopData = $crews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $crew): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div class="bg-white rounded-lg shadow hover:shadow-xl transition relative group">
-                <!-- Ícono de la Peña (usa $crew->icon si está disponible) -->
-                
-                <!-- Contenido de la tarjeta -->
-                <div class="p-2">
-                    <h3 class="text-sm font-bold text-gray-800 text-center w-full truncate"><?php echo e($crew->name); ?></h3>
-                    <p class="text-xs text-gray-600 text-center w-full mt-1"><?php echo e($crew->slogan); ?></p>
-                    <p class="text-xs text-gray-500 text-center w-full mt-1">Capacidad: <?php echo e($crew->capacity); ?></p>
-                </div>
-                <!-- Overlay desplegable en hover -->
-                <div class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
-                    <?php if(auth()->guard()->check()): ?>
-                        <form method="POST" action="<?php echo e(route('front.crews.requestMembership', $crew)); ?>">
-                            <?php echo csrf_field(); ?>
-                            <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-                                Solicitar Membresía
-                            </button>
-                        </form>
+    <main class="container mx-auto px-4 py-8">
+        <?php if(!Auth::user()->confirmedCrew()): ?>
+            <div id="peñas" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                <?php $__currentLoopData = $crews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $crew): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <div class="bg-white rounded-lg shadow hover:shadow-xl transition relative group">
+                    <!-- Contenido de la tarjeta -->
+                    <div class="p-2">
+                        <h3 class="text-sm font-bold text-gray-800 text-center w-full truncate"><?php echo e($crew->name); ?></h3>
+                        <p class="text-xs text-gray-600 text-center w-full mt-1"><?php echo e($crew->slogan); ?></p>
+                        <p class="text-xs text-gray-500 text-center w-full mt-1">Capacidad: <?php echo e($crew->capacity); ?></p>
+                    </div>
+                    <!-- Overlay desplegable en hover -->
+                    <div class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
+                        <?php if(auth()->guard()->check()): ?>
+                            <form method="POST" action="<?php echo e(route('front.crews.requestMembership', $crew)); ?>">
+                                <?php echo csrf_field(); ?>
+                                <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                                    Solicitar Membresía
+                                </button>
+                            </form>
                         <?php endif; ?>
+                    </div>
                 </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </div>
+        <?php endif; ?>
+
+        <?php if(Auth::user()->confirmedCrew()): ?>
+            <!-- Dibujo de la gráfica solo si el usuario tiene una peña asignada -->
+            <div id="draw" class="mt-8">
+                <!-- Aquí va el contenido de tu gráfica -->
+            </div>
+        <?php endif; ?>
     </main>
 
     <!-- Footer -->

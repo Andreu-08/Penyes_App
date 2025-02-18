@@ -8,6 +8,8 @@
     <title>Penyes App</title>
     <link rel="icon" href="/path/to/favicon.ico">
     @vite('public/css/app.css')
+    @viteReactRefresh
+    @vite('public/js/components/index.jsx')
     <!-- Opcional: incluir fuentes o iconos externos -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 </head>
@@ -44,45 +46,66 @@
     <section class="relative h-[70vh] bg-cover bg-center" style="background-image: url('{{ asset('img/home/unnamed.webp') }}');">
         <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent backdrop-blur-sm"></div>
         <div class="relative container mx-auto px-4 py-40 text-white max-w-6xl flex flex-col items-center justify-center text-center">
-            <h1 class="text-6xl md:text-7xl font-bold mb-4">Bienvenido, {{ Auth::user()->name }}!</h1>
+            <h1 class="text-6xl md:text-7xl font-bold mb-4">
+                @if (!Auth::user()->confirmedCrew())
+                    Bienvenido, {{ Auth::user()->name }}!
+                @else
+                    Bienvenido a la peña <span class="text-4xl md:text-5xl font-extrabold text-yellow-300">{{ Auth::user()->confirmedCrew()->name }}</span>!
+                @endif
+            </h1>
             <p class="mb-6 text-xl">
-                Descubre nuestras peñas, explora detalles y apúntate fácilmente. ¡Vive la experiencia única!
+                @if (!Auth::user()->confirmedCrew())
+                    Descubre nuestras peñas, explora detalles y apúntate fácilmente. ¡Vive la experiencia única!
+                @else
+                    Descubre el sorteo y mantente al día.
+                @endif
             </p>
-            <a href="#peñas" class="inline-block bg-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-md hover:bg-slate-300 transition">
-                Explorar Peñas
-            </a>
+            @if (!Auth::user()->confirmedCrew())
+                <a href="#peñas" class="inline-block bg-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-md hover:bg-slate-300 transition">
+                    Explorar Peñas
+                </a>
+            @else
+                <a href="#draw" class="inline-block bg-slate-200 text-slate-700 font-semibold px-6 py-3 rounded-md hover:bg-slate-300 transition">
+                    Ver Sorteo
+                </a>
+            @endif
         </div>
     </section>
 
     <!-- Main Content -->
-    <main id="peñas" class="container mx-auto px-4 py-8">
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            @foreach($crews as $crew)
-            <div class="bg-white rounded-lg shadow hover:shadow-xl transition relative group">
-                <!-- Ícono de la Peña (usa $crew->icon si está disponible) -->
-                {{-- <div class="flex items-center justify-center h-24 bg-slate-100">
-                    <img src="{{ $crew->icon ?? asset('img/icons/placeholder-crew.svg') }}" alt="Logo" class="w-12 h-12 opacity-70">
-                </div> --}}
-                <!-- Contenido de la tarjeta -->
-                <div class="p-2">
-                    <h3 class="text-sm font-bold text-gray-800 text-center w-full truncate">{{ $crew->name }}</h3>
-                    <p class="text-xs text-gray-600 text-center w-full mt-1">{{ $crew->slogan }}</p>
-                    <p class="text-xs text-gray-500 text-center w-full mt-1">Capacidad: {{ $crew->capacity }}</p>
-                </div>
-                <!-- Overlay desplegable en hover -->
-                <div class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
-                    @auth
-                        <form method="POST" action="{{ route('front.crews.requestMembership', $crew) }}">
-                            @csrf
-                            <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
-                                Solicitar Membresía
-                            </button>
-                        </form>
+    <main class="container mx-auto px-4 py-8">
+        @if (!Auth::user()->confirmedCrew())
+            <div id="peñas" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                @foreach($crews as $crew)
+                <div class="bg-white rounded-lg shadow hover:shadow-xl transition relative group">
+                    <!-- Contenido de la tarjeta -->
+                    <div class="p-2">
+                        <h3 class="text-sm font-bold text-gray-800 text-center w-full truncate">{{ $crew->name }}</h3>
+                        <p class="text-xs text-gray-600 text-center w-full mt-1">{{ $crew->slogan }}</p>
+                        <p class="text-xs text-gray-500 text-center w-full mt-1">Capacidad: {{ $crew->capacity }}</p>
+                    </div>
+                    <!-- Overlay desplegable en hover -->
+                    <div class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
+                        @auth
+                            <form method="POST" action="{{ route('front.crews.requestMembership', $crew) }}">
+                                @csrf
+                                <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                                    Solicitar Membresía
+                                </button>
+                            </form>
                         @endauth
+                    </div>
                 </div>
+                @endforeach
             </div>
-            @endforeach
-        </div>
+        @endif
+
+        @if (Auth::user()->confirmedCrew())
+            <!-- Dibujo de la gráfica solo si el usuario tiene una peña asignada -->
+            <div id="draw" class="mt-8">
+                <!-- Aquí va el contenido de tu gráfica -->
+            </div>
+        @endif
     </main>
 
     <!-- Footer -->

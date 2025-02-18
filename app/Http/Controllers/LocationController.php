@@ -13,7 +13,8 @@ class LocationController extends Controller
      */
     public function index()
     {
-        //
+        $draws = Location::all();
+        return response()->json($draws);
     }
 
     /**

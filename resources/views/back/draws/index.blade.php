@@ -57,6 +57,4 @@
     window.matrixWidth = {{ $matrixWidth }};
     window.matrixHeight = {{ $matrixHeight }};
 </script>
-
-<script src="{{ mix('js/drawGrid.js') }}"></script>
 @endsection

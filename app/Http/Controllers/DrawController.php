@@ -97,4 +97,19 @@ class DrawController extends Controller
         }
         return $isValidCoord;
     }
+
+    // JSON response for the draw
+    public function jsonData(Request $request, $year = null)
+    {
+        $currentYear = now()->year;
+        if (is_null($year)) {
+            $year = $currentYear;
+        }
+        $locations = Location::where('year', $year)->with('crew')->get();
+
+        return response()->json([
+            'year'      => $year,
+            'locations' => $locations,
+        ]);
+    }
 }
