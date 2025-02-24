@@ -8,6 +8,27 @@
 
 @section('content')
 <div class="container">
+    <!-- Filtro de años: redirige al cambiar la selección -->
+    <form class="mb-4">
+        <div class="field has-addons">
+            <div class="control">
+                <div class="select">
+                    <select name="year" onchange="window.location.href='{{ url('draws') }}/' + this.value">
+                        @foreach($rangeYears as $yr)
+                            <option value="{{ $yr }}" {{ $yr == $year ? 'selected' : '' }}>Sorteo de {{ $yr }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <!-- Botón opcional en caso de preferir hacer clic en Filtrar -->
+            <div class="control">
+                <button type="button" class="button is-info" onclick="window.location.href='{{ url('draws') }}/' + document.querySelector('[name=year]').value">
+                    Filtrar
+                </button>
+            </div>
+        </div>
+    </form>
+
     <h1 class="title is-4">Sorteo del año {{ $year }}</h1>
 
     <!-- Mostrar grilla con Blade usando clases Bulma -->

@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from 'react';
 
-function Draw() {
+function Draw({ year }) {
   const [drawData, setDrawData] = useState([]);
 
   useEffect(() => {
-    fetch('/api/locations')
+    // Se actualiza la URL para enviar el año como segmento de la ruta
+    fetch(`/api/draw/${year}`)
       .then(response => response.json())
-      .then(data => setDrawData(data))
+      .then(data => setDrawData(data.locations))
       .catch(error => console.error('Error fetching data:', error));
-  }, []);
+  }, [year]);
 
-  // Construir matriz 5x5 donde las filas son y y las columnas X invertido
+  // Construir matriz 5x5 donde las filas son y y las columnas se invierten
   const matrix = Array.from({ length: 5 }, () => Array(5).fill(''));
   drawData.forEach(item => {
-    const { x_coordinate, y_coordinate, crew_id } = item;
+    const { x_coordinate, y_coordinate, crew } = item;
     if (x_coordinate < 5 && y_coordinate < 5) {
       const adjustedColumn = 5 - 1 - x_coordinate; // invertir eje X
-      matrix[y_coordinate][adjustedColumn] = crew_id;
+      // Se asigna el nombre de la peña en vez de crew_id
+      matrix[y_coordinate][adjustedColumn] = crew ? crew.name : '';
     }
   });
 
   return (
-    <>
+    <div className="flex justify-center">
       <table>
         <tbody>
           {matrix.map((row, i) => (
@@ -46,7 +48,7 @@ function Draw() {
           ))}
         </tbody>
       </table>
-    </>
+×    </div>
   );
 }
 

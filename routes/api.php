@@ -11,5 +11,8 @@ Route::get('/user', function (Request $request) {
 
 Route::resource('locations', LocationController::class)->only(['index']);
 
+// Nueva ruta para obtener los datos del sorteo filtrado por año
+Route::get('/draw/{year?}', [DrawController::class, 'jsonData']);
+
 
 

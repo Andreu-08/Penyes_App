@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Crew;
 use App\Models\Location;
+use App\Models\Draw; // Asegúrate de tener este modelo
 use Illuminate\Http\Request;
 
 class DrawController extends Controller
@@ -45,24 +46,26 @@ class DrawController extends Controller
     {
         $year = $request->year ?? now()->year;
         $crews = Crew::all()->pluck('name', 'id');
-        $locations = Location::where('year', $year)->get();
+        $locationsExisting = Location::where('year', $year)->get();
 
         if (count($crews) === 0) {
             return back()->withErrors('No hay peñas disponibles para este año.');
         }
 
         // Eliminar sorteos existentes para evitar duplicados
+        // Se elimina también la relación en draws
         Location::where('year', $year)->delete();
+        Draw::where('year', $year)->delete();
 
         $places = [];
         $nCrews = count($crews);
 
-        // Assign random valid coordinates to each crew
-        foreach($crews as $crewId => $crewName){
+        // Asignamos coordenadas random a cada crew
+        foreach($crews as $crewId => $crewName) {
             $isValidCoord = false;
             while(!$isValidCoord){
-                $x = rand(0, (self::MAX_WIDTH-1));
-                $y = rand(0, (self::MAX_HEIGHT-1));
+                $x = rand(0, self::MAX_WIDTH - 1);
+                $y = rand(0, self::MAX_HEIGHT - 1);
                 $coord = [$x, $y];
                 $isValidCoord = $this->isValidCoord($coord, $places);
                 if($isValidCoord){
@@ -71,18 +74,21 @@ class DrawController extends Controller
             }
         }
 
-        $newLocations = [];
+        // Crear ubicaciones y luego registrar el sorteo en draws
         foreach ($places as $crewId => $coord) {
-            $newLocations[] = [
-                'x_coordinate' => $coord[0], // coordenada X
-                'y_coordinate' => $coord[1], // coordenada Y
-                'crew_id' => $crewId,
-                'year' => $year
-            ];
-        }
-        //Save locations in DB
-        foreach ($newLocations as $location) {
-            Location::create($location);
+            $location = Location::create([
+                'x_coordinate' => $coord[0],
+                'y_coordinate' => $coord[1],
+                'crew_id'      => $crewId,
+                'year'         => $year
+            ]);
+
+            // Registrar en la tabla draws
+            Draw::create([
+                'location_id' => $location->id,
+                'crew_id'     => $crewId,
+                'year'        => $year,
+            ]);
         }
 
         return redirect()->route('draw.show', ['year' => $year]);
