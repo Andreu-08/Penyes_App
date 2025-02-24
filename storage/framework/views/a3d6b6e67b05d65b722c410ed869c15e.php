@@ -7,8 +7,16 @@
 
 <?php $__env->startSection('content'); ?>
 <body>
+    <!-- Bloque de estilos para mostrar SVG en línea -->
+    <style>
+        td svg {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+    </style>
     <main class="section">
-       
+
         <div class="container is-fluid">
             <!-- Encabezado con título y botón -->
             <div class="columns is-vcentered mb-5">
@@ -16,12 +24,12 @@
                 <div class="column">
                     <h1 class="title">Lista de Peñas</h1>
                 </div>
-            
+
                 <!-- Columna para el formulario de búsqueda -->
                 <div class="column is-two-fifths">
                     <?php echo $__env->make('back.partials.searchCrews', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 </div>
-            
+
                 <!-- Columna para el botón de "Crear Usuario" -->
                 <div class="column is-narrow">
                     <a href="<?php echo e(route('back.crews.create')); ?>" class="button is-success">Crear Peña</a>
@@ -47,7 +55,19 @@
                             <td><?php echo e($crew->name); ?></td>
                             <td><?php echo e($crew->color); ?></td>
                             <td><?php echo e($crew->slogan); ?></td>
-                            <td><?php echo e($crew->capacity); ?></td>
+                            <!-- Modificamos columna de Capacidad -->
+                            <td>
+                                <?php $count = $crew->users->count(); ?>
+                                <?php if($count === 0): ?>
+                                    <?php echo e($crew->capacity); ?>
+
+                                <?php elseif($count >= $crew->capacity): ?>
+                                    peña llena
+                                <?php else: ?>
+                                    <?php echo e($count . '/' . $crew->capacity); ?>
+
+                                <?php endif; ?>
+                            </td>
                             <td><?php echo e($crew->foundation); ?></td>
                             <td>
                                 <a href="<?php echo e(route('back.crews.show', $crew->id)); ?>" >
@@ -61,8 +81,8 @@
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('DELETE'); ?>
                                     
-                                    <button 
-                                        type="submit" 
+                                    <button
+                                        type="submit"
                                         onclick="return confirm('¿Estás seguro de que quieres eliminar este crew?')"
                                         style="border: none; background: none">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48"><path fill="#e74c3c" d="M20 10.5v.5h8v-.5a4 4 0 0 0-8 0m-2.5.5v-.5a6.5 6.5 0 1 1 13 0v.5h11.25a1.25 1.25 0 1 1 0 2.5h-2.917l-2 23.856A7.25 7.25 0 0 1 29.608 44H18.392a7.25 7.25 0 0 1-7.224-6.644l-2-23.856H6.25a1.25 1.25 0 1 1 0-2.5zm-3.841 26.147a4.75 4.75 0 0 0 4.733 4.353h11.216a4.75 4.75 0 0 0 4.734-4.353L36.324 13.5H11.676zM21.5 20.25a1.25 1.25 0 1 0-2.5 0v14.5a1.25 1.25 0 1 0 2.5 0zM27.75 19c.69 0 1.25.56 1.25 1.25v14.5a1.25 1.25 0 1 1-2.5 0v-14.5c0-.69.56-1.25 1.25-1.25"/></svg>

@@ -5,6 +5,7 @@
     <!-- ...existing meta y configuración... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="<?php echo e(asset('favico.ico')); ?>">
     <title>Penyes App</title>
     <link rel="icon" href="/path/to/favicon.ico">
     <?php echo app('Illuminate\Foundation\Vite')('public/css/app.css'); ?>
@@ -74,25 +75,41 @@
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
+        <?php if(session('success')): ?>
+            <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+                <?php echo e(session('success')); ?>
+
+            </div>
+        <?php endif; ?>
         <?php if(!Auth::user()->confirmedCrew()): ?>
             <div id="peñas" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 <?php $__currentLoopData = $crews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $crew): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $available = $crew->capacity - $crew->users->count(); ?>
                 <div class="bg-white rounded-lg shadow hover:shadow-xl transition relative group">
                     <!-- Contenido de la tarjeta -->
                     <div class="p-2">
                         <h3 class="text-sm font-bold text-gray-800 text-center w-full truncate"><?php echo e($crew->name); ?></h3>
                         <p class="text-xs text-gray-600 text-center w-full mt-1"><?php echo e($crew->slogan); ?></p>
-                        <p class="text-xs text-gray-500 text-center w-full mt-1">Capacidad: <?php echo e($crew->capacity); ?></p>
+                        <p class="text-xs text-gray-500 text-center w-full mt-1">
+                            <?php if($available > 0): ?>
+                                Capacidad: <?php echo e($available); ?>
+
+                            <?php else: ?>
+                                peña llena
+                            <?php endif; ?>
+                        </p>
                     </div>
                     <!-- Overlay desplegable en hover -->
                     <div class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
                         <?php if(auth()->guard()->check()): ?>
+                            <?php if($available > 0): ?>
                             <form method="POST" action="<?php echo e(route('front.crews.requestMembership', $crew)); ?>">
                                 <?php echo csrf_field(); ?>
                                 <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
                                     Solicitar Membresía
                                 </button>
                             </form>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </div>

@@ -5,6 +5,7 @@
     <!-- ...existing meta y configuración... -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favico.ico') }}">
     <title>Penyes App</title>
     <link rel="icon" href="/path/to/favicon.ico">
     @vite('public/css/app.css')
@@ -74,25 +75,39 @@
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
+        @if(session('success'))
+            <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+                {{ session('success') }}
+            </div>
+        @endif
         @if (!Auth::user()->confirmedCrew())
             <div id="peñas" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 @foreach($crews as $crew)
+                @php $available = $crew->capacity - $crew->users->count(); @endphp
                 <div class="bg-white rounded-lg shadow hover:shadow-xl transition relative group">
                     <!-- Contenido de la tarjeta -->
                     <div class="p-2">
                         <h3 class="text-sm font-bold text-gray-800 text-center w-full truncate">{{ $crew->name }}</h3>
                         <p class="text-xs text-gray-600 text-center w-full mt-1">{{ $crew->slogan }}</p>
-                        <p class="text-xs text-gray-500 text-center w-full mt-1">Capacidad: {{ $crew->capacity }}</p>
+                        <p class="text-xs text-gray-500 text-center w-full mt-1">
+                            @if($available > 0)
+                                Capacidad: {{ $available }}
+                            @else
+                                peña llena
+                            @endif
+                        </p>
                     </div>
                     <!-- Overlay desplegable en hover -->
                     <div class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">
                         @auth
+                            @if($available > 0)
                             <form method="POST" action="{{ route('front.crews.requestMembership', $crew) }}">
                                 @csrf
                                 <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
                                     Solicitar Membresía
                                 </button>
                             </form>
+                            @endif
                         @endauth
                     </div>
                 </div>
