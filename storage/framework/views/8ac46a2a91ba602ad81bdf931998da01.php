@@ -21,12 +21,7 @@
                 <div class="card-content">
                     <!-- Imagen e Información lado a lado -->
                     <div class="columns is-vcentered">
-                        <!-- Columna de la imagen -->
-                        <div class="column is-one-third">
-                            <figure class="image is-square" style="max-width: 250px; margin: 0 auto;">
-                                <img src="<?php echo e(asset('images/placeholder-crew.jpg')); ?>" alt="Imagen de la Peña">
-                            </figure>
-                        </div>
+                       
 
                         <!-- Columna de la información -->
                         <div class="column">

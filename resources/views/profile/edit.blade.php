@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil - Les Penyes</title>
-    <link rel="icon" href="/path/to/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favico.ico') }}">
     @vite('public/css/app.css')
 </head>
 <body class="min-h-screen bg-background">

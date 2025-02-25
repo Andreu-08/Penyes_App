@@ -48,7 +48,7 @@ function Draw({ year }) {
           ))}
         </tbody>
       </table>
-×    </div>
+    </div>
   );
 }
 

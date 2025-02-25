@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Perfil - Les Penyes</title>
-    <link rel="icon" href="/path/to/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?php echo e(asset('favico.ico')); ?>">
     <?php echo app('Illuminate\Foundation\Vite')('public/css/app.css'); ?>
 </head>
 <body class="min-h-screen bg-background">
@@ -194,4 +194,5 @@
         });
     </script>
 </body>
-</html><?php /**PATH /var/www/html/resources/views/profile/edit.blade.php ENDPATH**/ ?>
+</html>
+<?php /**PATH /var/www/html/resources/views/profile/edit.blade.php ENDPATH**/ ?>

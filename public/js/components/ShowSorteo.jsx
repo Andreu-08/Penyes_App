@@ -18,12 +18,12 @@ function ShowSorteo() {
         {show ? "Ocultar sorteo" : "Mostrar sorteo"}
       </SorteoButton>
       {show && (
-        <div className="mt-6 w-full max-w-sm">
+        <div className="mt-6 w-[750px]"> 
           <div className="mb-4">
             <select
               value={year}
               onChange={(e) => setYear(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-full p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-400 hover:bg-slate-200 appearance-none"
             >
               {yearOptions.map(y => (
                 <option key={y} value={y}>{y}</option>

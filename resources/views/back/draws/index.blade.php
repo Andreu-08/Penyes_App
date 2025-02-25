@@ -15,17 +15,12 @@
                 <div class="select">
                     <select name="year" onchange="window.location.href='{{ url('draws') }}/' + this.value">
                         @foreach($rangeYears as $yr)
-                            <option value="{{ $yr }}" {{ $yr == $year ? 'selected' : '' }}>Sorteo de {{ $yr }}</option>
+                            <option value="{{ $yr }}" {{ $yr == $year ? 'selected' : '' }}>{{ $yr }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            <!-- Botón opcional en caso de preferir hacer clic en Filtrar -->
-            <div class="control">
-                <button type="button" class="button is-info" onclick="window.location.href='{{ url('draws') }}/' + document.querySelector('[name=year]').value">
-                    Filtrar
-                </button>
-            </div>
+            
         </div>
     </form>
 

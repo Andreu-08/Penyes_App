@@ -23,14 +23,15 @@ class UserSeeder extends Seeder
             'role_id' => 1, // Rol de administrador (asumiendo que 1 es admin)
         ]);
 
-        // Crear el usuario regular
-        User::create([
-            'name' => 'User', // Nombre del usuario
-            'surname' => 'User', // Apellido del usuario
-            'email' => 'user@user.com', // Correo del usuario
-            'birthday' => '1990-01-01', // Fecha de nacimiento (opcional)
-            'password' => Hash::make('usuario'), // Contraseña segura
-            'role_id' => 2, // Rol de usuario (asumiendo que 2 es usuario)
-        ]);
+        for ($i = 1; $i <= 20; $i++) {
+            User::create([
+                'name' => 'User' . $i, // Nombre del usuario
+                'surname' => 'Surname' . $i, // Apellido del usuario
+                'email' => 'user' . $i . '@example.com', // Correo del usuario
+                'birthday' => '1990-01-01', // Fecha de nacimiento (opcional)
+                'password' => Hash::make('usuario'), // Contraseña segura
+                'role_id' => 2, // Rol de usuario
+            ]);
+        }
     }
 }

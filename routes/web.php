@@ -66,6 +66,8 @@ Route::middleware(['auth', CheckRole::class . ':1'])->prefix('back')->group(func
 
     //crews
     Route::resource('crews', CrewController::class)->names('back.crews');
+    Route::get('crews/{crew}/users', [MembershipController::class, 'getUsers'])->name('back.crews.users');
+    Route::delete('crews/{crew}/users/{user}', [MembershipController::class, 'removeUser'])->name('back.crews.users.remove');
 
     //platforms
     Route::resource('platforms', PlatformController::class)->names('back.platforms');

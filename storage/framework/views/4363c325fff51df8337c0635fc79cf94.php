@@ -90,14 +90,12 @@
                     <div class="p-2">
                         <h3 class="text-sm font-bold text-gray-800 text-center w-full truncate"><?php echo e($crew->name); ?></h3>
                         <p class="text-xs text-gray-600 text-center w-full mt-1"><?php echo e($crew->slogan); ?></p>
-                        <p class="text-xs text-gray-500 text-center w-full mt-1">
-                            <?php if($available > 0): ?>
-                                Capacidad: <?php echo e($available); ?>
-
-                            <?php else: ?>
-                                peña llena
-                            <?php endif; ?>
-                        </p>
+                        <!-- Se muestra mensaje solo si la peña está llena -->
+                        <?php if($available <= 0): ?>
+                            <p class="text-xs text-center mt-1 text-red-500 font-bold">
+                                Peña llena
+                            </p>
+                        <?php endif; ?>
                     </div>
                     <!-- Overlay desplegable en hover -->
                     <div class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">

@@ -89,13 +89,12 @@
                     <div class="p-2">
                         <h3 class="text-sm font-bold text-gray-800 text-center w-full truncate">{{ $crew->name }}</h3>
                         <p class="text-xs text-gray-600 text-center w-full mt-1">{{ $crew->slogan }}</p>
-                        <p class="text-xs text-gray-500 text-center w-full mt-1">
-                            @if($available > 0)
-                                Capacidad: {{ $available }}
-                            @else
-                                peña llena
-                            @endif
-                        </p>
+                        <!-- Se muestra mensaje solo si la peña está llena -->
+                        @if($available <= 0)
+                            <p class="text-xs text-center mt-1 text-red-500 font-bold">
+                                Peña llena
+                            </p>
+                        @endif
                     </div>
                     <!-- Overlay desplegable en hover -->
                     <div class="absolute inset-0 bg-white bg-opacity-95 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 ease-in-out">

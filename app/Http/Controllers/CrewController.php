@@ -15,32 +15,32 @@ class CrewController extends Controller
      */
     public function index(Request $request)
     {
-        // Obtener los datos 
+        // Obtener los datos
         $search = $request->input('search'); // Búsqueda por nombre
         $capacity = $request->input('capacity'); // Búsqueda por capacidad
-    
+
         // Iniciar consulta base
-        $query = Crew::query();
-    
-        // Filtrar por nombre 
+        $query = Crew::with('users'); // Cargar la relación de usuarios
+
+        // Filtrar por nombre
         if (!empty($search)) {
             $query->where('name', 'like', "%{$search}%");
         }
-    
-        // Filtrar por capacidad 
+
+        // Filtrar por capacidad
         if (!empty($capacity)) {
             $query->where('capacity', '<=', (int)$capacity);
         }
-    
+
         // Obtener resultados paginados y últimos 3 crews
         $crews = $query->paginate(10); // Mostrar 10 resultados por página
         $lastCrews = Crew::latest()->take(3)->get(); // Últimos 3 añadidos
-    
+
         // Pasar los datos a la vista
         return view('back.crews.index', compact('crews', 'lastCrews', 'search', 'capacity'));
     }
-    
-    
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -87,7 +87,7 @@ class CrewController extends Controller
     {
         return view('back.crews.edit', compact('crew'));
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -102,14 +102,14 @@ class CrewController extends Controller
             'capacity' => 'required|integer|min:1',
             'foundation' => 'required|date',
         ]);
-    
+
         // Actualizar el registro en la base de datos
         $crew->update($validated);
-    
+
         // Redirigir con mensaje de éxito
         return redirect()->route('back.crews.index')->with('success', '¡Peña actualizada exitosamente!');
     }
-    
+
 
     /**
      * Remove the specified resource from storage.

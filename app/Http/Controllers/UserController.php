@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         // Obtener el término de búsqueda desde el formulario
         $search = $request->input('search');
-        
+
         // Construir la consulta inicial excluyendo administradores
         $query = User::where('role_id', '!=', Role::ADMIN);
 
@@ -37,7 +37,7 @@ class UserController extends Controller
         // Pasar datos a la vista
         return view('back.users.index', compact('users', 'lastUsers', 'search'));
     }
-    
+
 
     /**
      * Muestra el formulario para crear un nuevo usuario.
@@ -59,7 +59,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'birthday' => 'required|date',
             'password' => 'required|string|min:8|confirmed',
-            
+
         ]);
 
         // Crear el usuario
@@ -82,6 +82,8 @@ class UserController extends Controller
     {
         // Obtener las solicitudes de membresía del usuario
         $membershipRequests = $user->crews()->wherePivot('confirmed', false)->get();
+        // Cargar las relaciones de peñas confirmadas
+        $user->load('crews');
 
         return view('back.users.show', compact('user', 'membershipRequests'));
     }
@@ -107,7 +109,7 @@ class UserController extends Controller
             'birthday' => 'required|date',
             'password' => 'nullable|string|min:8|confirmed',
             'role_id' => 'required|in:1,2',
-            
+
         ]);
 
         // Actualizar la información del usuario
@@ -138,5 +140,5 @@ class UserController extends Controller
 
         return redirect()->route('back.users.index')->with('success', 'Usuario eliminado exitosamente.');
     }
-    
+
 }
