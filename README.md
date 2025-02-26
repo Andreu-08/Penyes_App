@@ -119,14 +119,4 @@ La vista de Back Office está diseñada exclusivamente para el administrador. Es
 
 ---
 
-## 📝 Estado Actual del Proyecto
 
-1. **Funcionalidades activas**:
-    - Visualización y gestión de peñas.
-    - Solicitudes de membresía.
-    - Gestión de usuarios y control administrativo.
-2. **Aspectos por implementar**:
-    - Funcionalidades completas para sorteos y pagos.
-    - Mejora del diseño temporal para reflejar un estilo más pulido.
-
-¡Gracias por explorar Penyes App! 🎉 Este proyecto está diseñado para ser una herramienta amigable y flexible para gestionar eventos locales.
