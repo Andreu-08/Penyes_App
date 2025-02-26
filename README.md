@@ -115,7 +115,9 @@ La vista de Back Office está diseñada exclusivamente para el administrador. Es
 - **Docker**: Para el entorno de contenedores.
 - **MariaDB**: Base de datos para almacenar usuarios, peñas y sorteos.
 - **Mailhog**: Herramienta de testing para el envío de correos de verificación.
-- **Bulma CSS (CDN)**: Estiliza la interfaz de usuario de una forma sencilla y elegante.
+- **Taildwind CSS**: Estiliza la interfaz de usuario de una forma sencilla y elegante.
+- **React**: Componente de react para mostrar el componente del sorteo mediante estados.
+- **Sweetalert2**: Para mostrar diferentes alerts de una forma mas agradable.
 
 ---
 
